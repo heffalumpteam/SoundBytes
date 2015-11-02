@@ -24,8 +24,8 @@ void audio_init(void){
   if( Mix_OpenAudio( SAMPLERATE, MIX_DEFAULT_FORMAT, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ){
     fprintf(stderr, "SDL_mixer Error: %s\n", Mix_GetError() );
   }
-  drum1_sound = Mix_LoadWAV("FatkickVES2023.wav");
-  clap1_sound = Mix_LoadWAV("MUB1Clap004.wav");
+  drum1_sound = Mix_LoadWAV("samples/FatkickVES2023.wav");
+  clap1_sound = Mix_LoadWAV("samples/MUB1Clap004.wav");
   if(drum1_sound == NULL){
     fprintf(stderr, "Drums failed %s\n", Mix_GetError());
   }
