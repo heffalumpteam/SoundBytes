@@ -3,7 +3,6 @@
 
 #include "graphics.h"
 #include "events.h"
-#include "audio.h"
 
 extern unsigned char running;
 
