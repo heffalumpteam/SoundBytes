@@ -1,5 +1,4 @@
-#include <gtk/gtk.h>
-#include <glib.h>
+#include <gtk/gtk.h> //needed for gboolean and gpointer
 
 #include "events.h"
 #include "graphics.h"
