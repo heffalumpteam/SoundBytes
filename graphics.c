@@ -13,8 +13,7 @@ void graphics_init(void){
 
   gtk_init (NULL, NULL);
 
-  builder = gtk_builder_new ();
-  gtk_builder_add_from_file (builder, "ui.ui", NULL);
+  builder = gtk_builder_new_from_file ("ui.ui");
 
   attachFunctions(builder);
 
