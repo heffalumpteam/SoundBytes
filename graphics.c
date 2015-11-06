@@ -3,6 +3,9 @@
 #include <string.h> //for the CSS loading
 //  https://wiki.gnome.org/Projects/GtkSourceView   https://github.com/GNOME/gtksourceview
 
+#include <gtksourceview/gtksourceview.h>
+#include <gtksourceview/gtksourcebuffer.h>
+
 #include "graphics.h"
 #include "events.h"
 
@@ -13,11 +16,15 @@ void style(void);
 
 void graphics_init(void){
   GtkBuilder *builder;
+  GtkSourceBuffer *sBuf;
 
   gtk_init (NULL, NULL);
 
+  /* and a GtkSourceBuffer to hold text (similar to GtkTextBuffer) */
+  sBuf = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
+
   builder = gtk_builder_new ();
-  gtk_builder_add_from_file (builder, "graphicsFiles/ui.ui", NULL);
+  gtk_builder_add_from_file (builder, "graphicsFiles/uisource.ui", NULL);
 
   attachFunctions(builder);
 
