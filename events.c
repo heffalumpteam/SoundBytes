@@ -18,7 +18,7 @@ gboolean events_mainLoop(gpointer user_data){
     beat = 0;
   }
   printf("Bar: %d Beat: %d\n", bar, beat);
-  //events_drum1();
+  events_drum1();
   beat++;
   return 1; /*Must return 1 if we want the loop to be called again*/
 }
