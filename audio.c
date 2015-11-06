@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
-
 #ifdef __APPLE__
 	#include <SDL2_mixer/SDL_mixer.h>
 #elif __LINUX__
 	#include <SDL2/SDL_mixer.h>
+#elif _WIN32
+  #include <SDL2/SDL_mixer.h>
+#elif _WIN64
+  #include <SDL_mixer.h>
 #endif
 
 #include "audio.h"
