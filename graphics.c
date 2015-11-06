@@ -23,7 +23,7 @@ void graphics_init(void){
   /* and a GtkSourceBuffer to hold text (similar to GtkTextBuffer) */
   sBuf = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
 
-  builder = gtk_builder_new_from_file ("ui.ui");
+  builder = gtk_builder_new_from_file ("graphicsFiles/ui.ui");
 
   attachFunctions(builder);
 
