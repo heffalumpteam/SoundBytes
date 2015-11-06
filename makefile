@@ -12,7 +12,7 @@ macFRAMEWORKS = -F/Library/Frameworks -framework SDL2 -framework SDL2_mixer
 macINCLUDES = -I/Library/Frameworks/SDL2.framework/Headers -I/Library/Frameworks/SDL2_mixer.framework/Headers
 winINCLUDES = -lm -lmingw32 -lSDL2main -lSDL2 -mwindows -lSDL2_image -lSDL2_mixer
 
-linuxGTK = `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0`
+linuxGTK = `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0 gtksourceview-3.0`
 macGTK = `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0`
 winGTK = `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0`
 

@@ -1,0 +1,19 @@
+/*Tutorial http://www.gtkforums.com/viewtopic.php?f=3&t=988&p=72088=GTK3+with+CSS#p72088
+*/
+
+@define-color windowBkgrnd rgb(80,80,80);
+@define-color buttonCol rgb(120,120,120);
+@define-color consoleCol rgb(120,120,120);
+
+GtkWindow {
+background-color: @windowBkgrnd;
+}
+
+GtkButton {
+  background: @bg_color;
+}
+
+GtkTextView{
+  background-color:@consoleCol;
+  font: 15px courier, monospace;
+}
