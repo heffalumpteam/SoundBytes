@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.16.1 -->
 <interface>
+  <requires lib="gtksourceview" version="3.0"/>
   <requires lib="gtk+" version="3.10"/>
   <object class="GtkWindow" id="window">
     <property name="visible">True</property>
@@ -506,31 +507,18 @@
               <object class="GtkScrolledWindow" id="scrolledWin_for_console">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="hscrollbar_policy">never</property>
                 <property name="vscrollbar_policy">always</property>
                 <property name="shadow_type">in</property>
                 <child>
-                  <object class="GtkViewport" id="viewport4">
+                  <object class="GtkSourceView" id="gtksourceview1">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkTextView" id="console">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="has_focus">True</property>
-                        <property name="margin_left">5</property>
-                        <property name="margin_right">5</property>
-                        <property name="margin_top">4</property>
-                        <property name="margin_bottom">5</property>
-                        <property name="hexpand">True</property>
-                        <property name="vexpand">True</property>
-                        <property name="pixels_above_lines">2</property>
-                        <property name="pixels_below_lines">2</property>
-                        <property name="pixels_inside_wrap">2</property>
-                        <property name="wrap_mode">char</property>
-                        <property name="left_margin">10</property>
-                      </object>
-                    </child>
+                    <property name="can_focus">True</property>
+                    <property name="has_focus">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                    <property name="left_margin">2</property>
+                    <property name="right_margin">2</property>
+                    <property name="show_line_numbers">True</property>
                   </object>
                 </child>
               </object>
