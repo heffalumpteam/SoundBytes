@@ -38,6 +38,7 @@ void attachFunctions(GtkBuilder *builder){
   GObject *window;
   GObject *button1;
   GObject *button2;
+  GObject *button3;
   guint timeoutID;
 
   window = gtk_builder_get_object (builder, "window");
@@ -50,6 +51,9 @@ void attachFunctions(GtkBuilder *builder){
 
   button2 = gtk_builder_get_object (builder, "button2");
   g_signal_connect (button2, "clicked", G_CALLBACK (events_clap1), NULL);
+
+  button3 = gtk_builder_get_object (builder, "playToggle");
+  g_signal_connect (button3, "clicked", G_CALLBACK (events_start), NULL);
 }
 
 void style(void){
