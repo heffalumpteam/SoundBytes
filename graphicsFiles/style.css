@@ -3,17 +3,26 @@
 
 @define-color windowBkgrnd rgb(80,80,80);
 @define-color buttonCol rgb(120,120,120);
-@define-color consoleCol rgb(120,120,120);
+@define-color consoleCol rgb(204, 204, 204);
+/*@define-color consoleCol rgb(120,120,120);*/
+@define-color textCol rgb(255,255,255);
 
 GtkWindow {
 background-color: @windowBkgrnd;
+color: white;
 }
 
 GtkButton {
   background: @bg_color;
+  color:@textCol;
+  font: Arial 13; /* This is the syntax that works on my comp (and the one 
+                         * that's shown in the tutorial you linked to above
+                         */
 }
 
 GtkTextView{
   background-color:@consoleCol;
-  font: 15px courier, monospace;
+  font: 15px arial, monospace;  /* This syntax doesn't seem to work even though
+                                 * it's valid CSS.
+                                 */
 }
