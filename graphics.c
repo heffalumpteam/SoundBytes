@@ -26,7 +26,7 @@ void graphics_init(void){
   attachFunctions(builder);
   initSourceView(builder);
 
-  /*style();*/
+  style();
 
   g_object_unref( G_OBJECT( builder ) );
   gtk_main ();
@@ -37,7 +37,6 @@ void initSourceView(GtkBuilder *builder){
   GtkSourceBuffer *sourcebuffer = GTK_SOURCE_BUFFER(gtk_text_view_get_buffer(GTK_TEXT_VIEW(sourceview)));
   GtkSourceLanguageManager *manager = gtk_source_language_manager_get_default();
   GtkSourceLanguage *python = gtk_source_language_manager_get_language(manager, "python");
-
   gtk_source_buffer_set_language(sourcebuffer, python);
 
   gtk_text_buffer_set_text(GTK_TEXT_BUFFER(sourcebuffer),
