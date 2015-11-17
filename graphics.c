@@ -36,7 +36,7 @@ void initSourceView(GtkBuilder *builder){
   GtkSourceView *sourceview = GTK_SOURCE_VIEW(gtk_builder_get_object (builder, "gtksourceview1"));
   GtkSourceBuffer *sourcebuffer = GTK_SOURCE_BUFFER(gtk_text_view_get_buffer(GTK_TEXT_VIEW(sourceview)));
   GtkSourceLanguageManager *manager = gtk_source_language_manager_get_default();
-  GtkSourceLanguage *python = gtk_source_language_manager_get_language(manager, "python");
+  GtkSourceLanguage *python = gtk_source_language_manager_get_language(manager, "heffalump");
   gtk_source_buffer_set_language(sourcebuffer, python);
 
   gtk_text_buffer_set_text(GTK_TEXT_BUFFER(sourcebuffer),
