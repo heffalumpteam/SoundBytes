@@ -5,32 +5,43 @@
 
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
+#include <gtksourceview/gtksourcelanguagemanager.h>
 
 #include "graphics.h"
 #include "events.h"
 
 extern unsigned char running;
 
+void initSourceView(GtkBuilder *builder);
 void attachFunctions(GtkBuilder *builder);
 void style(void);
 
 void graphics_init(void){
   GtkBuilder *builder;
-  GtkSourceBuffer *sBuf;
 
   gtk_init (NULL, NULL);
-
-  /* and a GtkSourceBuffer to hold text (similar to GtkTextBuffer) */
-  sBuf = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
 
   builder = gtk_builder_new_from_file ("graphicsFiles/ui.ui");
 
   attachFunctions(builder);
+  initSourceView(builder);
 
-  style();
+  /*style();*/
 
   g_object_unref( G_OBJECT( builder ) );
   gtk_main ();
+}
+
+void initSourceView(GtkBuilder *builder){
+  GtkSourceView *sourceview = GTK_SOURCE_VIEW(gtk_builder_get_object (builder, "gtksourceview1"));
+  GtkSourceBuffer *sourcebuffer = GTK_SOURCE_BUFFER(gtk_text_view_get_buffer(GTK_TEXT_VIEW(sourceview)));
+  GtkSourceLanguageManager *manager = gtk_source_language_manager_get_default();
+  GtkSourceLanguage *python = gtk_source_language_manager_get_language(manager, "python");
+
+  gtk_source_buffer_set_language(sourcebuffer, python);
+
+  gtk_text_buffer_set_text(GTK_TEXT_BUFFER(sourcebuffer),
+      "def hello():\n\tprint 'This should be highlighted as Python'\n", -1);
 }
 
 void attachFunctions(GtkBuilder *builder){
@@ -53,6 +64,7 @@ void attachFunctions(GtkBuilder *builder){
 
   button3 = gtk_builder_get_object (builder, "playToggle");
   g_signal_connect (button3, "clicked", G_CALLBACK (events_start), NULL);
+
 }
 
 void style(void){
