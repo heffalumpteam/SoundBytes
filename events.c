@@ -1,8 +1,6 @@
 #include <gtk/gtk.h> //needed for gboolean and gpointer
 
-#include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
-#include <glib/gprintf.h>
 
 
 #include "events.h"
@@ -59,7 +57,6 @@ https://git.gnome.org/browse/gtk+/tree/demos/gtk-demo/textview.c
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(sourcebuffer), &end, 3);
   gtk_text_iter_forward_to_end (&end);
   text_recieveUpdate((char *)gtk_text_iter_get_text(&start, &end));
-  /*g_printf("%s\n", gtk_text_iter_get_text(&start, &end));*/
 }
 
 void events_quitting(void){
