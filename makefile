@@ -1,6 +1,6 @@
 NAME = test
 
-CFILES = main.c graphics.c audio.c events.c
+CFILES = main.c graphics.c audio.c events.c text.c
 
 CFLAGS = -Wall -Wextra -Wfloat-equal -pedantic -std=c99
 

@@ -1,8 +1,14 @@
 #include <gtk/gtk.h> //needed for gboolean and gpointer
 
+#include <gtksourceview/gtksourceview.h>
+#include <gtksourceview/gtksourcebuffer.h>
+#include <glib/gprintf.h>
+
+
 #include "events.h"
 #include "graphics.h"
 #include "audio.h"
+#include "text.h"
 
 #define BPM 120
 #define MSperBEAT 500
@@ -41,6 +47,19 @@ void events_start(void){
   else{
     play = 0;
   }
+}
+
+void events_launchText(GtkSourceBuffer *sourcebuffer){
+  /*
+https://git.gnome.org/browse/gtk+/tree/demos/gtk-demo/textview.c
+
+  */
+  GtkTextIter start, end;
+  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(sourcebuffer), &start, 0);
+  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(sourcebuffer), &end, 3);
+  gtk_text_iter_forward_to_end (&end);
+  text_recieveUpdate((char *)gtk_text_iter_get_text(&start, &end));
+  /*g_printf("%s\n", gtk_text_iter_get_text(&start, &end));*/
 }
 
 void events_quitting(void){
