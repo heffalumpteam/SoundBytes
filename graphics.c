@@ -12,6 +12,8 @@
 
 extern unsigned char running;
 GtkSourceBuffer *sourcebuffer;
+gchar languagesPath[] = "lang/language-specs/";
+gchar* languagesDirs[] = {languagesPath, NULL};
 
 void initSourceView(GtkBuilder *builder);
 void attachFunctions(GtkBuilder *builder);
@@ -38,6 +40,7 @@ void initSourceView(GtkBuilder *builder){
   GtkSourceView *sourceview = GTK_SOURCE_VIEW(gtk_builder_get_object (builder, "gtksourceview1"));
   sourcebuffer = GTK_SOURCE_BUFFER(gtk_text_view_get_buffer(GTK_TEXT_VIEW(sourceview)));
   GtkSourceLanguageManager *manager = gtk_source_language_manager_get_default();
+  gtk_source_language_manager_set_search_path(manager, languagesDirs);
   GtkSourceLanguage *python = gtk_source_language_manager_get_language(manager, "heffalump");
   gtk_source_buffer_set_language(sourcebuffer, python);
 
