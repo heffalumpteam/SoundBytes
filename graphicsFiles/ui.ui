@@ -191,6 +191,7 @@
                 <property name="label" translatable="yes">Run</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-ok</property>
+                <accelerator key="r" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
               </object>
               <packing>
                 <property name="expand">False</property>

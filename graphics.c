@@ -11,11 +11,13 @@
 #include "events.h"
 
 extern unsigned char running;
+GtkSourceBuffer *sourcebuffer;
 gchar languagesPath[] = "lang/language-specs/";
 gchar* languagesDirs[] = {languagesPath, NULL};
 
 void initSourceView(GtkBuilder *builder);
 void attachFunctions(GtkBuilder *builder);
+void launchTextEvent(void);
 void style(void);
 
 void graphics_init(void){
@@ -36,7 +38,7 @@ void graphics_init(void){
 
 void initSourceView(GtkBuilder *builder){
   GtkSourceView *sourceview = GTK_SOURCE_VIEW(gtk_builder_get_object (builder, "gtksourceview1"));
-  GtkSourceBuffer *sourcebuffer = GTK_SOURCE_BUFFER(gtk_text_view_get_buffer(GTK_TEXT_VIEW(sourceview)));
+  sourcebuffer = GTK_SOURCE_BUFFER(gtk_text_view_get_buffer(GTK_TEXT_VIEW(sourceview)));
   GtkSourceLanguageManager *manager = gtk_source_language_manager_get_default();
   gtk_source_language_manager_set_search_path(manager, languagesDirs);
   GtkSourceLanguage *python = gtk_source_language_manager_get_language(manager, "heffalump");
@@ -44,6 +46,8 @@ void initSourceView(GtkBuilder *builder){
 
   gtk_text_buffer_set_text(GTK_TEXT_BUFFER(sourcebuffer),
       "def hello():\n\tprint 'This should be highlighted as Python'\n", -1);
+
+  /*g_signal_connect(G_OBJECT(sourcebuffer), "changed", G_CALLBACK(events_textChanged), sourcebuffer);*/
 }
 
 void attachFunctions(GtkBuilder *builder){
@@ -51,6 +55,7 @@ void attachFunctions(GtkBuilder *builder){
   GObject *button1;
   GObject *button2;
   GObject *button3;
+  GObject *button4;
   guint timeoutID;
 
   window = gtk_builder_get_object (builder, "window");
@@ -67,6 +72,14 @@ void attachFunctions(GtkBuilder *builder){
   button3 = gtk_builder_get_object (builder, "playToggle");
   g_signal_connect (button3, "clicked", G_CALLBACK (events_start), NULL);
 
+  button4 = gtk_builder_get_object (builder, "runButton");
+  g_signal_connect (button4, "clicked", G_CALLBACK (launchTextEvent), NULL);
+
+}
+
+void launchTextEvent(void){
+  /*Seems a necceserry hack. It doesn't like passing sourcebuffer as arg to callback*/
+  events_launchText(sourcebuffer);
 }
 
 void style(void){
