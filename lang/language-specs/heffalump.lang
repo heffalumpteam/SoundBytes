@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<language id="heffalump" _name="Heffalump" version="2.0" _section="Script">
+  <metadata>
+    <property name="globs">*.hff</property>
+    <property name="line-comment-start">//</property>
+    <property name="block-comment-start">/*</property>
+    <property name="block-comment-end">*/</property>
+  </metadata>
+
+  <styles>
+    <style id="keyword" _name="Keyword" map-to="def:keyword"/>
+  </styles>
+
+  <definitions>
+    <context id="keywords" style-ref="keyword">
+      <keyword>add</keyword>
+      <keyword>make</keyword>
+    </context>
+
+    <context id="heffalump">
+      <include>
+        <context ref="keywords"/>
+      </include>
+    </context>
+
+  </definitions>
+
+</language>
+
+
+
+
+

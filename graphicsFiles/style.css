@@ -13,16 +13,12 @@ color: white;
 }
 
 GtkButton {
-  background: @bg_color;
+  background: @buttonCol;
   color:@textCol;
-  font: Arial 13; /* This is the syntax that works on my comp (and the one 
-                         * that's shown in the tutorial you linked to above
-                         */
+  font: Courier 13;
 }
 
 GtkTextView{
   background-color:@consoleCol;
-  font: 15px arial, monospace;  /* This syntax doesn't seem to work even though
-                                 * it's valid CSS.
-                                 */
+  /*font: 15px arial, monospace;*/
 }
