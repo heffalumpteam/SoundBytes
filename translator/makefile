@@ -1,4 +1,4 @@
-NAME = translator
+NAME = translat_prog
 
 CFILES = lost_in_translator.c
 

@@ -44,8 +44,8 @@ void initSourceView(GtkBuilder *builder){
   GtkSourceLanguage *python = gtk_source_language_manager_get_language(manager, "heffalump");
   gtk_source_buffer_set_language(sourcebuffer, python);
 
-  gtk_text_buffer_set_text(GTK_TEXT_BUFFER(sourcebuffer),
-      "def hello():\n\tprint 'This should be highlighted as Python'\n", -1);
+  /*gtk_text_buffer_set_text(GTK_TEXT_BUFFER(sourcebuffer),
+      "Type stop and press run to stop the beat\n", -1);*/
 
   /*g_signal_connect(G_OBJECT(sourcebuffer), "changed", G_CALLBACK(events_textChanged), sourcebuffer);*/
 }
