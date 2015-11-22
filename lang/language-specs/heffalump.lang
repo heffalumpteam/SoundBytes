@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <language id="heffalump" _name="Heffalump" version="2.0" _section="Script">
-  <metadata>
+<!--   <metadata>
     <property name="globs">*.hff</property>
     <property name="line-comment-start">//</property>
     <property name="block-comment-start">/*</property>
     <property name="block-comment-end">*/</property>
-  </metadata>
+  </metadata> -->
 
   <styles>
     <style id="keyword" _name="Keyword" map-to="def:keyword"/>
+    <style id="comment" _name="Comment" map-to="def:comment"/>
   </styles>
 
   <definitions>
@@ -18,16 +19,27 @@
       <keyword>make</keyword>
     </context>
 
+    <context id="comment" style-ref="comment">
+      <start>\/\/</start>
+      <end>$</end>
+    </context>
+
+    <context id="comment-multiline" style-ref="comment">
+      <start>\/\*</start>
+      <end>\*\/</end>
+    </context>
+
     <context id="heffalump">
       <include>
         <context ref="keywords"/>
+        <context ref="comment"/>
+        <context ref="comment-multiline"/>
       </include>
     </context>
 
   </definitions>
 
 </language>
-
 
 
 
