@@ -70,7 +70,7 @@ void attachFunctions(GtkBuilder *builder){
   g_signal_connect (button2, "clicked", G_CALLBACK (events_clap1), NULL);
 
   button3 = gtk_builder_get_object (builder, "playToggle");
-  g_signal_connect (button3, "clicked", G_CALLBACK (events_start), NULL);
+  g_signal_connect (button3, "clicked", G_CALLBACK (events_toggle), NULL);
 
   button4 = gtk_builder_get_object (builder, "runButton");
   g_signal_connect (button4, "clicked", G_CALLBACK (launchTextEvent), NULL);

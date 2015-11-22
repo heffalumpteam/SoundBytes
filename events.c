@@ -38,7 +38,7 @@ void events_clap1(void){
   audio_play2();
 }
 
-void events_start(void){
+void events_toggle(void){
   if(!play){
     play = 1;
   }
@@ -46,6 +46,15 @@ void events_start(void){
     play = 0;
   }
 }
+
+void events_start(void){
+  play = 1;
+}
+
+void events_stop(void){
+  play = 0;
+}
+
 
 void events_launchText(GtkSourceBuffer *sourcebuffer){
   /*

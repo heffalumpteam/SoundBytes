@@ -1,2 +1,2 @@
 void text_recieveUpdate(char *s);
-void text_instruction(char *p);
+void text_add(char *p);
