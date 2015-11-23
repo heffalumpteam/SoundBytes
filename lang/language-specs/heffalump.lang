@@ -9,14 +9,21 @@
   </metadata> -->
 
   <styles>
-    <style id="keyword" _name="Keyword" map-to="def:keyword"/>
-    <style id="comment" _name="Comment" map-to="def:comment"/>
+    <style id="keyword" _name="Keyword"   map-to="def:keyword"/>
+    <style id="comment" _name="Comment"   map-to="def:comment"/>
+    <style id="string"  _name="String"    map-to="def:string"/>
+    <style id="type"    _name="Data Type" map-to="def:type"/>
   </styles>
 
   <definitions>
     <context id="keywords" style-ref="keyword">
       <keyword>add</keyword>
       <keyword>make</keyword>
+      <keyword>louder</keyword>
+      <keyword>faster</keyword>
+      <keyword>do</keyword>
+      <keyword>after</keyword>
+      <keyword>stop</keyword>
     </context>
 
     <context id="comment" style-ref="comment">
@@ -29,11 +36,24 @@
       <end>\*\/</end>
     </context>
 
+    <context id="strings" style-ref="string">
+      <start>"</start>
+      <end>"</end>
+    </context>
+
+    <context id="types" style-ref="type">
+      <keyword>Drums</keyword>
+      <keyword>Synth</keyword>
+      <keyword>Bass</keyword>
+    </context>
+
     <context id="heffalump">
       <include>
         <context ref="keywords"/>
         <context ref="comment"/>
         <context ref="comment-multiline"/>
+        <context ref="strings"/>
+        <context ref="types"/>
       </include>
     </context>
 
