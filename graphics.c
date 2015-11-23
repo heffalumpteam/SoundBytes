@@ -19,6 +19,7 @@ void initSourceView(GtkBuilder *builder);
 void attachFunctions(GtkBuilder *builder);
 void launchTextEvent(void);
 void style(void);
+GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(void));
 
 void graphics_init(void){
   GtkBuilder *builder;
@@ -52,8 +53,8 @@ void initSourceView(GtkBuilder *builder){
 
 void attachFunctions(GtkBuilder *builder){
   GObject *window;
-  GObject *button1;
-  GObject *button2;
+  GtkButton *button1;
+  GtkButton *button2;
   GObject *button3;
   GObject *button4;
   guint timeoutID;
@@ -63,11 +64,10 @@ void attachFunctions(GtkBuilder *builder){
 
   timeoutID = g_timeout_add(NUM_MS, events_mainLoop, NULL);
 
-  // button1 = gtk_builder_get_object (builder, "button1");
-  // g_signal_connect (button1, "clicked", G_CALLBACK (events_drum1), NULL);
+  button1 = setUpGtkButton(builder, "button1", events_playSampleOnce);
 
-  // button2 = gtk_builder_get_object (builder, "button2");
-  // g_signal_connect (button2, "clicked", G_CALLBACK (events_clap1), NULL);
+  button2 = setUpGtkButton(builder, "button2", events_playSampleOnce);
+     printf("%s\n", gtk_button_get_label(button2));
 
   button3 = gtk_builder_get_object (builder, "playToggle");
   g_signal_connect (button3, "clicked", G_CALLBACK (events_start), NULL);
@@ -75,6 +75,16 @@ void attachFunctions(GtkBuilder *builder){
   button4 = gtk_builder_get_object (builder, "runButton");
   g_signal_connect (button4, "clicked", G_CALLBACK (launchTextEvent), NULL);
 
+}
+
+GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(void)) {
+  
+  GtkButton* button;
+
+  button = GTK_BUTTON(gtk_builder_get_object(builder, buttonID));
+  g_signal_connect(button, "clicked", G_CALLBACK(function), gtk_button_get_label(button));
+
+  return button;
 }
 
 void launchTextEvent(void){

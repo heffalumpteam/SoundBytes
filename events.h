@@ -6,3 +6,4 @@ void events_clap1(void);
 void events_start(void);
 void events_quitting(void);
 void events_launchText(GtkSourceBuffer *sourcebuffer);
+void events_playSampleOnce(void);

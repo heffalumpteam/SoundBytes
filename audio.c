@@ -18,9 +18,9 @@
 #define MAXNUMBEROFSAMPLES 50
 #define MAXSAMPLENAMELENGTH 30
 
-Mix_Chunk* audio_loadSample(char* filename);
-void audio_populateFilePathsArray();
-int audio_startSample(Mix_Chunk* sampleToPlay);
+Mix_Chunk* loadSample(char* filename);
+void populateFilePathsArray();
+int startSample(Mix_Chunk* sampleToPlay);
 
 /* Will hold all the paths to the samples for easy reference during runtime. Thoughts? */
 char* sampleFilePaths[MAXNUMBEROFSAMPLES];
@@ -38,10 +38,10 @@ void audio_init(void){
     fprintf(stderr, "SDL_mixer Error: %s\n", Mix_GetError());
   }
 
-  audio_populateFilePathsArray(sampleFilePaths);
+  populateFilePathsArray(sampleFilePaths);
 
-  drum1_sound = audio_loadSample(sampleFilePaths[0]);
-  clap1_sound = audio_loadSample(sampleFilePaths[1]);
+  drum1_sound = loadSample(sampleFilePaths[0]);
+  clap1_sound = loadSample(sampleFilePaths[1]);
 
   // channel1 = audio_startSample(drum1_sound); /* uncomment to test samples */
   // channel2 = audio_startSample(clap1_sound);
@@ -60,7 +60,7 @@ void audio_close(void){
 	SDL_Quit();
 } 
 
-Mix_Chunk* audio_loadSample(char* filename) {
+Mix_Chunk* loadSample(char* filename) {
 
   Mix_Chunk* sample = NULL;
   sample = Mix_LoadWAV(filename);
@@ -73,7 +73,7 @@ Mix_Chunk* audio_loadSample(char* filename) {
 
 /* Returns channel that the sample is playing on - need to store
  * and use later for stopping it, fading it, etc. */
-int audio_startSample(Mix_Chunk* sampleToPlay) {
+int startSample(Mix_Chunk* sampleToPlay) {
 
   int channel = 0;
   channel = Mix_PlayChannel(-1, sampleToPlay, -1);    /* (channel -1 = dont care, sound, times to repeat)*/
@@ -81,7 +81,7 @@ int audio_startSample(Mix_Chunk* sampleToPlay) {
   return channel;
 }
 
-void audio_stopSample(int channelNumber, Mix_Chunk** sampleToStop) {
+void stopSample(int channelNumber, Mix_Chunk** sampleToStop) {
 
   if (Mix_Playing(channelNumber)) 
   {
@@ -92,7 +92,7 @@ void audio_stopSample(int channelNumber, Mix_Chunk** sampleToStop) {
 
 }
 
-void audio_populateFilePathsArray(char* sampleFilePaths[])
+void populateFilePathsArray(char* sampleFilePaths[])
 {
   char samplePath[MAXSAMPLENAMELENGTH];
   FILE* sampleNamesFile;

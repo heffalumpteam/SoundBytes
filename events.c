@@ -47,6 +47,10 @@ void events_start(void){
   }
 }
 
+void events_playSampleOnce(void) {
+  printf("hello\n");
+}
+
 void events_launchText(GtkSourceBuffer *sourcebuffer){
   /*
 https://git.gnome.org/browse/gtk+/tree/demos/gtk-demo/textview.c
