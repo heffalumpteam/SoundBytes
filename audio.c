@@ -11,6 +11,7 @@
 #endif
 
 #include "audio.h"
+#include <string.h>
 
 #define SAMPLERATE 44100
 #define NUMAUDIOCHANNELS 2
@@ -90,6 +91,20 @@ void stopSample(int channelNumber, Mix_Chunk** sampleToStop) {
     *sampleToStop = NULL;
   }
 
+}
+
+void audio_playSampleOnce(char* sampleName)
+{
+  //printf("%s\n", sampleName);
+  if (strcmp(sampleName, "clap(shuffle)") == 0) /* Need a neater way to decide which button has been pressed */
+  {
+    Mix_PlayChannel(-1, clap1_sound, 0);
+    //printf("hooray\n");
+  }
+  if (strcmp(sampleName, "drum(shuffle)") == 0)
+  {
+    Mix_PlayChannel(-1, drum1_sound, 0);
+  }
 }
 
 void populateFilePathsArray(char* sampleFilePaths[])

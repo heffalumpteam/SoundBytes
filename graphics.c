@@ -19,7 +19,7 @@ void initSourceView(GtkBuilder *builder);
 void attachFunctions(GtkBuilder *builder);
 void launchTextEvent(void);
 void style(void);
-GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(void));
+GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*, gpointer));
 
 void graphics_init(void){
   GtkBuilder *builder;
@@ -42,8 +42,8 @@ void initSourceView(GtkBuilder *builder){
   sourcebuffer = GTK_SOURCE_BUFFER(gtk_text_view_get_buffer(GTK_TEXT_VIEW(sourceview)));
   GtkSourceLanguageManager *manager = gtk_source_language_manager_get_default();
   gtk_source_language_manager_set_search_path(manager, languagesDirs);
-  GtkSourceLanguage *python = gtk_source_language_manager_get_language(manager, "heffalump");
-  gtk_source_buffer_set_language(sourcebuffer, python);
+  GtkSourceLanguage *language = gtk_source_language_manager_get_language(manager, "heffalump");
+  gtk_source_buffer_set_language(sourcebuffer, language);
 
   gtk_text_buffer_set_text(GTK_TEXT_BUFFER(sourcebuffer),
       "def hello():\n\tprint 'This should be highlighted as Python'\n", -1);
@@ -64,10 +64,8 @@ void attachFunctions(GtkBuilder *builder){
 
   timeoutID = g_timeout_add(NUM_MS, events_mainLoop, NULL);
 
-  button1 = setUpGtkButton(builder, "button1", events_playSampleOnce);
-
+  button1 = setUpGtkButton(builder, "button1", events_playSampleOnce); /* Generic function, see below */
   button2 = setUpGtkButton(builder, "button2", events_playSampleOnce);
-     printf("%s\n", gtk_button_get_label(button2));
 
   button3 = gtk_builder_get_object (builder, "playToggle");
   g_signal_connect (button3, "clicked", G_CALLBACK (events_start), NULL);
@@ -77,12 +75,12 @@ void attachFunctions(GtkBuilder *builder){
 
 }
 
-GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(void)) {
+GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*, gpointer)) {
   
   GtkButton* button;
 
   button = GTK_BUTTON(gtk_builder_get_object(builder, buttonID));
-  g_signal_connect(button, "clicked", G_CALLBACK(function), gtk_button_get_label(button));
+  g_signal_connect(button, "clicked", G_CALLBACK(function), (gpointer)gtk_button_get_label(button));
 
   return button;
 }
