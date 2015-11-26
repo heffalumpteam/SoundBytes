@@ -61,11 +61,11 @@ void addRemoveLoop(char *p){
 
       if(strcmp(p, "drums") == 0){
         printf("drums\n");
-        audio_removeLoop(DRUMS_SHUFFLE);
+        audio_markLoopInactive(DRUMS_SHUFFLE);
       }
       if(strcmp(p, "clap") == 0){
         printf("clap\n");
-        audio_removeLoop(DRUMS_CLAP);
+        audio_markLoopInactive(DRUMS_CLAP);
       }
     }
   }
