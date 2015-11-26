@@ -65,7 +65,7 @@ https://git.gnome.org/browse/gtk+/tree/demos/gtk-demo/textview.c
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(sourcebuffer), &start, 0);
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(sourcebuffer), &end, 3);
   gtk_text_iter_forward_to_end (&end);
-  text_recieveUpdate((char *)gtk_text_iter_get_text(&start, &end));
+  text_receiveUpdate((char *)gtk_text_iter_get_text(&start, &end));
 }
 
 void events_quitting(void){
