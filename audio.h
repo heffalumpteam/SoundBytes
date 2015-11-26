@@ -15,6 +15,7 @@ typedef enum instruction Instruction;
 
 void audio_init(void);
 void audio_close(void);
+void audio_mainLoop(void);
 void audio_playSampleOnce(Loop index);
 void audio_startLoop(Loop index);
 void audio_stopLoop(Loop index);

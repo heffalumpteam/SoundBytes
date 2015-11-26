@@ -22,6 +22,7 @@ gboolean events_mainLoop(gpointer user_data){
   /*This loop runs every NUM_MS and takes the place of code that would usually be in main()*/
   if(play){
     if(beat > BEATS_IN_A_BAR-1){
+      text_mainLoop();
       bar++;
       beat = 0;
     }
