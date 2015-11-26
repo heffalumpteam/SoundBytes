@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.16.1 -->
 <interface>
-  <requires lib="gtksourceview" version="3.0"/>
   <requires lib="gtk+" version="3.10"/>
+  <requires lib="gtksourceview" version="3.0"/>
   <object class="GtkSourceBuffer" id="gtksourcebuffer">
     <property name="max_undo_levels">0</property>
+  </object>
+  <object class="GtkImage" id="open">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">icons/22/open.png</property>
+  </object>
+  <object class="GtkImage" id="run">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">icons/22/ok.png</property>
+  </object>
+  <object class="GtkImage" id="save">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">icons/22/save-as.png</property>
+  </object>
+  <object class="GtkImage" id="start">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">icons/22/start.png</property>
   </object>
   <object class="GtkWindow" id="window">
     <property name="visible">True</property>
@@ -131,7 +151,7 @@
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Open</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-open</property>
+                <property name="icon_widget">open</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -144,7 +164,7 @@
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Save</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-save-as</property>
+                <property name="icon_widget">save</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -165,9 +185,9 @@
               <object class="GtkToggleToolButton" id="playToggle">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">toolbutton2</property>
+                <property name="label" translatable="yes">Play</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-media-play</property>
+                <property name="icon_widget">start</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -190,7 +210,7 @@
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Run</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-ok</property>
+                <property name="icon_widget">run</property>
                 <accelerator key="r" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
               </object>
               <packing>

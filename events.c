@@ -15,6 +15,8 @@
 unsigned char beat = 0, bar = 0;
 unsigned int play = 0;
 
+
+
 gboolean events_mainLoop(gpointer user_data){
   /*https://developer.gnome.org/gtk-tutorial/stable/c1759.html*/
   /*This loop runs every NUM_MS and takes the place of code that would usually be in main()*/
@@ -24,19 +26,19 @@ gboolean events_mainLoop(gpointer user_data){
       beat = 0;
     }
     printf("Bar: %d Beat: %d\n", bar, beat);
-    events_drum1();
+    //events_drum1();
     beat++;
   }
   return 1; /*Must return 1 if we want the loop to be called again*/
 }
 
-void events_drum1(void){
-  audio_play1();
-}
+// void events_drum1(void){
+//   audio_startSample(drum1_sound)
+// }
 
-void events_clap1(void){
-  audio_play2();
-}
+// void events_clap1(void){
+//   audio_startSample(clap1_sound);
+// }
 
 void events_toggle(void){
   if(!play){
@@ -47,6 +49,10 @@ void events_toggle(void){
   }
 }
 
+void events_playSampleOnce(GtkButton* button, gpointer buttonLabel) {
+//  audio_playSampleOnce((char*)buttonLabel);
+}
+
 void events_start(void){
   play = 1;
 }
@@ -54,7 +60,6 @@ void events_start(void){
 void events_stop(void){
   play = 0;
 }
-
 
 void events_launchText(GtkSourceBuffer *sourcebuffer){
   /*

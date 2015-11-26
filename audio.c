@@ -11,48 +11,146 @@
 #endif
 
 #include "audio.h"
+#include <string.h>
+#include <stdbool.h>
+#include <limits.h>
 
 #define SAMPLERATE 44100
 #define NUMAUDIOCHANNELS 2
 #define BUFFSIZE 2048
+#define MAXNUMBEROFSAMPLES 50
+#define MAXSAMPLENAMELENGTH 30
+#define DEFAULTCHANNEL INT_MAX
 
-Mix_Chunk *drum1_sound = NULL;
+struct sample
+{
+  Mix_Chunk* sample;
+  int channel;
+  bool active;
+};
+typedef struct sample Sample;
+
+Sample loadSample(Loop index);
+void populateFilePathsArray(char* sampleFilePaths[]);
+void addToActiveArray(Loop index, Sample sample);
+void setLoopActiveFlag(Loop index, bool flag);
+
+/* Will hold all the paths to the samples for easy reference during runtime. Thoughts? */
+char* sampleFilePaths[MAXNUMBEROFSAMPLES];
+Sample activeSamples[MAXNUMBEROFSAMPLES] = {{NULL, DEFAULTCHANNEL, false}};
+int channel1, channel2;
+
+Sample drum1_sound;
 Mix_Chunk *clap1_sound = NULL;
 
 /*https://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_28.html*/
 
-void audio_init(void){
-	SDL_Init(SDL_INIT_AUDIO);
+  void audio_init(void){
+   SDL_Init(SDL_INIT_AUDIO);
   /*                 FS, sample format, num channels, sample size 2kb*/
-  if( Mix_OpenAudio( SAMPLERATE, MIX_DEFAULT_FORMAT, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ){
-    fprintf(stderr, "SDL_mixer Error: %s\n", Mix_GetError() );
+   if( Mix_OpenAudio( SAMPLERATE, MIX_DEFAULT_FORMAT, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ){
+    fprintf(stderr, "SDL_mixer Error: %s\n", Mix_GetError());
   }
-  drum1_sound = Mix_LoadWAV("samples/FatkickVES2023.wav");
-  clap1_sound = Mix_LoadWAV("samples/MUB1Clap004.wav");
-  if(drum1_sound == NULL){
-    fprintf(stderr, "Drums failed %s\n", Mix_GetError());
+
+  populateFilePathsArray(sampleFilePaths);
+
+  //audio_addLoop(index);
+
+  //clap1_sound = loadSample(sampleFilePaths[1]);
+  //activeSamples[0] = drum1_sound;
+
+  // channel1 = audio_audio_startLoop(drum1_sound); /* uncomment to test samples */
+  // channel2 = audio_audio_startLoop(clap1_sound);
+
+  // printf("Drum channel: %d\n, Clap channel: %d\n", channel1, channel2);
+}
+
+void audio_addLoop(Loop index)
+{
+  drum1_sound = loadSample(index);
+  addToActiveArray(index, drum1_sound);
+  setLoopActiveFlag(index, true);
+}
+
+void setLoopActiveFlag(Loop index, bool flag)
+{
+  activeSamples[index].active = flag;
+}
+
+Sample loadSample(Loop index) {
+
+  Sample sample = {NULL, 0, false};
+
+  sample.sample = Mix_LoadWAV(sampleFilePaths[index]);
+  if (!sample.sample)
+  {
+    fprintf(stderr, "Failed to load sample \"%s\"!\n", sampleFilePaths[index]);
   }
-  if(clap1_sound == NULL){
-    fprintf(stderr, "Clap failed %s\n", Mix_GetError());
-  }
+  return sample;
+}
+
+void addToActiveArray(Loop index, Sample sample)
+{
+  activeSamples[index] = sample;
 }
 
 void audio_close(void){
-  Mix_FreeChunk(drum1_sound);
-  Mix_FreeChunk(clap1_sound);
+  int i;
 
-  drum1_sound = NULL;
-
-  clap1_sound = NULL;
+  for (i = 0; i < MAXNUMBEROFSAMPLES; ++i) {
+    audio_removeLoop(i);
+  }
 
   Mix_Quit();
-	SDL_Quit();
+  SDL_Quit();
 }
 
-void audio_play1(void){
-  Mix_PlayChannel( -1, drum1_sound, 0 ); /* (channel -1 = dont care, sound, times to repeat)*/
+
+// void audio_startLoop(Loop index) {
+
+//   int channel = 0;
+//   channel = Mix_PlayChannel(-1, activeSamples[index].sample, -1);
+//   activeSamples[index].channel = channel;    /* (channel -1 = dont care, sound, times to repeat)*/
+// }
+
+void audio_removeLoop(Loop index) {
+
+  if (Mix_Playing(activeSamples[index].channel))
+  {
+    Mix_HaltChannel(activeSamples[index].channel);
+    Mix_FreeChunk(activeSamples[index].sample);
+    activeSamples[index].sample = NULL;
+    activeSamples[index].channel = DEFAULTCHANNEL;
+  }
 }
 
-void audio_play2(void){
-  Mix_PlayChannel( -1, clap1_sound, 0 );
+void audio_markLoopInactive(Loop index)
+{
+  setLoopActiveFlag(index, false);
+}
+
+void audio_playSampleOnce(Loop index)
+{
+  Mix_PlayChannel(-1, activeSamples[index].sample, 0);
+}
+
+void populateFilePathsArray(char* sampleFilePaths[])
+{
+  char samplePath[MAXSAMPLENAMELENGTH];
+  FILE* sampleNamesFile;
+  int ctr = 0;
+
+  sampleNamesFile = fopen("sampleFilePaths.txt", "r");
+
+  while(fgets(samplePath, MAXSAMPLENAMELENGTH, sampleNamesFile) != NULL)
+  {
+    if (samplePath[strlen(samplePath) - 1] == '\n')
+    {
+      samplePath[strlen(samplePath) - 1] = '\0';
+    }
+
+    sampleFilePaths[ctr] = malloc(MAXSAMPLENAMELENGTH);
+    strcpy(sampleFilePaths[ctr], samplePath);
+    ctr++;
+  }
 }
