@@ -6,6 +6,26 @@
   <object class="GtkSourceBuffer" id="gtksourcebuffer">
     <property name="max_undo_levels">0</property>
   </object>
+  <object class="GtkImage" id="open">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">icons/open.png</property>
+  </object>
+  <object class="GtkImage" id="run">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">icons/ok.png</property>
+  </object>
+  <object class="GtkImage" id="save">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">icons/save-as.png</property>
+  </object>
+  <object class="GtkImage" id="start">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">icons/start.png</property>
+  </object>
   <object class="GtkWindow" id="window">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -131,7 +151,7 @@
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Open</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-open</property>
+                <property name="icon_widget">open</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -144,7 +164,7 @@
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Save</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-save-as</property>
+                <property name="icon_widget">save</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -167,7 +187,7 @@
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Play</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-media-play</property>
+                <property name="icon_widget">start</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -190,7 +210,7 @@
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Run</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-ok</property>
+                <property name="icon_widget">run</property>
                 <accelerator key="r" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
               </object>
               <packing>

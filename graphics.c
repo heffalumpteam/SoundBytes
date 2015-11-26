@@ -26,7 +26,7 @@ void graphics_init(void){
 
   gtk_init (NULL, NULL);
 
-  builder = gtk_builder_new_from_file ("graphicsFiles/ui2.ui");
+  builder = gtk_builder_new_from_file ("graphicsFiles/ui.ui");
 
   attachFunctions(builder);
   initSourceView(builder);
