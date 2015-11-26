@@ -2,23 +2,54 @@
 */
 
 @define-color windowBkgrnd rgb(80,80,80);
-@define-color buttonCol rgb(120,120,120);
-@define-color consoleCol rgb(204, 204, 204);
-/*@define-color consoleCol rgb(120,120,120);*/
+@define-color defaultText rgb(0,0,0);
+@define-color buttonCol rgb(100,100,100);
+@define-color consoleCol rgb(180, 180, 180);
 @define-color textCol rgb(255,255,255);
 
 GtkWindow {
-background-color: @windowBkgrnd;
-color: white;
+  background-color: @windowBkgrnd;
+  color: white;
 }
 
 GtkButton {
-  background: @buttonCol;
-  color:@textCol;
+  background: rgb(100,100,100);
+  color: @textCol;
   font: Courier 13;
+  /*background-image: none;*/
+  border-image: none;
+  border-style: solid;
+  border-width: 5px;
+  border-color: rgb(50,50,50);
+
+}
+
+GtkButton:hover {
+  background: rgb(120,120,120);
+  color: @textCol;
+  font: Courier 13;
+  /*background-image: none;*/
+  border-image: none;
+  border-style: solid;
+  border-width: 5px;
+  border-color: rgb(70,70,70);
+}
+
+GtkButton:active {
+  background: rgb(100,100,100);
+  color: @textCol;
+  font: Courier 13;
+  /*background-image: none;*/
+  border-image: none;
+  border-style: solid;
+  border-width: 5px;
+  border-color: rgb(70,70,70);
+}
+
+GtkButton GtkLabel {
+    color: #E0E0E0; /* This changes the text color in the button */
 }
 
 GtkTextView{
   background-color:@consoleCol;
-  /*font: 15px arial, monospace;*/
 }
