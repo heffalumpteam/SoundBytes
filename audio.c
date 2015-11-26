@@ -53,16 +53,16 @@ Mix_Chunk *clap1_sound = NULL;
   }
 
   populateFilePathsArray(sampleFilePaths);
+}
 
-  //audio_addLoop(index);
-
-  //clap1_sound = loadSample(sampleFilePaths[1]);
-  //activeSamples[0] = drum1_sound;
-
-  // channel1 = audio_audio_startLoop(drum1_sound); /* uncomment to test samples */
-  // channel2 = audio_audio_startLoop(clap1_sound);
-
-  // printf("Drum channel: %d\n, Clap channel: %d\n", channel1, channel2);
+void audio_mainLoop(void)
+{
+	int i = 0;
+	for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
+		if(activeSamples[i].active) {
+			audio_playSampleOnce(i);
+		}
+	}
 }
 
 void audio_addLoop(Loop index)

@@ -10,6 +10,11 @@
 
 void addRemoveLoop(char *p);
 
+void text_mainLoop(void)
+{
+  audio_mainLoop();
+}
+
 void text_receiveUpdate(char *s){
   char* p;
   int j;
