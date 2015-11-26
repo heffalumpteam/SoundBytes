@@ -9,22 +9,22 @@
   <object class="GtkImage" id="open">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="pixbuf">icons/open.png</property>
+    <property name="pixbuf">icons/22/open.png</property>
   </object>
   <object class="GtkImage" id="run">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="pixbuf">icons/ok.png</property>
+    <property name="pixbuf">icons/22/ok.png</property>
   </object>
   <object class="GtkImage" id="save">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="pixbuf">icons/save-as.png</property>
+    <property name="pixbuf">icons/22/save-as.png</property>
   </object>
   <object class="GtkImage" id="start">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="pixbuf">icons/start.png</property>
+    <property name="pixbuf">icons/22/start.png</property>
   </object>
   <object class="GtkWindow" id="window">
     <property name="visible">True</property>
