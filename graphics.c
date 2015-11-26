@@ -45,8 +45,8 @@ void initSourceView(GtkBuilder *builder){
   GtkSourceLanguage *language = gtk_source_language_manager_get_language(manager, "heffalump");
   gtk_source_buffer_set_language(sourcebuffer, language);
 
-  gtk_text_buffer_set_text(GTK_TEXT_BUFFER(sourcebuffer),
-      "def hello():\n\tprint 'This should be highlighted as Python'\n", -1);
+  /*gtk_text_buffer_set_text(GTK_TEXT_BUFFER(sourcebuffer),
+      "Type stop and press run to stop the beat\n", -1);*/
 
   /*g_signal_connect(G_OBJECT(sourcebuffer), "changed", G_CALLBACK(events_textChanged), sourcebuffer);*/
 }
@@ -68,7 +68,7 @@ void attachFunctions(GtkBuilder *builder){
   button2 = setUpGtkButton(builder, "button2", events_playSampleOnce);
 
   button3 = gtk_builder_get_object (builder, "playToggle");
-  g_signal_connect (button3, "clicked", G_CALLBACK (events_start), NULL);
+  g_signal_connect (button3, "clicked", G_CALLBACK (events_toggle), NULL);
 
   button4 = gtk_builder_get_object (builder, "runButton");
   g_signal_connect (button4, "clicked", G_CALLBACK (launchTextEvent), NULL);

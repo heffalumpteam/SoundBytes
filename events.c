@@ -40,7 +40,7 @@ gboolean events_mainLoop(gpointer user_data){
 //   audio_startSample(clap1_sound);
 // }
 
-void events_start(void){
+void events_toggle(void){
   if(!play){
     play = 1;
   }
@@ -55,6 +55,14 @@ void events_playSampleOnce(GtkButton* button, gpointer buttonLabel) {
   audio_playSampleOnce((char*)buttonLabel);
 }
 
+void events_start(void){
+  play = 1;
+}
+
+void events_stop(void){
+  play = 0;
+}
+
 void events_launchText(GtkSourceBuffer *sourcebuffer){
   /*
 https://git.gnome.org/browse/gtk+/tree/demos/gtk-demo/textview.c
@@ -64,7 +72,7 @@ https://git.gnome.org/browse/gtk+/tree/demos/gtk-demo/textview.c
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(sourcebuffer), &start, 0);
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(sourcebuffer), &end, 3);
   gtk_text_iter_forward_to_end (&end);
-  text_recieveUpdate((char *)gtk_text_iter_get_text(&start, &end));
+  text_receiveUpdate((char *)gtk_text_iter_get_text(&start, &end));
 }
 
 void events_quitting(void){
