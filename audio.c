@@ -20,7 +20,7 @@
 #define MAXSAMPLENAMELENGTH 30
 
 Mix_Chunk* loadSample(char* filename);
-void populateFilePathsArray(void);
+void populateFilePathsArray(char* sampleFilePaths[]);
 int startSample(Mix_Chunk* sampleToPlay);
 
 /* Will hold all the paths to the samples for easy reference during runtime. Thoughts? */
@@ -93,18 +93,18 @@ void stopSample(int channelNumber, Mix_Chunk** sampleToStop) {
 
 }
 
-void audio_playSampleOnce(char* sampleName)
+void audio_playSampleOnce(Loop index)
 {
   //printf("%s\n", sampleName);
-  if (strcmp(sampleName, "clap(shuffle)") == 0) /* Need a neater way to decide which button has been pressed */
-  {
+//  if (strcmp(sampleName, "clap(shuffle)") == 0) /* Need a neater way to decide which button has been pressed */
+/*  {
     Mix_PlayChannel(-1, clap1_sound, 0);
     //printf("hooray\n");
   }
   if (strcmp(sampleName, "drum(shuffle)") == 0)
   {
     Mix_PlayChannel(-1, drum1_sound, 0);
-  }
+  }*/
 }
 
 void populateFilePathsArray(char* sampleFilePaths[])

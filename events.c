@@ -52,7 +52,7 @@ void events_toggle(void){
 void events_playSampleOnce(GtkButton* button, gpointer buttonLabel) {
 
   printf("%s\n", buttonLabel);
-  audio_playSampleOnce((char*)buttonLabel);
+//  audio_playSampleOnce((char*)buttonLabel);
 }
 
 void events_start(void){
