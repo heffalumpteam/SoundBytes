@@ -12,99 +12,126 @@
 
 #include "audio.h"
 #include <string.h>
+#include <stdbool.h>
+#include <limits.h>
 
 #define SAMPLERATE 44100
 #define NUMAUDIOCHANNELS 2
 #define BUFFSIZE 2048
 #define MAXNUMBEROFSAMPLES 50
 #define MAXSAMPLENAMELENGTH 30
+#define DEFAULTCHANNEL INT_MAX
 
-Mix_Chunk* loadSample(char* filename);
+struct sample
+{
+  Mix_Chunk* sample;
+  int channel;
+  bool active;
+};
+typedef struct sample Sample;
+
+Sample loadSample(Loop index);
 void populateFilePathsArray(char* sampleFilePaths[]);
-int startSample(Mix_Chunk* sampleToPlay);
+void addToActiveArray(Loop index, Sample sample);
+void setLoopActiveFlag(Loop index, bool flag);
 
 /* Will hold all the paths to the samples for easy reference during runtime. Thoughts? */
 char* sampleFilePaths[MAXNUMBEROFSAMPLES];
+Sample activeSamples[MAXNUMBEROFSAMPLES] = {{NULL, DEFAULTCHANNEL, false}};
 int channel1, channel2;
 
-Mix_Chunk *drum1_sound = NULL;
+Sample drum1_sound;
 Mix_Chunk *clap1_sound = NULL;
 
 /*https://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_28.html*/
 
-void audio_init(void){
-	SDL_Init(SDL_INIT_AUDIO);
+  void audio_init(void){
+   SDL_Init(SDL_INIT_AUDIO);
   /*                 FS, sample format, num channels, sample size 2kb*/
-  if( Mix_OpenAudio( SAMPLERATE, MIX_DEFAULT_FORMAT, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ){
+   if( Mix_OpenAudio( SAMPLERATE, MIX_DEFAULT_FORMAT, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ){
     fprintf(stderr, "SDL_mixer Error: %s\n", Mix_GetError());
   }
 
   populateFilePathsArray(sampleFilePaths);
 
-  drum1_sound = loadSample(sampleFilePaths[0]);
-  clap1_sound = loadSample(sampleFilePaths[1]);
+  //audio_addLoop(index);
 
-  // channel1 = audio_startSample(drum1_sound); /* uncomment to test samples */
-  // channel2 = audio_startSample(clap1_sound);
+  //clap1_sound = loadSample(sampleFilePaths[1]);
+  //activeSamples[0] = drum1_sound;
+
+  // channel1 = audio_audio_startLoop(drum1_sound); /* uncomment to test samples */
+  // channel2 = audio_audio_startLoop(clap1_sound);
 
   // printf("Drum channel: %d\n, Clap channel: %d\n", channel1, channel2);
 }
 
-void audio_close(void){
-  Mix_FreeChunk(drum1_sound);
-  Mix_FreeChunk(clap1_sound);
-
-  drum1_sound = NULL;
-  clap1_sound = NULL;
-
-  Mix_Quit();
-	SDL_Quit();
+void audio_addLoop(Loop index)
+{
+  drum1_sound = loadSample(index);
+  addToActiveArray(index, drum1_sound);
+  setLoopActiveFlag(index, true);
 }
 
-Mix_Chunk* loadSample(char* filename) {
+void setLoopActiveFlag(Loop index, bool flag)
+{
+  activeSamples[index].active = flag;
+}
 
-  Mix_Chunk* sample = NULL;
-  sample = Mix_LoadWAV(filename);
-  if (!sample)
+Sample loadSample(Loop index) {
+
+  Sample sample = {NULL, 0, false};
+
+  sample.sample = Mix_LoadWAV(sampleFilePaths[index]);
+  if (!sample.sample)
   {
-      fprintf(stderr, "Failed to load sample \"%s\"!\n", filename);
+    fprintf(stderr, "Failed to load sample \"%s\"!\n", sampleFilePaths[index]);
   }
   return sample;
 }
 
-/* Returns channel that the sample is playing on - need to store
- * and use later for stopping it, fading it, etc. */
-int startSample(Mix_Chunk* sampleToPlay) {
-
-  int channel = 0;
-  channel = Mix_PlayChannel(-1, sampleToPlay, -1);    /* (channel -1 = dont care, sound, times to repeat)*/
-
-  return channel;
+void addToActiveArray(Loop index, Sample sample)
+{
+  activeSamples[index] = sample;
 }
 
-void stopSample(int channelNumber, Mix_Chunk** sampleToStop) {
+void audio_close(void){
+  int i;
 
-  if (Mix_Playing(channelNumber))
-  {
-    Mix_HaltChannel(channelNumber);
-    Mix_FreeChunk(*sampleToStop);
-    *sampleToStop = NULL;
+  for (i = 0; i < MAXNUMBEROFSAMPLES; ++i) {
+    audio_removeLoop(i);
   }
 
+  Mix_Quit();
+  SDL_Quit();
+}
+
+
+// void audio_startLoop(Loop index) {
+
+//   int channel = 0;
+//   channel = Mix_PlayChannel(-1, activeSamples[index].sample, -1);
+//   activeSamples[index].channel = channel;    /* (channel -1 = dont care, sound, times to repeat)*/
+// }
+
+void audio_removeLoop(Loop index) {
+
+  if (Mix_Playing(activeSamples[index].channel))
+  {
+    Mix_HaltChannel(activeSamples[index].channel);
+    Mix_FreeChunk(activeSamples[index].sample);
+    activeSamples[index].sample = NULL;
+    activeSamples[index].channel = DEFAULTCHANNEL;
+  }
+}
+
+void audio_markLoopInactive(Loop index)
+{
+  setLoopActiveFlag(index, false);
 }
 
 void audio_playSampleOnce(Loop index)
 {
-  //printf("%s\n", sampleName);
-//  if (strcmp(sampleName, "clap(shuffle)") == 0) /* Need a neater way to decide which button has been pressed */
-/*  {
-    Mix_PlayChannel(-1, clap1_sound, 0);
-    //printf("hooray\n");
-  }
-  if (strcmp(sampleName, "drum(shuffle)") == 0)
-  {
-    Mix_PlayChannel(-1, drum1_sound, 0);
-  }*/
+  Mix_PlayChannel(-1, activeSamples[index].sample, 0);
 }
 
 void populateFilePathsArray(char* sampleFilePaths[])
