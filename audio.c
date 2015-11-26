@@ -20,7 +20,7 @@
 #define MAXSAMPLENAMELENGTH 30
 
 Mix_Chunk* loadSample(char* filename);
-void populateFilePathsArray();
+void populateFilePathsArray(void);
 int startSample(Mix_Chunk* sampleToPlay);
 
 /* Will hold all the paths to the samples for easy reference during runtime. Thoughts? */
@@ -59,7 +59,7 @@ void audio_close(void){
 
   Mix_Quit();
 	SDL_Quit();
-} 
+}
 
 Mix_Chunk* loadSample(char* filename) {
 
@@ -84,7 +84,7 @@ int startSample(Mix_Chunk* sampleToPlay) {
 
 void stopSample(int channelNumber, Mix_Chunk** sampleToStop) {
 
-  if (Mix_Playing(channelNumber)) 
+  if (Mix_Playing(channelNumber))
   {
     Mix_HaltChannel(channelNumber);
     Mix_FreeChunk(*sampleToStop);
@@ -121,7 +121,7 @@ void populateFilePathsArray(char* sampleFilePaths[])
     {
       samplePath[strlen(samplePath) - 1] = '\0';
     }
-  
+
     sampleFilePaths[ctr] = malloc(MAXSAMPLENAMELENGTH);
     strcpy(sampleFilePaths[ctr], samplePath);
     ctr++;
