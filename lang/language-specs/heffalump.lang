@@ -24,6 +24,8 @@
       <keyword>do</keyword>
       <keyword>after</keyword>
       <keyword>stop</keyword>
+      <keyword>remote</keyword>
+      <keyword>start</keyword>
     </context>
 
     <context id="comment" style-ref="comment">
