@@ -134,13 +134,13 @@ void audio_playSampleOnce(Loop index)
   Mix_PlayChannel(-1, activeSamples[index].sample, 0);
 }
 
-//New function added my ADK on 29/11
+//New function added by ADK on 29/11
 
 void audio_stop(void)
 {
   int i;
 	for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
-    if(activeSamples->Mix_Chunk != NULL) {
+    if(activeSamples[i].sample != NULL) {
       activeSamples[i].active = false;
 		}
 	}
