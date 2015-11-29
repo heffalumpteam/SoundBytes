@@ -8,69 +8,69 @@
 #include "text.h"
 #include "audio.h"
 
-void addRemoveLoop(char *p);
+void addRemoveStopLoop(char *str_ptr);
 
 void text_mainLoop(void)
 {
   audio_mainLoop();
 }
 
-void text_receiveUpdate(char *sample){
-  char* p;
+void text_receiveUpdate(char *input_str){
+  char* str_ptr;
   int j;
   int i = 1;
 
-  for (j= 0; sample[j] != '\0'; j++) {
-     sample[j] = tolower(sample[j]);
+  for (j= 0; input_str[j] != '\0'; j++) {
+     input_str[j] = tolower(input_str[j]);
  }
 
 /*Takes input line from GUI and splits into individual words*/
-  p = strtok(sample, " \n.()");
-  do{
-    printf("Instruction %d Received: %s\n", i, p);
-    if((strcmp(p, "add") == 0) || (strcmp(p, "remove") == 0) || (strcmp(p, "stop") == 0)){
-      addRemoveLoop(p);
+  str_ptr = strtok(input_str, " \n.()");
+  while(str_ptr){
+    printf("Instruction %d Received: %s\n", i, str_ptr);
+    if((strcmp(str_ptr, "add") == 0) || (strcmp(str_ptr, "remove") == 0) || (strcmp(str_ptr, "stop") == 0)){
+      addRemoveStopLoop(str_ptr);
     }
-    p = strtok(NULL, " \n.()");
+    str_ptr = strtok(NULL, " \n.()");
     i++;
-  }while(p);
+  }
 }
 
-void addRemoveLoop(char *p){
-  char *sample;
+void addRemoveStopLoop(char *str_ptr){
+  char *input_str;
 
-  if(strcmp(p, "add") == 0){
-    p = strtok(NULL, " \n.()");
-    if(p){
-      printf("Add function: Instrument: %s\n", p);
+  if(strcmp(str_ptr, "add") == 0){
+    str_ptr = strtok(NULL, " \n.()");
+    if(str_ptr){
+      printf("Add function: Instrument: %s\n", str_ptr);
 
-      if(strcmp(p, "drums") == 0){
+      if(strcmp(str_ptr, "drums") == 0){
          printf("drums\n");
          audio_addLoop(DRUMS_SHUFFLE);
       }
-      if(strcmp(p, "clap") == 0){
+      if(strcmp(str_ptr, "clap") == 0){
          printf("clap\n");
          audio_addLoop(DRUMS_CLAP);
       }
     }
   }
-  if (strcmp(p, "remove") == 0){
-    p = strtok(NULL, " \n.()");
-    if(p){
-      printf("Remove function: Instrument: %s\n", p);
+  if (strcmp(str_ptr, "remove") == 0){
+    str_ptr = strtok(NULL, " \n.()");
+    if(str_ptr){
+      printf("Remove function: Instrument: %s\n", str_ptr);
 
-      if(strcmp(p, "drums") == 0){
+      if(strcmp(str_ptr, "drums") == 0){
         printf("drums\n");
         audio_markLoopInactive(DRUMS_SHUFFLE);
       }
-      if(strcmp(p, "clap") == 0){
+      if(strcmp(str_ptr, "clap") == 0){
         printf("clap\n");
         audio_markLoopInactive(DRUMS_CLAP);
       }
     }
   }
-  if (strcmp(p, "stop") == 0){
-    if(p){
+  if (strcmp(str_ptr, "stop") == 0){
+    if(str_ptr){
       audio_stop();
       printf("All loops stopped.\n");
     }
@@ -78,14 +78,10 @@ void addRemoveLoop(char *p){
 
 //If there are other intructions (  on other lines) to carry out, send
 //them back to text_recievUpdate function to sort out
-
-    //Need to fix whitespace bug!! getchar? then return
-    //pointer to first char
-
-    sample = strtok(NULL, "");
+    input_str = strtok(NULL, "");
     //s = strtok(NULL, " ");
-    if(sample){
-      printf("Passed back %s\n", sample);
-      text_receiveUpdate(sample);
+    if(input_str){
+      printf("Passed back %s\n", input_str);
+      text_receiveUpdate(input_str);
     }
 }
