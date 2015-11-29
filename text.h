@@ -1,2 +1,2 @@
 void text_mainLoop(void);
-void text_receiveUpdate(char *s);
+void text_receiveUpdate(char *sample);
