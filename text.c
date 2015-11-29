@@ -69,6 +69,17 @@ void addRemoveLoop(char *p){
       }
     }
   }
+  if (strcmp(p, "stop") == 0){
+    p = strtok(NULL, " \n.()");
+    if(p){
+      audio_stop();
+      printf("All loops stopped.\n", p);
+    }
+  }
+
+
+
+
 //If there are other intructions (  on other lines) to carry out, send
 //them back to text_recievUpdate function to sort out
 
