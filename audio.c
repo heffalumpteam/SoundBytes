@@ -134,6 +134,10 @@ void audio_playSampleOnce(Loop index)
   Mix_PlayChannel(-1, activeSamples[index].sample, 0);
 }
 
+void audio_stop() {
+  
+}
+
 void populateFilePathsArray(char* sampleFilePaths[])
 {
   char samplePath[MAXSAMPLENAMELENGTH];
