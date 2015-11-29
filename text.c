@@ -28,7 +28,7 @@ void text_receiveUpdate(char *sample){
   p = strtok(sample, " \n.()");
   do{
     printf("Instruction %d Received: %s\n", i, p);
-    if((strcmp(p, "add") == 0) || (strcmp(p, "remove") == 0)){
+    if((strcmp(p, "add") == 0) || (strcmp(p, "remove") == 0) || (strcmp(p, "stop") == 0)){
       addRemoveLoop(p);
     }
     p = strtok(NULL, " \n.()");
@@ -70,15 +70,11 @@ void addRemoveLoop(char *p){
     }
   }
   if (strcmp(p, "stop") == 0){
-    p = strtok(NULL, " \n.()");
     if(p){
       audio_stop();
-      printf("All loops stopped.\n", p);
+      printf("All loops stopped.\n");
     }
   }
-
-
-
 
 //If there are other intructions (  on other lines) to carry out, send
 //them back to text_recievUpdate function to sort out
