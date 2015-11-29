@@ -69,8 +69,8 @@ void addRemoveLoop(char *p){
       }
     }
   }
-/*If there are other intructions (  on other lines) to carry out, send them back to text_recievUpdate
-function to sort out*/
+//If there are other intructions (  on other lines) to carry out, send
+//them back to text_recievUpdate function to sort out
 
     //Need to fix whitespace bug!! getchar? then return
     //pointer to first char
