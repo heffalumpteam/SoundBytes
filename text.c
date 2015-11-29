@@ -15,20 +15,20 @@ void text_mainLoop(void)
   audio_mainLoop();
 }
 
-void text_receiveUpdate(char *s){
+void text_receiveUpdate(char *sample){
   char* p;
   int j;
   int i = 1;
 
-  for (j= 0; s[j] != '\0'; j++) {
-     s[j] = tolower(s[j]);
+  for (j= 0; sample[j] != '\0'; j++) {
+     sample[j] = tolower(sample[j]);
  }
 
 /*Takes input line from GUI and splits into individual words*/
-  p = strtok(s, " \n.()");
+  p = strtok(sample, " \n.()");
   do{
     printf("Instruction %d Received: %s\n", i, p);
-    if((strcmp(p, "add") == 0) || (strcmp(p, "remove") == 0)){
+    if((strcmp(p, "add") == 0) || (strcmp(p, "remove") == 0) || (strcmp(p, "stop") == 0)){
       addRemoveLoop(p);
     }
     p = strtok(NULL, " \n.()");
@@ -37,7 +37,7 @@ void text_receiveUpdate(char *s){
 }
 
 void addRemoveLoop(char *p){
-  char *s;
+  char *sample;
 
   if(strcmp(p, "add") == 0){
     p = strtok(NULL, " \n.()");
@@ -69,16 +69,23 @@ void addRemoveLoop(char *p){
       }
     }
   }
-/*If there are other intructions (  on other lines) to carry out, send them back to text_recievUpdate
-function to sort out*/
+  if (strcmp(p, "stop") == 0){
+    if(p){
+      audio_stop();
+      printf("All loops stopped.\n");
+    }
+  }
+
+//If there are other intructions (  on other lines) to carry out, send
+//them back to text_recievUpdate function to sort out
 
     //Need to fix whitespace bug!! getchar? then return
     //pointer to first char
 
-    s = strtok(NULL, "");
+    sample = strtok(NULL, "");
     //s = strtok(NULL, " ");
-    if(s){
-      printf("Passed back %s\n", s);
-      text_receiveUpdate(s);
+    if(sample){
+      printf("Passed back %s\n", sample);
+      text_receiveUpdate(sample);
     }
 }

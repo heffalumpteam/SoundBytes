@@ -57,7 +57,7 @@ Mix_Chunk *clap1_sound = NULL;
 
 void audio_mainLoop(void)
 {
-	int i = 0;
+	int i;
 	for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
 		if(activeSamples[i].active) {
 			audio_playSampleOnce(i);
@@ -132,6 +132,18 @@ void audio_markLoopInactive(Loop index)
 void audio_playSampleOnce(Loop index)
 {
   Mix_PlayChannel(-1, activeSamples[index].sample, 0);
+}
+
+//New function added by ADK on 29/11
+
+void audio_stop(void)
+{
+  int i;
+	for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
+    if(activeSamples[i].sample != NULL) {
+      activeSamples[i].active = false;
+		}
+	}
 }
 
 void populateFilePathsArray(char* sampleFilePaths[])
