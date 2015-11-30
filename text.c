@@ -120,4 +120,13 @@ void makeFunction(char *str_ptr)
         }
       }
     }
+
+    //Audio_quieter
+    
+    input_str = strtok(NULL, "");
+    //s = strtok(NULL, " ");
+    if(input_str){
+      printf("Passed back %s\n", input_str);
+      text_receiveUpdate(input_str);
+    }
 }
