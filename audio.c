@@ -20,6 +20,7 @@
 #define BUFFSIZE 2048
 #define MAXNUMBEROFSAMPLES 50
 #define MAXSAMPLENAMELENGTH 30
+#define DEFAULTVOLUME 64
 #define DEFAULTCHANNEL INT_MAX
 
 struct sample
@@ -70,6 +71,7 @@ void audio_addLoop(Loop index)
   drum1_sound = loadSample(index);
   addToActiveArray(index, drum1_sound);
   setLoopActiveFlag(index, true);
+  audio_changeVolume(index, DEFAULTVOLUME);
 }
 
 void setLoopActiveFlag(Loop index, bool flag)
@@ -144,6 +146,11 @@ void audio_stop(void)
       activeSamples[i].active = false;
 		}
 	}
+}
+
+void audio_changeVolume(Loop index, int volume)
+{
+  Mix_Volume(activeSamples[index].channel, volume);
 }
 
 void populateFilePathsArray(char* sampleFilePaths[])

@@ -9,6 +9,7 @@
 #include "audio.h"
 
 void addRemoveStopLoop(char *str_ptr);
+void makeFunction(char *str_ptr);
 
 void text_mainLoop(void)
 {
@@ -31,6 +32,10 @@ void text_receiveUpdate(char *input_str){
     if((strcmp(str_ptr, "add") == 0) || (strcmp(str_ptr, "remove") == 0) || (strcmp(str_ptr, "stop") == 0)){
       addRemoveStopLoop(str_ptr);
     }
+    if(strcmp(str_ptr, "make") == 0) {
+      makeFunction(str_ptr);
+    }
+
     str_ptr = strtok(NULL, " \n.()");
     i++;
   }
@@ -83,5 +88,36 @@ void addRemoveStopLoop(char *str_ptr){
     if(input_str){
       printf("Passed back %s\n", input_str);
       text_receiveUpdate(input_str);
+    }
+}
+
+void makeFunction(char *str_ptr)
+{
+  char *input_str;
+
+    str_ptr = strtok(NULL, " \n.()");
+    if(str_ptr){
+      printf("Make function: Instrument: %s\n", str_ptr);
+
+      if(strcmp(str_ptr, "drums") == 0){
+         printf("drums\n");
+
+         str_ptr = strtok(NULL, " \n.()");
+
+         if(strcmp(str_ptr, "louder") == 0){
+           printf("LOUDER\n");
+           audio_changeVolume(DRUMS_SHUFFLE, 128);
+         }
+      }
+      if(strcmp(str_ptr, "clap") == 0){
+        printf("clap\n");
+
+        str_ptr = strtok(NULL, " \n.()");
+
+        if(strcmp(str_ptr, "louder") == 0){
+          printf("LOUDER\n");
+          audio_changeVolume(DRUMS_CLAP, 128);
+        }
+      }
     }
 }
