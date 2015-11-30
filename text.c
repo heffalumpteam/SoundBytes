@@ -121,8 +121,8 @@ void makeFunction(char *str_ptr)
       }
     }
 
-    //Audio_quieter
-    
+    //audio_quieter...........................
+
     input_str = strtok(NULL, "");
     //s = strtok(NULL, " ");
     if(input_str){
