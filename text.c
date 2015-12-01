@@ -15,6 +15,13 @@ void text_mainLoop(void)
   audio_mainLoop();
 }
 
+void text_receiveButtonPress(char *input_str)
+{
+  if((strcmp(input_str, "drum(shuffle)") == 0)){
+    audio_playSampleOnce(DRUMS_SHUFFLE);
+  }
+}
+
 void text_receiveUpdate(char *input_str){
   char* str_ptr;
   int j;
@@ -22,13 +29,14 @@ void text_receiveUpdate(char *input_str){
 
   for (j= 0; input_str[j] != '\0'; j++) {
      input_str[j] = tolower(input_str[j]);
- }
+  }
 
 /*Takes input line from GUI and splits into individual words*/
   str_ptr = strtok(input_str, " \n.()");
   while(str_ptr){
     printf("Instruction %d Received: %s\n", i, str_ptr);
-    if((strcmp(str_ptr, "add") == 0) || (strcmp(str_ptr, "remove") == 0) || (strcmp(str_ptr, "stop") == 0)){
+    if((strcmp(str_ptr, "add") == 0) || (strcmp(str_ptr, "remove") == 0) || \
+       (strcmp(str_ptr, "stop") == 0)){
       addRemoveStopLoop(str_ptr);
     }
     str_ptr = strtok(NULL, " \n.()");

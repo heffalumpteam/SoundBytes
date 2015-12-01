@@ -50,8 +50,10 @@ void events_toggle(void){
   }
 }
 
-void events_playSampleOnce(GtkButton* button, gpointer buttonLabel) {
-//  audio_playSampleOnce((char*)buttonLabel);
+void events_buttonPress(GtkButton *button) {
+  char *label;
+  label = (char *)gtk_button_get_label(button);
+  text_receiveButtonPress(label);
 }
 
 void events_start(void){
