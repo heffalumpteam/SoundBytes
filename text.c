@@ -63,6 +63,14 @@ void addRemoveStopLoop(char *str_ptr){
          printf("clap\n");
          audio_addLoop(DRUMS_CLAP);
       }
+      if(strcmp(str_ptr, "bass") == 0){
+         printf("bass\n");
+         audio_addLoop(BASS);
+      }
+      if(strcmp(str_ptr, "keys") == 0){
+         printf("keys\n");
+         audio_addLoop(KEYS);
+      }
     }
   }
   if (strcmp(str_ptr, "remove") == 0){
