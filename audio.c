@@ -133,7 +133,6 @@ void audio_playSampleOnce(Loop index)
 {
 	Sample sound = loadSample(index);
   Mix_PlayChannel(-1, sound.sample, 0);
-	Mix_FreeChunk(sound.sample);
 }
 
 //New function added by ADK on 29/11

@@ -66,7 +66,7 @@ void attachFunctions(GtkBuilder *builder){
   timeoutID = g_timeout_add(NUM_MS, events_mainLoop, NULL);
 
   button1 = setUpGtkButton(builder, "button1", events_buttonPress); /* Generic function, see below */
-/*  button2 = setUpGtkButton(builder, "button2", events_buttonPress);*/
+  button2 = setUpGtkButton(builder, "button2", events_buttonPress);
 
   playtoggle = (GtkButton *)gtk_builder_get_object (builder, "playToggle");
   g_signal_connect (playtoggle, "clicked", G_CALLBACK (events_toggle), NULL);

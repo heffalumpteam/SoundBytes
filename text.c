@@ -20,6 +20,9 @@ void text_receiveButtonPress(char *input_str)
   if((strcmp(input_str, "drum(shuffle)") == 0)){
     audio_playSampleOnce(DRUMS_SHUFFLE);
   }
+  if((strcmp(input_str, "clap(shuffle)") == 0)){
+    audio_playSampleOnce(DRUMS_CLAP);
+  }
 }
 
 void text_receiveUpdate(char *input_str){
