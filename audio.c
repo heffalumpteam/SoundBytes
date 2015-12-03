@@ -40,7 +40,7 @@ void setLoopActiveFlag(Loop index, bool flag);
 
 /* Will hold all the paths to the samples for easy reference during runtime. Thoughts? */
 char* sampleFilePaths[MAXNUMBEROFSAMPLES];
-Sample activeSamples[MAXNUMBEROFSAMPLES] = {{NULL, DEFAULTCHANNEL, false}};
+Sample activeSamples[MAXNUMBEROFSAMPLES] = {{NULL, DEFAULTCHANNEL, false, 0, 0, -1}};
 int channel1, channel2;
 
 Sample drum1_sound;
@@ -64,8 +64,21 @@ void audio_mainLoop(void)
 	int i;
 	for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
 		if(activeSamples[i].active) {
-	//		audio_playSampleOnce(i);
+			if(activeSamples[i].repeatsLeft > 0) {
+				activeSamples[i].repeatsLeft--;
+			}
+			if((activeSamples[i].barsLeft == 0) && (activeSamples[i].repeatsLeft != 0)) {
+				activeSamples[i].barsLeft = 1;
+				if(!Mix_Playing(activeSamples[i].channel)) {
+			    audio_startLoop(i);
+				}
+		  }
+			activeSamples[i].barsLeft--;
+			printf("Channel: %d Bars left: %d repeatsleft: %d\n", activeSamples[i].channel, activeSamples[i].barsLeft, activeSamples[i].repeatsLeft);
 		}
+
+
+
 	}
 	if((buttonSound.sample) && (!Mix_Playing(buttonSound.channel))) {
 			Mix_FreeChunk(buttonSound.sample);
@@ -87,8 +100,8 @@ void setLoopActiveFlag(Loop index, bool flag)
 }
 
 Sample loadSample(Loop index) {
-
-  Sample sample = {NULL, 0, false};
+//for some reason setting channel to 0 doesn't work
+  Sample sample = {NULL, DEFAULTCHANNEL, false, 0, 0, -1}; //must read in looplength and repeatsleft from the file/user input
 
   sample.sample = Mix_LoadWAV(sampleFilePaths[index]);
   if (!sample.sample)
@@ -114,13 +127,12 @@ void audio_close(void){
   SDL_Quit();
 }
 
+void audio_startLoop(Loop index) {
 
-// void audio_startLoop(Loop index) {
 
-//   int channel = 0;
-//   channel = Mix_PlayChannel(-1, activeSamples[index].sample, -1);
-//   activeSamples[index].channel = channel;    /* (channel -1 = dont care, sound, times to repeat)*/
-// } remember to flag active
+   activeSamples[index].channel = Mix_PlayChannel(-1, activeSamples[index].sample, activeSamples[index].repeatsLeft);
+	   /* (channel -1 = dont care, sound, times to repeat)*/
+} //remember to flag active
 
 void audio_removeLoop(Loop index) {
 
