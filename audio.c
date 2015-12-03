@@ -27,6 +27,9 @@ struct sample
   Mix_Chunk* sample;
   int channel;
   bool active;
+	int loopLength;
+	int barsLeft;
+	int repeatsLeft; //-1 to keep playing indefinitely
 };
 typedef struct sample Sample;
 
@@ -41,6 +44,7 @@ Sample activeSamples[MAXNUMBEROFSAMPLES] = {{NULL, DEFAULTCHANNEL, false}};
 int channel1, channel2;
 
 Sample drum1_sound;
+Sample buttonSound;
 Mix_Chunk *clap1_sound = NULL;
 
 /*https://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_28.html*/
@@ -60,8 +64,13 @@ void audio_mainLoop(void)
 	int i;
 	for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
 		if(activeSamples[i].active) {
-			audio_playSampleOnce(i);
+	//		audio_playSampleOnce(i);
 		}
+	}
+	if((buttonSound.sample) && (!Mix_Playing(buttonSound.channel))) {
+			Mix_FreeChunk(buttonSound.sample);
+			buttonSound.sample = NULL;
+			buttonSound.channel = DEFAULTCHANNEL;
 	}
 }
 
@@ -111,7 +120,7 @@ void audio_close(void){
 //   int channel = 0;
 //   channel = Mix_PlayChannel(-1, activeSamples[index].sample, -1);
 //   activeSamples[index].channel = channel;    /* (channel -1 = dont care, sound, times to repeat)*/
-// }
+// } remember to flag active
 
 void audio_removeLoop(Loop index) {
 
@@ -131,8 +140,10 @@ void audio_markLoopInactive(Loop index)
 
 void audio_playSampleOnce(Loop index)
 {
-	Sample sound = loadSample(index);
-  Mix_PlayChannel(-1, sound.sample, 0);
+	if(!buttonSound.sample) {
+		buttonSound = loadSample(index);
+		buttonSound.channel = Mix_PlayChannel(-1, buttonSound.sample, 0);
+	}
 }
 
 //New function added by ADK on 29/11
