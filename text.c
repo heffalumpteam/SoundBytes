@@ -2,6 +2,7 @@
 #include <gtksourceview/gtksourcebuffer.h>
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -9,7 +10,9 @@
 #include "audio.h"
 
 void addRemoveStopLoop(char *str_ptr);
-void makeFunction(char *str_ptr);
+void setFunction(char *str_ptr);
+void volumeControl(char *str_ptr, Loop index);
+void passBack(char *input_str);
 
 void text_mainLoop(void)
 {
@@ -32,8 +35,8 @@ void text_receiveUpdate(char *input_str){
     if((strcmp(str_ptr, "add") == 0) || (strcmp(str_ptr, "remove") == 0) || (strcmp(str_ptr, "stop") == 0)){
       addRemoveStopLoop(str_ptr);
     }
-    if(strcmp(str_ptr, "make") == 0) {
-      makeFunction(str_ptr);
+    if(strcmp(str_ptr, "set") == 0) {
+      setFunction(str_ptr);
     }
 
     str_ptr = strtok(NULL, " \n.()");
@@ -91,50 +94,71 @@ void addRemoveStopLoop(char *str_ptr){
     }
 }
 
-void makeFunction(char *str_ptr)
+void setFunction(char *str_ptr)
 {
   char *input_str;
 
-    str_ptr = strtok(NULL, " \n.()");
-    if(str_ptr){
-      printf("Make function: Instrument: %s\n", str_ptr);
+  str_ptr = strtok(NULL, " \n.()");
+  if(str_ptr){
+    printf("Set function: Instrument: %s\n", str_ptr);
 
-      if(strcmp(str_ptr, "drums") == 0){
-         printf("drums\n");
+    if(strcmp(str_ptr, "drums") == 0){
+      printf("\tdrums read\n");
 
-         str_ptr = strtok(NULL, " \n.()");
+      str_ptr = strtok(NULL, " \n.()");
 
-         if(strcmp(str_ptr, "louder") == 0){
-           printf("LOUDER\n");
-           audio_changeVolume(DRUMS_SHUFFLE, 128);
-         }
-         if(strcmp(str_ptr, "quieter") == 0){
-           printf("quieter\n");
-           audio_changeVolume(DRUMS_SHUFFLE, 10);
-         }
-      }
-      if(strcmp(str_ptr, "clap") == 0){
-        printf("clap\n");
-
-        str_ptr = strtok(NULL, " \n.()");
-
-        if(strcmp(str_ptr, "louder") == 0){
-          printf("LOUDER\n");
-          audio_changeVolume(DRUMS_CLAP, 128);
-        }
-        if(strcmp(str_ptr, "quieter") == 0){
-          printf("quieter\n");
-          audio_changeVolume(DRUMS_SHUFFLE, 10);
-        }
+      if(strcmp(str_ptr, "volume") == 0){
+        volumeControl(str_ptr, DRUMS_SHUFFLE);
       }
     }
+    else if(strcmp(str_ptr, "clap") == 0){
+      printf("\tclap read\n");
 
-    //audio_quieter...........................
+      str_ptr = strtok(NULL, " \n.()");
 
+      if(strcmp(str_ptr, "volume") == 0){
+        volumeControl(str_ptr, DRUMS_CLAP);
+      }
+    }
+  }
+  input_str = strtok(NULL, "");
+  passBack(input_str);
+}
+
+void volumeControl(char *str_ptr, Loop index)
+{
+  int i, volume;
+  char *input_str;
+  str_ptr = strtok(NULL, " \n.()");
+  // If the string contains a non-numerical values pass back
+  for (i = 0; (str_ptr[i] != '\0'); i++) {
+    if (isdigit(str_ptr[i]) == 0) {
+      printf("ERROR: That wasn't a valid number!\n");
+      input_str = strtok(NULL, "");
+      passBack(input_str);
+    }
+  }
+  // Convert the string to an int
+  volume = atoi(str_ptr);
+
+  // The user entered a valid volume number
+  if ((volume > 0) && (volume < 12)) {
+    printf("atoi check: %d\n", volume);
+    volume = ((128 / 11) * volume);
+    audio_changeVolume(index, volume);
+  }
+  // Invalid no
+  else {
+    printf("Next time please enter a number between 0 and 11!\n");
     input_str = strtok(NULL, "");
-    //s = strtok(NULL, " ");
-    if(input_str){
-      printf("Passed back %s\n", input_str);
-      text_receiveUpdate(input_str);
-    }
+    passBack(input_str);
+  }
+}
+
+void passBack(char *input_str)
+{
+  if(input_str){
+    printf("PASSED BACK %s\n", input_str);
+    text_receiveUpdate(input_str);
+  }
 }
