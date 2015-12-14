@@ -37,7 +37,7 @@ void text_receiveUpdate(char *input_str){
 /*Takes input line from GUI and splits into individual words*/
   str_ptr = strtok(input_str, " \n.()");
   while(str_ptr){
-    printf("Instruction %d Received: %s\n", i, str_ptr);
+    printf("TEXT: Instruction %d Received: %s\n", i, str_ptr);
     if((strcmp(str_ptr, "add") == 0) || (strcmp(str_ptr, "remove") == 0) || \
        (strcmp(str_ptr, "stop") == 0)){
       addRemoveStopLoop(str_ptr);
@@ -53,7 +53,7 @@ void addRemoveStopLoop(char *str_ptr){
   if(strcmp(str_ptr, "add") == 0){
     str_ptr = strtok(NULL, " \n.()");
     if(str_ptr){
-      printf("Add function: Instrument: %s\n", str_ptr);
+      printf("TEXT: Add function: Instrument: %s\n", str_ptr);
 
       if(strcmp(str_ptr, "drums") == 0){
          printf("drums\n");
@@ -76,7 +76,7 @@ void addRemoveStopLoop(char *str_ptr){
   if (strcmp(str_ptr, "remove") == 0){
     str_ptr = strtok(NULL, " \n.()");
     if(str_ptr){
-      printf("Remove function: Instrument: %s\n", str_ptr);
+      printf("TEXT: Remove function: Instrument: %s\n", str_ptr);
 
       if(strcmp(str_ptr, "drums") == 0){
         printf("drums\n");
@@ -91,7 +91,7 @@ void addRemoveStopLoop(char *str_ptr){
   if (strcmp(str_ptr, "stop") == 0){
     if(str_ptr){
       audio_stop();
-      printf("All loops stopped.\n");
+      printf("TEXT: All loops stopped.\n");
     }
   }
 
@@ -100,7 +100,7 @@ void addRemoveStopLoop(char *str_ptr){
     input_str = strtok(NULL, "");
     //s = strtok(NULL, " ");
     if(input_str){
-      printf("Passed back %s\n", input_str);
+      printf("TEXT: Passed back %s\n", input_str);
       text_receiveUpdate(input_str);
     }
 }
