@@ -69,14 +69,15 @@ void audio_mainLoop(void){
 	int i;
 	for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
 		if(SAMPLE_IS_ACTIVE(i)){
-			if(REPEATS_LEFT(i) > 0){
-				REPEATS_LEFT(i)--;
-			}
 			if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)){
 				BARS_LEFT(i) = BARS_IN_LOOP(i);
 				if(LOOP_IS_NOT_PLAYING(i)){
 			    RESTART_LOOP(i);
+          printf("Repeats left:%d\n", activeSamples[i].repeatsLeft);
 				}
+        if(REPEATS_LEFT(i) > 0){
+            REPEATS_LEFT(i)--;
+        }
 		  }
 			else if(REPEATS_LEFT(i) == 0){
 				REMOVE_LOOP(i);
@@ -167,7 +168,7 @@ void audio_markLoopInactive(Loop index)
 
 void audio_playSampleOnce(Loop index)
 {
-	Sample buttonSound = {NULL, DEFAULTCHANNEL, false, 1, 0, 2};
+	Sample buttonSound = {NULL, DEFAULTCHANNEL, false, 1, 0, 1};
 	if(!buttonSound.sample) {
 		buttonSound = loadSample(index);
 		buttonSound.repeatsLeft = 2;
