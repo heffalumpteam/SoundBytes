@@ -87,10 +87,9 @@ void audio_mainLoop(void){
 			REMOVE_LOOP(i); /*only if needs to be removed*/
 		}
 	}
-}
 
 	/*if there is sound loaded by pressing a button and it's not playing*/
-	if((buttonSound.sample) && (!Mix_Playing(buttonSound.channel))) {
+	if( (buttonSound.sample) && (!Mix_Playing(buttonSound.channel)) ){
 			Mix_FreeChunk(buttonSound.sample);
 			buttonSound.sample = NULL;
 			buttonSound.channel = DEFAULTCHANNEL;
