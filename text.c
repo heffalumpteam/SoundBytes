@@ -108,6 +108,10 @@ void makeFunction(char *str_ptr)
            printf("LOUDER\n");
            audio_changeVolume(DRUMS_SHUFFLE, 128);
          }
+         if(strcmp(str_ptr, "quieter") == 0){
+           printf("quieter\n");
+           audio_changeVolume(DRUMS_SHUFFLE, 10);
+         }
       }
       if(strcmp(str_ptr, "clap") == 0){
         printf("clap\n");
@@ -117,6 +121,10 @@ void makeFunction(char *str_ptr)
         if(strcmp(str_ptr, "louder") == 0){
           printf("LOUDER\n");
           audio_changeVolume(DRUMS_CLAP, 128);
+        }
+        if(strcmp(str_ptr, "quieter") == 0){
+          printf("quieter\n");
+          audio_changeVolume(DRUMS_SHUFFLE, 10);
         }
       }
     }
