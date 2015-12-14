@@ -21,6 +21,7 @@
 #define MAXNUMBEROFSAMPLES 50
 #define MAXSAMPLENAMELENGTH 30
 #define DEFAULTCHANNEL INT_MAX
+#define BEATS_IN_A_BAR 4
 
 struct sample
 {
@@ -41,7 +42,7 @@ void setLoopActiveFlag(Loop index, bool flag);
 /* Will hold all the paths to the samples for easy reference during runtime. Thoughts? */
 char* sampleFilePaths[MAXNUMBEROFSAMPLES];
 Sample activeSamples[MAXNUMBEROFSAMPLES] = {{NULL, DEFAULTCHANNEL, false, 0, 0, -1}};
-int channel1, channel2;
+int channel1, channel2, abeat = 0, abar = 0;
 
 Sample drum1_sound;
 Sample buttonSound;
@@ -63,23 +64,24 @@ void audio_mainLoop(void)
 {
 	int i;
 	for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
+    /* If loop is active, lower the number of repeats it has left */
 		if(activeSamples[i].active) {
+      printf("active\n");
 			if(activeSamples[i].repeatsLeft > 0) {
 				activeSamples[i].repeatsLeft--;
 			}
+      /* If it still has repeats left but is getting to the end of the loop, retrigger it */
 			if((activeSamples[i].barsLeft == 0) && (activeSamples[i].repeatsLeft != 0)) {
 				activeSamples[i].barsLeft = 1;
 				if(!Mix_Playing(activeSamples[i].channel)) {
 			    audio_startLoop(i);
 				}
 		  }
-			activeSamples[i].barsLeft--;
+      activeSamples[i].barsLeft--;
 			printf("Channel: %d Bars left: %d repeatsleft: %d\n", activeSamples[i].channel, activeSamples[i].barsLeft, activeSamples[i].repeatsLeft);
 		}
-
-
-
 	}
+  
 	if((buttonSound.sample) && (!Mix_Playing(buttonSound.channel))) {
 			Mix_FreeChunk(buttonSound.sample);
 			buttonSound.sample = NULL;
@@ -89,9 +91,12 @@ void audio_mainLoop(void)
 
 void audio_addLoop(Loop index)
 {
-  drum1_sound = loadSample(index);
-  addToActiveArray(index, drum1_sound);
-  setLoopActiveFlag(index, true);
+  if (activeSamples[index].sample == NULL)
+  {
+    drum1_sound = loadSample(index);
+    addToActiveArray(index, drum1_sound);
+    setLoopActiveFlag(index, true);
+  }
 }
 
 void setLoopActiveFlag(Loop index, bool flag)
@@ -147,6 +152,7 @@ void audio_removeLoop(Loop index) {
 
 void audio_markLoopInactive(Loop index)
 {
+  printf("inactive\n");
   setLoopActiveFlag(index, false);
 }
 
