@@ -29,6 +29,7 @@
 #define BARS_IN_LOOP(i) activeSamples[i].loopLength
 #define	LOOP_IS_NOT_PLAYING(i) !Mix_Playing(activeSamples[i].channel)
 #define REMOVE_LOOP(i) audio_removeLoop(i)
+#define RESTART_LOOP(i) audio_startLoop(i)
 
 struct sample
 {
@@ -48,7 +49,7 @@ void setLoopActiveFlag(Loop index, bool flag);
 
 /* Will hold all the paths to the samples for easy reference during runtime. Thoughts? */
 char* sampleFilePaths[MAXNUMBEROFSAMPLES];
-Sample activeSamples[MAXNUMBEROFSAMPLES] = {{NULL, DEFAULTCHANNEL, false, 0, 0, -1}};
+Sample activeSamples[MAXNUMBEROFSAMPLES] = {{NULL, DEFAULTCHANNEL, false, 1, 0, -1}};
 int channel1, channel2, abeat = 0, abar = 0;
 
 Sample buttonSound;
@@ -68,22 +69,24 @@ void audio_mainLoop(void){
 	int i;
 	for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
 		if(SAMPLE_IS_ACTIVE(i)){
-		if(REPEATS_LEFT(i) > 0){
-			REPEATS_LEFT(i)--;
-		}
-		if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)){
-			BARS_LEFT(i) = BARS_IN_LOOP(i);
-			if(LOOP_IS_NOT_PLAYING(i)){
-		    REMOVE_LOOP(i);
+			if(REPEATS_LEFT(i) > 0){
+				REPEATS_LEFT(i)--;
 			}
-	  }
-		else if(REPEATS_LEFT(i) == 0){
-			REMOVE_LOOP(i);
-		}
-	  BARS_LEFT(i)--;
+			if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)){
+				BARS_LEFT(i) = BARS_IN_LOOP(i);
+				if(LOOP_IS_NOT_PLAYING(i)){
+			    RESTART_LOOP(i);
+				}
+		  }
+			else if(REPEATS_LEFT(i) == 0){
+				REMOVE_LOOP(i);
+			}
+		  BARS_LEFT(i)--;
 		}
 		else{
-			REMOVE_LOOP(i); /*only if needs to be removed*/
+			if(activeSamples[i].sample != NULL){
+				REMOVE_LOOP(i);
+			}
 		}
 	}
 
@@ -99,6 +102,7 @@ void audio_addLoop(Loop index)
 {
 	Sample sample;
   if (activeSamples[index].sample == NULL){
+		printf("AUDIO MADE ACTIVE\n");
     sample = loadSample(index);
     addToActiveArray(index, sample);
     setLoopActiveFlag(index, true);
@@ -137,21 +141,22 @@ void audio_close(void){
 }
 
 void audio_startLoop(Loop index) {
-
-
    activeSamples[index].channel = Mix_PlayChannel(-1, activeSamples[index].sample, activeSamples[index].repeatsLeft);
 	   /* (channel -1 = dont care, sound, times to repeat)*/
-} //remember to flag active
+}
 
 void audio_removeLoop(Loop index) {
-
-  if (Mix_Playing(activeSamples[index].channel))
-  {
+  if(Mix_Playing(activeSamples[index].channel)){
     Mix_HaltChannel(activeSamples[index].channel);
     Mix_FreeChunk(activeSamples[index].sample);
     activeSamples[index].sample = NULL;
     activeSamples[index].channel = DEFAULTCHANNEL;
   }
+	else{
+		Mix_FreeChunk(activeSamples[index].sample);
+    activeSamples[index].sample = NULL;
+    activeSamples[index].channel = DEFAULTCHANNEL;
+	}
 }
 
 void audio_markLoopInactive(Loop index)
