@@ -51,7 +51,6 @@ char* sampleFilePaths[MAXNUMBEROFSAMPLES];
 Sample activeSamples[MAXNUMBEROFSAMPLES] = {{NULL, DEFAULTCHANNEL, false, 0, 0, -1}};
 int channel1, channel2, abeat = 0, abar = 0;
 
-Sample drum1_sound;
 Sample buttonSound;
 Mix_Chunk *clap1_sound = NULL;
 
@@ -98,9 +97,10 @@ void audio_mainLoop(void){
 
 void audio_addLoop(Loop index)
 {
+	Sample sample;
   if (activeSamples[index].sample == NULL){
-    drum1_sound = loadSample(index);
-    addToActiveArray(index, drum1_sound);
+    sample = loadSample(index);
+    addToActiveArray(index, sample);
     setLoopActiveFlag(index, true);
   }
 }
@@ -112,8 +112,7 @@ void setLoopActiveFlag(Loop index, bool flag)
 
 Sample loadSample(Loop index) {
 //for some reason setting channel to 0 doesn't work
-  Sample sample = {NULL, DEFAULTCHANNEL, false, 0, 0, -1}; //must read in looplength and repeatsleft from the file/user input
-
+  Sample sample = {NULL, DEFAULTCHANNEL, false, 1, 0, -1}; //must read in looplength and repeatsleft from the file/user input
   sample.sample = Mix_LoadWAV(sampleFilePaths[index]);
   if (!sample.sample){
     fprintf(stderr, "Audio: Failed to load sample \"%s\"!\n", sampleFilePaths[index]);
