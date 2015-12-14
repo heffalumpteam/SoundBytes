@@ -60,7 +60,7 @@ Mix_Chunk *clap1_sound = NULL;
 void audio_init(void){
   SDL_Init(SDL_INIT_AUDIO);
 	if( Mix_OpenAudio( SAMPLERATE, MIX_DEFAULT_FORMAT, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ){
-    fprintf(stderr, "SDL_mixer Error: %s\n", Mix_GetError());
+    fprintf(stderr, "Audio: SDL_mixer Error: %s\n", Mix_GetError());
   }
   populateFilePathsArray(sampleFilePaths);
 }
@@ -116,7 +116,7 @@ Sample loadSample(Loop index) {
 
   sample.sample = Mix_LoadWAV(sampleFilePaths[index]);
   if (!sample.sample){
-    fprintf(stderr, "Failed to load sample \"%s\"!\n", sampleFilePaths[index]);
+    fprintf(stderr, "Audio: Failed to load sample \"%s\"!\n", sampleFilePaths[index]);
   }
   return sample;
 }
@@ -157,7 +157,7 @@ void audio_removeLoop(Loop index) {
 
 void audio_markLoopInactive(Loop index)
 {
-  printf("inactive\n");
+  printf("Audio: inactive\n");
   setLoopActiveFlag(index, false);
 }
 
