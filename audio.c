@@ -23,6 +23,13 @@
 #define DEFAULTCHANNEL INT_MAX
 #define BEATS_IN_A_BAR 4
 
+#define SAMPLE_IS_ACTIVE(i) activeSamples[i].active
+#define REPEATS_LEFT(i) activeSamples[i].repeatsLeft
+#define BARS_LEFT(i) activeSamples[i].barsLeft
+#define BARS_IN_LOOP(i) activeSamples[i].loopLength
+#define	LOOP_IS_NOT_PLAYING(i) !Mix_Playing(activeSamples[i].channel
+#define REMOVE_LOOP(i) removeloop(activeSamples[i]);
+
 struct sample
 {
   Mix_Chunk* sample;
@@ -50,38 +57,39 @@ Mix_Chunk *clap1_sound = NULL;
 
 /*https://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_28.html*/
 
-  void audio_init(void){
-   SDL_Init(SDL_INIT_AUDIO);
-  /*                 FS, sample format, num channels, sample size 2kb*/
-   if( Mix_OpenAudio( SAMPLERATE, MIX_DEFAULT_FORMAT, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ){
+void audio_init(void){
+  SDL_Init(SDL_INIT_AUDIO);
+	if( Mix_OpenAudio( SAMPLERATE, MIX_DEFAULT_FORMAT, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ){
     fprintf(stderr, "SDL_mixer Error: %s\n", Mix_GetError());
   }
-
   populateFilePathsArray(sampleFilePaths);
 }
 
-void audio_mainLoop(void)
-{
+void audio_mainLoop(void){
 	int i;
 	for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
-    /* If loop is active, lower the number of repeats it has left */
-		if(activeSamples[i].active) {
-      printf("active\n");
-			if(activeSamples[i].repeatsLeft > 0) {
-				activeSamples[i].repeatsLeft--;
+		if(SAMPLE_IS_ACTIVE){
+		if(REPEATSLEFT(i) > 0){
+			REPEATS_LEFT(i)--;
+		}
+		if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)){
+			BARS_LEFT(i) = BARS_IN_LOOP(i);
+			if(LOOP_IS_NOT_PLAYING(i)){
+		    REMOVE_LOOP(i)
 			}
-      /* If it still has repeats left but is getting to the end of the loop, retrigger it */
-			if((activeSamples[i].barsLeft == 0) && (activeSamples[i].repeatsLeft != 0)) {
-				activeSamples[i].barsLeft = 1;
-				if(!Mix_Playing(activeSamples[i].channel)) {
-			    audio_startLoop(i);
-				}
-		  }
-      activeSamples[i].barsLeft--;
-			printf("Channel: %d Bars left: %d repeatsleft: %d\n", activeSamples[i].channel, activeSamples[i].barsLeft, activeSamples[i].repeatsLeft);
+	  }
+		else if(REPEATS_LEFT(i) == 0){
+			removeloop(activeSamples[i]);
+		}
+	  BARS_LEFT(i)--;
+		}
+		else{
+			REMOVE_LOOP(i) /*only if needs to be removed*/
 		}
 	}
-  
+}
+
+	/*if there is sound loaded by pressing a button and it's not playing*/
 	if((buttonSound.sample) && (!Mix_Playing(buttonSound.channel))) {
 			Mix_FreeChunk(buttonSound.sample);
 			buttonSound.sample = NULL;
@@ -91,8 +99,7 @@ void audio_mainLoop(void)
 
 void audio_addLoop(Loop index)
 {
-  if (activeSamples[index].sample == NULL)
-  {
+  if (activeSamples[index].sample == NULL){
     drum1_sound = loadSample(index);
     addToActiveArray(index, drum1_sound);
     setLoopActiveFlag(index, true);
@@ -109,8 +116,7 @@ Sample loadSample(Loop index) {
   Sample sample = {NULL, DEFAULTCHANNEL, false, 0, 0, -1}; //must read in looplength and repeatsleft from the file/user input
 
   sample.sample = Mix_LoadWAV(sampleFilePaths[index]);
-  if (!sample.sample)
-  {
+  if (!sample.sample){
     fprintf(stderr, "Failed to load sample \"%s\"!\n", sampleFilePaths[index]);
   }
   return sample;
