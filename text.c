@@ -56,19 +56,19 @@ void addRemoveStopLoop(char *str_ptr){
       printf("TEXT: Add function: Instrument: %s\n", str_ptr);
 
       if(strcmp(str_ptr, "drums") == 0){
-         printf("drums\n");
+         printf("TEXT: drums\n");
          audio_addLoop(DRUMS_SHUFFLE);
       }
       if(strcmp(str_ptr, "clap") == 0){
-         printf("clap\n");
+         printf("TEXT: clap\n");
          audio_addLoop(DRUMS_CLAP);
       }
       if(strcmp(str_ptr, "bass") == 0){
-         printf("bass\n");
+         printf("TEXT: bass\n");
          audio_addLoop(BASS);
       }
       if(strcmp(str_ptr, "keys") == 0){
-         printf("keys\n");
+         printf("TEXT: keys\n");
          audio_addLoop(KEYS);
       }
     }
@@ -79,11 +79,11 @@ void addRemoveStopLoop(char *str_ptr){
       printf("TEXT: Remove function: Instrument: %s\n", str_ptr);
 
       if(strcmp(str_ptr, "drums") == 0){
-        printf("drums\n");
+        printf("TEXT: drums\n");
         audio_markLoopInactive(DRUMS_SHUFFLE);
       }
       if(strcmp(str_ptr, "clap") == 0){
-        printf("clap\n");
+        printf("TEXT: clap\n");
         audio_markLoopInactive(DRUMS_CLAP);
       }
     }
