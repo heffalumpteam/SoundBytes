@@ -26,7 +26,7 @@ void text_receiveUpdate(char *input_str){
 
   for (j= 0; input_str[j] != '\0'; j++) {
      input_str[j] = tolower(input_str[j]);
- }
+   }
 
 /*Takes input line from GUI and splits into individual words*/
   str_ptr = strtok(input_str, " \n.()");
