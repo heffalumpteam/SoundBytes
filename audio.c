@@ -49,10 +49,10 @@ void setLoopActiveFlag(Loop index, bool flag);
 
 /* Will hold all the paths to the samples for easy reference during runtime. Thoughts? */
 char* sampleFilePaths[MAXNUMBEROFSAMPLES];
-Sample activeSamples[MAXNUMBEROFSAMPLES] = {{NULL, DEFAULTCHANNEL, false, 1, 0, -1}};
+Sample activeSamples[MAXNUMBEROFSAMPLES] = {{NULL, DEFAULTCHANNEL, false, 1, 0,-1}};
 int channel1, channel2, abeat = 0, abar = 0;
 
-Sample buttonSound;
+/*Sample buttonSound = {NULL, DEFAULTCHANNEL, false, 1, 0, 0};*/
 Mix_Chunk *clap1_sound = NULL;
 
 /*https://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_28.html*/
@@ -91,11 +91,11 @@ void audio_mainLoop(void){
 	}
 
 	/*if there is sound loaded by pressing a button and it's not playing*/
-	if( (buttonSound.sample) && (!Mix_Playing(buttonSound.channel)) ){
+/*	if( (buttonSound.sample) && (!Mix_Playing(buttonSound.channel)) ){
 			Mix_FreeChunk(buttonSound.sample);
 			buttonSound.sample = NULL;
 			buttonSound.channel = DEFAULTCHANNEL;
-	}
+	}*/
 }
 
 void audio_addLoop(Loop index)
@@ -167,9 +167,12 @@ void audio_markLoopInactive(Loop index)
 
 void audio_playSampleOnce(Loop index)
 {
+	Sample buttonSound = {NULL, DEFAULTCHANNEL, false, 1, 0, 2};
 	if(!buttonSound.sample) {
 		buttonSound = loadSample(index);
-		buttonSound.channel = Mix_PlayChannel(-1, buttonSound.sample, 0);
+		buttonSound.repeatsLeft = 2;
+		activeSamples[MAXNUMBEROFSAMPLES-1] = buttonSound;
+		setLoopActiveFlag(MAXNUMBEROFSAMPLES-1, true);
 	}
 }
 
