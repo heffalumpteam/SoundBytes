@@ -27,8 +27,8 @@
 #define REPEATS_LEFT(i) activeSamples[i].repeatsLeft
 #define BARS_LEFT(i) activeSamples[i].barsLeft
 #define BARS_IN_LOOP(i) activeSamples[i].loopLength
-#define	LOOP_IS_NOT_PLAYING(i) !Mix_Playing(activeSamples[i].channel
-#define REMOVE_LOOP(i) removeloop(activeSamples[i]);
+#define	LOOP_IS_NOT_PLAYING(i) !Mix_Playing(activeSamples[i].channel)
+#define REMOVE_LOOP(i) audio_removeLoop(i)
 
 struct sample
 {
@@ -68,23 +68,23 @@ void audio_init(void){
 void audio_mainLoop(void){
 	int i;
 	for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
-		if(SAMPLE_IS_ACTIVE){
-		if(REPEATSLEFT(i) > 0){
+		if(SAMPLE_IS_ACTIVE(i)){
+		if(REPEATS_LEFT(i) > 0){
 			REPEATS_LEFT(i)--;
 		}
 		if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)){
 			BARS_LEFT(i) = BARS_IN_LOOP(i);
 			if(LOOP_IS_NOT_PLAYING(i)){
-		    REMOVE_LOOP(i)
+		    REMOVE_LOOP(i);
 			}
 	  }
 		else if(REPEATS_LEFT(i) == 0){
-			removeloop(activeSamples[i]);
+			REMOVE_LOOP(i);
 		}
 	  BARS_LEFT(i)--;
 		}
 		else{
-			REMOVE_LOOP(i) /*only if needs to be removed*/
+			REMOVE_LOOP(i); /*only if needs to be removed*/
 		}
 	}
 }
