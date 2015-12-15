@@ -84,7 +84,7 @@ void addRemoveStopLoop(char *str_ptr){
     }
   }
 
-//If there are other intructions (  on other lines) to carry out, send
+//If there are other intructions (on other lines) to carry out, send
 //them back to text_recievUpdate function to sort out
     input_str = strtok(NULL, "");
     //s = strtok(NULL, " ");
@@ -99,6 +99,7 @@ void setFunction(char *str_ptr)
   char *input_str;
 
   str_ptr = strtok(NULL, " \n.()");
+
   if(str_ptr){
     printf("Set function: Instrument: %s\n", str_ptr);
 
@@ -117,6 +118,7 @@ void setFunction(char *str_ptr)
       str_ptr = strtok(NULL, " \n.()");
 
       if(strcmp(str_ptr, "volume") == 0){
+        printf("VOLUME READ for %s\n", str_ptr);
         volumeControl(str_ptr, DRUMS_CLAP);
       }
     }
@@ -145,6 +147,7 @@ void volumeControl(char *str_ptr, Loop index)
   if ((volume > 0) && (volume < 12)) {
     printf("atoi check: %d\n", volume);
     volume = ((128 / 11) * volume);
+//    audio_changeVolume(index, volume);
     audio_changeVolume(index, volume);
   }
   // Invalid no
