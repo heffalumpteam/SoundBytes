@@ -6,6 +6,9 @@
 @define-color buttonCol rgb(100,100,100);
 @define-color consoleCol rgb(180, 180, 180);
 @define-color textCol rgb(255,255,255);
+@define-color bg_color green;
+@define-color hover_color rgb(25,79,6);
+ 
 
 GtkWindow {
   background-color: @windowBkgrnd;
@@ -13,25 +16,31 @@ GtkWindow {
 }
 
 GtkButton {
-  background: rgb(100,100,100);
+  /*background: green;*/
   color: @textCol;
   font: Courier 13;
-  /*background-image: none;*/
-  border-image: none;
-  border-style: solid;
-  border-width: 5px;
+  background-image: -gtk-gradient (linear,
+  left top,
+  left bottom, from (@bg_color), color-stop (0.5, darker (@bg_color)), to (@bg_color));
+  border-radius: 5px;
+  /*border-image: none;*/
+  /*border-style: solid;
+  border-width: 10px;*/
   border-color: rgb(50,50,50);
 
 }
 
 GtkButton:hover {
-  background: rgb(120,120,120);
+   /*background: green;*/
   color: @textCol;
   font: Courier 13;
-  /*background-image: none;*/
-  border-image: none;
-  border-style: solid;
-  border-width: 5px;
+  background-image: -gtk-gradient (linear,
+  left top,
+  left bottom, from (@hover_color), color-stop (0.5, darker (@hover_color)), to (@hover_color));
+  border-radius: 5px;
+  /*border-image: none;*/
+  /*border-style: solid;
+  border-width: 10px;*/
   border-color: rgb(70,70,70);
 }
 
