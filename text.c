@@ -9,14 +9,13 @@
 #include "text.h"
 #include "audio.h"
 
-void text_mainLoop(void);
 int loopSelection(char *string);
-void text_receiveButtonPress(char *input_string);
-void text_receiveUpdate(char *input_string);
 void addRemoveStopLoop(char *string_pointer);
 void setFunction(char *string_pointer);
 void setVolume(char *string_pointer, Loop index);
 void passBack(char *input_string);
+
+// SEGFAULTS WHEN RUNNING COMMANDS ON LOOPS OTHER THAN KEYS
 
 void text_mainLoop(void)
 {
