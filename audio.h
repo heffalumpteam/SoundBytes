@@ -1,7 +1,8 @@
 enum loop{
   DRUMS_SHUFFLE,
   DRUMS_CLAP,
-  SYNTH_STAB
+  BASS,
+  KEYS
 };
 typedef enum loop Loop;
 

@@ -1,2 +1,4 @@
-samples/FatkickVES2023.wav
-samples/MUB1Clap004.wav
+samples/Kick1.wav
+samples/Snare1.wav
+samples/Bass1.wav
+samples/Keys1.wav
