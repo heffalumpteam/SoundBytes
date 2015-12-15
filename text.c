@@ -161,50 +161,6 @@ void setFunction(char *string_pointer)
           setVolume(string_pointer, KEYS);
         }
     }
-
-
-
-
-    if(strcmp(string_pointer, "drums") == 0){
-      printf("\tdrums read\n");
-
-      string_pointer = strtok(NULL, " \n.()");
-
-      if(strcmp(string_pointer, "volume") == 0){
-        printf("%s read\n", string_pointer);
-        setVolume(string_pointer, DRUMS_SHUFFLE);
-      }
-    }
-    else if(strcmp(string_pointer, "clap") == 0){
-      printf("\tclap read\n");
-
-      string_pointer = strtok(NULL, " \n.()");
-
-      if(strcmp(string_pointer, "volume") == 0){
-        printf("%s read\n", string_pointer);
-        setVolume(string_pointer, DRUMS_CLAP);
-      }
-    }
-    else if(strcmp(string_pointer, "bass") == 0){
-      printf("\tbass read\n");
-
-      string_pointer = strtok(NULL, " \n.()");
-
-      if(strcmp(string_pointer, "volume") == 0){
-        printf("%s read\n", string_pointer);
-        setVolume(string_pointer, BASS);
-      }
-    }
-    else if (strcmp(string_pointer, "keys") == 0){
-      printf("\tkeys read\n");
-
-      string_pointer = strtok(NULL, " \n.()");
-
-      if(strcmp(string_pointer, "volume") == 0){
-        printf("%s read\n", string_pointer);
-        setVolume(string_pointer, BASS);
-      }
-    }
   }
   input_string = strtok(NULL, "");
   passBack(input_string);
