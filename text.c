@@ -154,7 +154,7 @@ void setFunction(char *str_ptr)
     }
     else if (strcmp(str_ptr, "keys") == 0){
       printf("\tkeys read\n");
-      
+
       str_ptr = strtok(NULL, " \n.()");
 
       if(strcmp(str_ptr, "volume") == 0){
@@ -162,9 +162,9 @@ void setFunction(char *str_ptr)
         volumeControl(str_ptr, BASS);
       }
     }
-
-    input_str = strtok(NULL, "");
-    passBack(input_str);
+  }
+  input_str = strtok(NULL, "");
+  passBack(input_str);
 }
 
 void volumeControl(char *str_ptr, Loop index)
