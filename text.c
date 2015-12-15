@@ -118,15 +118,10 @@ void addRemoveStopLoop(char *string_pointer)
       printf("TEXT: All loops stopped.\n");
     }
   }
-
 //If there are other intructions (on other lines) to carry out, send
 //them back to text_recievUpdate function to sort out
     input_string = strtok(NULL, "");
-    //s = strtok(NULL, " ");
-    if(input_string){
-      printf("TEXT: Passed back %s\n", input_string);
-      text_receiveUpdate(input_string);
-    }
+    passBack(input_string);
 }
 
 void setFunction(char *string_pointer)
