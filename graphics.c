@@ -31,6 +31,8 @@ void graphics_init(void){
   attachFunctions(builder);
   initSourceView(builder);
 
+  events_init(sourcebuffer);
+
   style();
 
   g_object_unref( G_OBJECT( builder ) );
