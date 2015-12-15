@@ -140,21 +140,28 @@ void setFunction(char *string_pointer)
         if(strcmp(string_pointer, "volume") == 0){
           setVolume(string_pointer, DRUMS_SHUFFLE);
         }
+      break;
+
       case DRUMS_CLAP:
         string_pointer = strtok(NULL, " \n.()");
         if(strcmp(string_pointer, "volume") == 0){
           setVolume(string_pointer, DRUMS_CLAP);
         }
+      break;
+
       case BASS:
         string_pointer = strtok(NULL, " \n.()");
         if(strcmp(string_pointer, "volume") == 0){
           setVolume(string_pointer, BASS);
         }
+      break;
+
       case KEYS:
         string_pointer = strtok(NULL, " \n.()");
         if(strcmp(string_pointer, "volume") == 0){
           setVolume(string_pointer, KEYS);
         }
+      break;
     }
   }
   input_string = strtok(NULL, "");
