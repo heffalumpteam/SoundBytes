@@ -41,6 +41,7 @@ int loopSelection(char *string)
      printf("TEXT: keys\n");
      return KEYS;
   }
+  return -1;
 }
 
 void text_receiveButtonPress(char *input_string)
