@@ -16,7 +16,6 @@ GtkWindow {
 }
 
 GtkButton {
-  /*background: green;*/
   color: @textCol;
   font: Courier 13;
   background-image: -gtk-gradient (linear,
@@ -24,7 +23,10 @@ GtkButton {
   left bottom, from (@bg_color), color-stop (0.5, darker (@bg_color)), to (@bg_color));
   border-radius: 5px;
   border-color: rgb(50,50,50);
+}
 
+GtkButton #button1{
+  background-color: red;
 }
 
 .button:hover {
@@ -36,7 +38,6 @@ GtkButton {
   border-radius: 5px;
   border-color: rgb(70,70,70);
 }
-
 
 .button:active {
   border-style: inset;
