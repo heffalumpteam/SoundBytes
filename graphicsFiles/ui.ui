@@ -269,7 +269,7 @@
                         <property name="layout_style">start</property>
                         <child>
                           <object class="GtkButton" id="button1">
-                            <property name="label" translatable="yes">drum(shuffle)</property>
+                            <property name="label" translatable="yes">drum</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -284,7 +284,7 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button2">
-                            <property name="label" translatable="yes">clap(shuffle)</property>
+                            <property name="label" translatable="yes">clap</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -297,7 +297,7 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button3">
-                            <property name="label" translatable="yes">drums(shuffle)</property>
+                            <property name="label" translatable="yes">keys</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -310,7 +310,7 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button4">
-                            <property name="label" translatable="yes">drums(shuffle)</property>
+                            <property name="label" translatable="yes">bass</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
