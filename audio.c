@@ -136,8 +136,6 @@ void audio_playSampleOnce(Loop index)
   Mix_PlayChannel(-1, activeSamples[index].sample, 0);
 }
 
-//New function added by ADK on 29/11
-
 void audio_stop(void)
 {
   int i;

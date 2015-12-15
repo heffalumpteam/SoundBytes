@@ -147,7 +147,6 @@ void volumeControl(char *str_ptr, Loop index)
   if ((volume > 0) && (volume < 12)) {
     printf("atoi check: %d\n", volume);
     volume = ((128 / 11) * volume);
-//    audio_changeVolume(index, volume);
     audio_changeVolume(index, volume);
   }
   // Invalid no
