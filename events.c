@@ -15,6 +15,8 @@
 unsigned char beat = 0, bar = 0;
 unsigned int play = 0;
 
+GtkTextMark* textMarker;
+
 
 
 gboolean events_mainLoop(gpointer user_data){
@@ -55,16 +57,28 @@ void events_stop(void){
   play = 0;
 }
 
+void events_init(GtkSourceBuffer* sourcebuffer)
+{
+  GtkTextIter start;
+  gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(sourcebuffer), &start, 0);
+  textMarker = gtk_text_buffer_create_mark(GTK_TEXT_BUFFER(sourcebuffer), 
+                            NULL,  
+                            &start, 
+                           TRUE);
+}
+
 void events_launchText(GtkSourceBuffer *sourcebuffer){
   /*
 https://git.gnome.org/browse/gtk+/tree/demos/gtk-demo/textview.c
 
   */
   GtkTextIter start, end;
-  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(sourcebuffer), &start, 0);
+  // gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(sourcebuffer), &start, 0);
+  gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(sourcebuffer), &start, textMarker);
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(sourcebuffer), &end, 3);
   gtk_text_iter_forward_to_end (&end);
   text_receiveUpdate((char *)gtk_text_iter_get_text(&start, &end));
+  gtk_text_buffer_move_mark(GTK_TEXT_BUFFER(sourcebuffer), textMarker, &end);
 }
 
 void events_quitting(void){
