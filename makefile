@@ -36,3 +36,9 @@ run: $(NAME)
 
 clean:
 	rm $(NAME)
+
+debug:
+		gcc $(CFILES) -o $(NAME) $(CFLAGS) -g $(linuxGTK) $(linuxLIBS) $(NO_WARN_UNUSED)
+
+rundgb:
+	gdb $(NAME)
