@@ -18,12 +18,17 @@
   <definitions>
     <context id="keywords" style-ref="keyword">
       <keyword>add</keyword>
+      <keyword>by</keyword>
       <keyword>make</keyword>
       <keyword>louder</keyword>
       <keyword>faster</keyword>
       <keyword>do</keyword>
       <keyword>after</keyword>
       <keyword>stop</keyword>
+      <keyword>remote</keyword>
+      <keyword>start</keyword>
+      <keyword>set</keyword>
+      <keyword>volume</keyword>
     </context>
 
     <context id="comment" style-ref="comment">
@@ -42,10 +47,13 @@
     </context>
 
     <context id="types" style-ref="type">
-      <keyword>Drums</keyword>
-      <keyword>Synth</keyword>
       <keyword>Bass</keyword>
-      <keyword>drums</keyword>
+      <keyword>Clap</keyword>
+      <keyword>ClosedHiHat</keyword>
+      <keyword>Drums</keyword>
+      <keyword>Keys</keyword>
+      <keyword>OpenHiHat<keyword>
+      <keyword>Synth</keyword>
     </context>
 
     <context id="heffalump">
@@ -61,7 +69,3 @@
   </definitions>
 
 </language>
-
-
-
-
