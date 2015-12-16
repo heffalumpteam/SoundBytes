@@ -1,3 +1,6 @@
+#ifndef _audio
+#define _audio
+
 enum loop{
   DRUMS_SHUFFLE,
   DRUMS_CLAP,
@@ -25,3 +28,5 @@ void audio_removeLoop(Loop index);
 void audio_markLoopInactive(Loop index);
 void audio_stop(void);
 void audio_changeVolume(Loop index, int volume);
+
+#endif
