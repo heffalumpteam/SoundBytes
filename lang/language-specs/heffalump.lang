@@ -47,7 +47,7 @@
     </context>
 
     <context id="types" style-ref="type">
-      <keyword>Bass</keyword> 
+      <keyword>Bass</keyword>
       <keyword>Clap</keyword>
       <keyword>ClosedHiHat</keyword>
       <keyword>Drums</keyword>
@@ -69,7 +69,3 @@
   </definitions>
 
 </language>
-
-
-
-
