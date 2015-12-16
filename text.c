@@ -58,9 +58,9 @@ void text_receiveUpdate(char *input_string)
   while(string_pointer){
     printf("TEXT: Instruction %d Received: %s\n", i, string_pointer);
     instructionControl(string_pointer);
+    string_pointer = strtok(NULL, " \n.()");
+    i++;
   }
-  string_pointer = strtok(NULL, " \n.()");
-  i++;
 }
 
 void instructionControl(char *string_pointer)
