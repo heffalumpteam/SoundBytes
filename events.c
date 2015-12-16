@@ -61,10 +61,12 @@ void events_init(GtkSourceBuffer* sourcebuffer)
 {
   GtkTextIter start;
   gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(sourcebuffer), &start, 0);
-  textMarker = gtk_text_buffer_create_mark(GTK_TEXT_BUFFER(sourcebuffer), 
-                            NULL,  
-                            &start, 
+  textMarker = gtk_text_buffer_create_mark(GTK_TEXT_BUFFER(sourcebuffer),
+                            NULL,
+                            &start,
                            TRUE);
+
+  events_toggle();
 }
 
 void events_launchText(GtkSourceBuffer *sourcebuffer){
