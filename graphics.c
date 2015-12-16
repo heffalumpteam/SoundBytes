@@ -57,6 +57,8 @@ void attachFunctions(GtkBuilder *builder){
   GObject *window;
   GtkButton *button1;
   GtkButton *button2;
+  GtkButton *button3;
+  GtkButton *button4;
   GtkButton *runButton;
   guint timeoutID;
   GtkWidget *icon = gtk_image_new_from_file ("graphicsFiles/icons/start.png");
@@ -68,6 +70,8 @@ void attachFunctions(GtkBuilder *builder){
 
   button1 = setUpGtkButton(builder, "button1", events_buttonPress); /* Generic function, see below */
   button2 = setUpGtkButton(builder, "button2", events_buttonPress);
+  button3 = setUpGtkButton(builder, "button3", events_buttonPress); /* Generic function, see below */
+  button4 = setUpGtkButton(builder, "button4", events_buttonPress);
 
   runButton = (GtkButton *)gtk_builder_get_object (builder, "runButton");
   g_signal_connect (runButton, "clicked", G_CALLBACK (launchTextEvent), NULL);
