@@ -18,14 +18,26 @@ enum instruction{
 typedef enum instruction Instruction;
 
 void instructionControl(char *string_pointer);
-void addLoop(char *string_pointer);
-void removeLoop(char *string_pointer);
-void stopAllLoops(char *string_pointer);
-void setLoop(char *string_pointer);
-void setVolume(char *string_pointer, Loop index);
+void add_(char *string_pointer);
+void addDrum(char *string_pointer);
+void addBass(char *string_pointer);
+void addKeys(char *string_pointer);
+void remove_(char *string_pointer);
+void removeDrum(char *string_pointer);
+void removeBass(char *string_pointer);
+void removeKeys(char *string_pointer);
+void set_(char *string_pointer);
+void setDrumVolume(char *string_pointer);
+void setBassVolume(char *string_pointer);
+void setKeysVolume(char *string_pointer);
+void changeVolume(char *string_pointer, Loop index);
+void stopAll_(char *string_pointer);
 void passBack(char *input_string);
-int selectLoop(char *string);
 int selectInstruction(char *string);
+int selectInstrument(char *string);
+int selectDrumLoop(char *string);
+int selectBassLoop(char *string);
+int selectKeysLoop(char *string);
 
 void text_mainLoop(void)
 {
@@ -34,12 +46,19 @@ void text_mainLoop(void)
 
 void text_receiveButtonPress(char *input_string)
 {
-  int loop_to_play_once = selectLoop(input_string);
+  int loop_to_play_once, instrument_to_play_once;
+  instrument_to_play_once = selectInstrument(input_string);
+
+  switch(instrument_to_play_once){
+    case DRUM: loop_to_play_once = selectDrumLoop(input_string); break;
+    case BASS: loop_to_play_once = selectBassLoop(input_string); break;
+    case KEYS: loop_to_play_once = selectKeysLoop(input_string); break;
+  }
   switch(loop_to_play_once){
-    case DRUMS_SHUFFLE: audio_playSampleOnce(DRUMS_SHUFFLE); break;
-    case DRUMS_CLAP: audio_playSampleOnce(DRUMS_CLAP); break;
-    case BASS: audio_playSampleOnce(BASS); break;
-    case KEYS: audio_playSampleOnce(KEYS); break;
+    case DRUM_KICK: audio_playSampleOnce(DRUM_KICK); break;
+    case DRUM_CLAP: audio_playSampleOnce(DRUM_CLAP); break;
+    case BASS_1: audio_playSampleOnce(BASS_1); break;
+    case KEYS_1: audio_playSampleOnce(KEYS_1); break;
   }
 }
 
@@ -69,82 +88,215 @@ void instructionControl(char *string_pointer)
   int instruction_to_execute = selectInstruction(string_pointer);
 
   switch(instruction_to_execute){
-    case ADD: addLoop(string_pointer); break;
-    case REMOVE: removeLoop(string_pointer); break;
-    case SET: setLoop(string_pointer); break;
-    case STOP: stopAllLoops(string_pointer); break;
+    case ADD: add_(string_pointer); break;
+    case REMOVE: remove_(string_pointer); break;
+    case SET: set_(string_pointer); break;
+    case STOP: stopAll_(string_pointer); break;
   }
   input_string = strtok(NULL, "");
   passBack(input_string);
 }
 
-void addLoop(char *string_pointer)
+void add_(char *string_pointer)
 {
-  int loop_to_add;
+  int instrument_to_add;
   string_pointer = strtok(NULL, " \n.()");
 
   if(string_pointer){
     printf("TEXT: Add function: Instrument: %s\n", string_pointer);
 
-    loop_to_add = selectLoop(string_pointer);
-    printf("loop_to_add: %d\n", loop_to_add);
+    instrument_to_add = selectInstrument(string_pointer);
+    printf("instrument_to_add : %d\n", instrument_to_add );
 
-    switch(loop_to_add) {
-      case DRUMS_SHUFFLE: audio_addLoop(DRUMS_SHUFFLE); break;
-      case DRUMS_CLAP: audio_addLoop(DRUMS_CLAP); break;
-      case BASS: audio_addLoop(BASS); break;
-      case KEYS: audio_addLoop(KEYS); break;
+    switch(instrument_to_add) {
+      case DRUM: addDrum(string_pointer); break;
+      case BASS: addBass(string_pointer); break;
+      case KEYS: addKeys(string_pointer); break;
     }
   }
 }
 
-void removeLoop(char *string_pointer)
+void addDrum(char *string_pointer)
 {
-  int loop_to_remove;
+  int drum_type_to_add;
+  string_pointer = strtok(NULL, " \n.()");
+
+  if(string_pointer){
+    drum_type_to_add = selectDrumLoop(string_pointer);
+
+    switch(drum_type_to_add) {
+      case DRUM_KICK: audio_addLoop(DRUM_KICK); break;
+      case DRUM_CLAP: audio_addLoop(DRUM_CLAP); break;
+    }
+  }
+}
+
+void addBass(char *string_pointer)
+{
+  int bass_type_to_add;
+  string_pointer = strtok(NULL, " \n.()");
+
+  if(string_pointer){
+    bass_type_to_add = selectBassLoop(string_pointer);
+
+    switch(bass_type_to_add) {
+      case BASS_1: audio_addLoop(BASS_1); break;
+    }
+  }
+}
+
+void addKeys(char *string_pointer)
+{
+  int keys_type_to_add;
+  string_pointer = strtok(NULL, " \n.()");
+
+  if(string_pointer){
+    keys_type_to_add = selectKeysLoop(string_pointer);
+
+    switch(keys_type_to_add) {
+      case KEYS_1: audio_addLoop(KEYS_1); break;
+    }
+  }
+}
+
+void remove_(char *string_pointer)
+{
+  int instrument_to_remove;
   string_pointer = strtok(NULL, " \n.()");
 
   if(string_pointer){
     printf("TEXT: Remove function: Instrument: %s\n", string_pointer);
 
-    loop_to_remove = selectLoop(string_pointer);
-    printf("loop_to_remove: %d\n", loop_to_remove);
+    instrument_to_remove = selectInstrument(string_pointer);
+    printf("instrument_to_remove: %d\n", instrument_to_remove);
 
-    switch(loop_to_remove) {
-      case DRUMS_SHUFFLE: audio_markLoopInactive(DRUMS_SHUFFLE); break;
-      case DRUMS_CLAP: audio_markLoopInactive(DRUMS_CLAP); break;
-      case BASS: audio_markLoopInactive(BASS); break;
-      case KEYS: audio_markLoopInactive(KEYS); break;
+    switch(instrument_to_remove) {
+      case DRUM: removeDrum(string_pointer); break;
+      case BASS: removeBass(string_pointer); break;
+      case KEYS: removeKeys(string_pointer); break;
     }
   }
 }
 
-void setLoop(char *string_pointer)
+void removeDrum(char *string_pointer)
 {
-  int set_loop_volume;
+  int drum_type_to_remove;
+  string_pointer = strtok(NULL, " \n.()");
+
+  if(string_pointer){
+    drum_type_to_remove = selectDrumLoop(string_pointer);
+
+    switch(drum_type_to_remove) {
+      case DRUM_KICK: audio_markLoopInactive(DRUM_KICK); break;
+      case DRUM_CLAP: audio_markLoopInactive(DRUM_CLAP); break;
+    }
+  }
+}
+
+void removeBass(char *string_pointer)
+{
+  int bass_type_to_remove;
+  string_pointer = strtok(NULL, " \n.()");
+
+  if(string_pointer){
+    bass_type_to_remove = selectBassLoop(string_pointer);
+
+    switch(bass_type_to_remove) {
+      case BASS_1: audio_markLoopInactive(BASS_1); break;
+    }
+  }
+}
+
+void removeKeys(char *string_pointer)
+{
+  int keys_type_to_remove;
+  string_pointer = strtok(NULL, " \n.()");
+
+  if(string_pointer){
+    keys_type_to_remove = selectKeysLoop(string_pointer);
+
+    switch(keys_type_to_remove) {
+      case KEYS_1: audio_markLoopInactive(KEYS_1); break;
+    }
+  }
+}
+
+void set_(char *string_pointer)
+{
+  int set_instrument_volume;
   char *temp;
   string_pointer = strtok(NULL, " \n.()");
 
   if(string_pointer){
     // temp now points to "volume".
     temp = strtok(NULL, " \n.()");
+    temp = strtok(NULL, " \n.()");
+    printf("temp:%s\n", temp);
 
     if (strcmp(temp, "volume") == 0){
-      set_loop_volume = selectLoop(string_pointer);
+      printf("string b4 instrument switch in set: %s\n", string_pointer);
+      set_instrument_volume = selectInstrument(string_pointer);
 
       //switch only compares earlier pointer - which hopefully
       //points to the instrument
-      switch(set_loop_volume){
-        case DRUMS_SHUFFLE: setVolume(string_pointer, DRUMS_SHUFFLE); break;
-        case DRUMS_CLAP: setVolume(string_pointer, DRUMS_CLAP); break;
-        case BASS: setVolume(string_pointer, BASS); break;
-        case KEYS: setVolume(string_pointer, KEYS); break;
+      switch(set_instrument_volume){
+        case DRUM: setDrumVolume(string_pointer); break;
+        case BASS: setBassVolume(string_pointer); break;
+        case KEYS: setKeysVolume(string_pointer); break;
       }
     }
   }
 }
 
+void setDrumVolume(char *string_pointer)
+{
+  int drum_type_to_set_volume;
+  printf("receieved strng in setDrumVolume: %s\n", string_pointer);
+  //Strtok here doesn't get (kick) or any loop types in brackets. Have
+  //tried changing delimiters as well as strtok'ing again but no luck...
+  string_pointer = strtok(NULL, " \n.()");
 
-void setVolume(char *string_pointer, Loop index)
+  printf("strng in setDrumVolume b4 switch: %s\n", string_pointer);
+
+  if(string_pointer){
+    drum_type_to_set_volume = selectDrumLoop(string_pointer);
+
+    switch(drum_type_to_set_volume) {
+      case DRUM_KICK: changeVolume(string_pointer, DRUM_KICK); break;
+      case DRUM_CLAP: changeVolume(string_pointer, DRUM_CLAP); break;
+    }
+  }
+}
+
+void setBassVolume(char *string_pointer)
+{
+  int bass_type_to_set_volume;
+  string_pointer = strtok(NULL, " \n.()");
+
+  if(string_pointer){
+    bass_type_to_set_volume = selectBassLoop(string_pointer);
+
+    switch(bass_type_to_set_volume) {
+      case BASS_1: changeVolume(string_pointer, BASS_1); break;
+    }
+  }
+}
+
+void setKeysVolume(char *string_pointer)
+{
+  int keys_type_to_set_volume;
+  string_pointer = strtok(NULL, " \n.()");
+
+  if(string_pointer){
+    keys_type_to_set_volume = selectKeysLoop(string_pointer);
+
+    switch(keys_type_to_set_volume) {
+      case KEYS_1: changeVolume(string_pointer, KEYS_1); break;
+    }
+  }
+}
+
+void changeVolume(char *string_pointer, Loop index)
 {
   int i, volume;
   char *input_string;
@@ -174,7 +326,7 @@ void setVolume(char *string_pointer, Loop index)
   }
 }
 
-void stopAllLoops(char *string_pointer)
+void stopAll_(char *string_pointer)
 {
   if(string_pointer){
     audio_stop();
@@ -188,27 +340,6 @@ void passBack(char *input_string)
     printf("PASSED BACK %s\n", input_string);
     text_receiveUpdate(input_string);
   }
-}
-
-int selectLoop(char *string)
-{
-  if(strcmp(string, "drum") == 0){
-     printf("TEXT: drum\n");
-     return DRUMS_SHUFFLE;
-  }
-  if(strcmp(string, "clap") == 0){
-     printf("TEXT: clap\n");
-     return DRUMS_CLAP;
-  }
-  if(strcmp(string, "bass") == 0){
-     printf("TEXT: bass\n");
-     return BASS;
-  }
-  if(strcmp(string, "keys") == 0){
-     printf("TEXT: keys\n");
-     return KEYS;
-  }
-  return -1;
 }
 
 int selectInstruction(char *string)
@@ -228,6 +359,54 @@ int selectInstruction(char *string)
   if(strcmp(string, "stop") == 0){
     printf("TEXT: stop\n");
     return STOP;
+  }
+  return -1;
+}
+
+int selectInstrument(char *string)
+{
+  if(strcmp(string, "drum") == 0){
+     printf("TEXT: drum\n");
+     return DRUM;
+  }
+  if(strcmp(string, "bass") == 0){
+     printf("TEXT: bass\n");
+     return BASS;
+  }
+  if(strcmp(string, "keys") == 0){
+     printf("TEXT: keys\n");
+     return KEYS;
+  }
+  return -1;
+}
+
+int selectDrumLoop(char *string)
+{
+  if(strcmp(string, "kick") == 0){
+     printf("TEXT: drum(kick)\n");
+     return DRUM_KICK;
+  }
+  if(strcmp(string, "clap") == 0){
+     printf("TEXT: drum(clap)\n");
+     return DRUM_CLAP;
+  }
+  return -1;
+}
+
+int selectBassLoop(char *string)
+{
+  if(strcmp(string, "1") == 0){
+     printf("TEXT: 1\n");
+     return BASS_1;
+  }
+  return -1;
+}
+
+int selectKeysLoop(char *string)
+{
+  if(strcmp(string, "1") == 0){
+     printf("TEXT: 1\n");
+     return KEYS_1;
   }
   return -1;
 }
