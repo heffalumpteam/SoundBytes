@@ -19,7 +19,10 @@
 #define NUMAUDIOCHANNELS 2
 #define BUFFSIZE 2048
 #define MAXNUMBEROFSAMPLES 50
-#define MAXSAMPLENAMELENGTH 30
+#define MAXSAMPLEINFOLENGTH 30
+#define MAXFILEINFOTOKENS 2
+#define FILENAME 0
+#define LOOPLENGTH 1
 #define DEFAULTVOLUME 32
 #define DEFAULTCHANNEL INT_MAX
 #define BEATS_IN_A_BAR 4
@@ -44,12 +47,14 @@ struct sample
 typedef struct sample Sample;
 
 Sample loadSample(Loop index);
-void populateFilePathsArray(char* sampleFilePaths[]);
+void readSampleInfo();
+void tokenizeSampleInfo(char *sampleInfo, char *tokens[]);
 void addToActiveArray(Loop index, Sample sample);
 void setLoopActiveFlag(Loop index, bool flag);
 
 /* Will hold all the paths to the samples for easy reference during runtime. Thoughts? */
 char* sampleFilePaths[MAXNUMBEROFSAMPLES];
+int sampleLoopLengths[MAXNUMBEROFSAMPLES];
 Sample activeSamples[MAXNUMBEROFSAMPLES] = {{NULL, DEFAULTCHANNEL, false, 1, 0,-1}};
 int channel1, channel2, abeat = 0, abar = 0;
 
@@ -63,7 +68,7 @@ void audio_init(void){
 	if( Mix_OpenAudio( SAMPLERATE, MIX_DEFAULT_FORMAT, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ){
     fprintf(stderr, "Audio: SDL_mixer Error: %s\n", Mix_GetError());
   }
-  populateFilePathsArray(sampleFilePaths);
+	readSampleInfo();
 }
 
 void audio_mainLoop(void){
@@ -120,6 +125,7 @@ Sample loadSample(Loop index) {
 //for some reason setting channel to 0 doesn't work
   Sample sample = {NULL, DEFAULTCHANNEL, false, 1, 0, -1}; //must read in looplength and repeatsleft from the file/user input
   sample.sample = Mix_LoadWAV(sampleFilePaths[index]);
+	sample.loopLength = sampleLoopLengths[index];
   if (!sample.sample){
     fprintf(stderr, "Audio: Failed to load sample \"%s\"!\n", sampleFilePaths[index]);
   }
@@ -193,23 +199,33 @@ void audio_changeVolume(Loop index, int volume)
   Mix_Volume(activeSamples[index].channel, volume);
 }
 
-void populateFilePathsArray(char* sampleFilePaths[])
+void readSampleInfo()
 {
-  char samplePath[MAXSAMPLENAMELENGTH];
-  FILE* sampleNamesFile;
-  int ctr = 0;
+  FILE* sampleInfoFile;
+	char sampleInfo[MAXSAMPLEINFOLENGTH];
+	char *tokens[MAXFILEINFOTOKENS];
+	int i = 0;
 
-  sampleNamesFile = fopen("sampleFilePaths.txt", "r");
+	sampleInfoFile = fopen("sampleFilePaths.txt", "r");
+	if(!sampleInfoFile) {
+		fprintf(stderr, "Could not open sample information file.\n");
+	}
+	while(fgets(sampleInfo, MAXSAMPLEINFOLENGTH, sampleInfoFile) != NULL) {
+		tokenizeSampleInfo(sampleInfo, tokens);
+		sampleFilePaths[i] = malloc(MAXSAMPLEINFOLENGTH);
+    strcpy(sampleFilePaths[i], tokens[FILENAME]);
+		sampleLoopLengths[i] = atoi(tokens[LOOPLENGTH]);
+		i++;
+	}
+	fclose(sampleInfoFile);
+}
 
-  while(fgets(samplePath, MAXSAMPLENAMELENGTH, sampleNamesFile) != NULL)
-  {
-    if (samplePath[strlen(samplePath) - 1] == '\n')
-    {
-      samplePath[strlen(samplePath) - 1] = '\0';
-    }
+void tokenizeSampleInfo(char *sampleInfo, char *tokens[])
+{
+	int i = 0;
 
-    sampleFilePaths[ctr] = malloc(MAXSAMPLENAMELENGTH);
-    strcpy(sampleFilePaths[ctr], samplePath);
-    ctr++;
+  tokens[i++] = strtok(sampleInfo, " ");
+  while(i < MAXFILEINFOTOKENS) {
+    tokens[i++] = strtok(NULL, " ");
   }
 }
