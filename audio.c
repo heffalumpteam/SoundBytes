@@ -172,7 +172,7 @@ void audio_playSampleOnce(Loop index)
 	Sample buttonSound = {NULL, DEFAULTCHANNEL, false, 1, 0, 1};
 	if(!buttonSound.sample) {
 		buttonSound = loadSample(index);
-		buttonSound.repeatsLeft = 2;
+		buttonSound.repeatsLeft = 1;
 		activeSamples[MAXNUMBEROFSAMPLES-1] = buttonSound;
 		setLoopActiveFlag(MAXNUMBEROFSAMPLES-1, true);
 	}
