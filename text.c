@@ -46,7 +46,7 @@ void text_mainLoop(void)
 
 void text_receiveButtonPress(char *input_string)
 {
-  int loop_to_play_once, instrument_to_play_once;
+  int instrument_to_play_once, loop_to_play_once;
   instrument_to_play_once = selectInstrument(input_string);
 
   switch(instrument_to_play_once){
