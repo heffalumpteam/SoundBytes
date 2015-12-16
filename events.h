@@ -1,3 +1,6 @@
+#ifndef _events
+#define _events
+
 #define NUM_MS 500
 
 gboolean events_mainLoop(gpointer user_data);
@@ -11,3 +14,4 @@ void events_launchText(GtkSourceBuffer *sourcebuffer);
 void events_buttonPress(GtkButton *);
 void events_init(GtkSourceBuffer* sourcebuffer);
 
+#endif
