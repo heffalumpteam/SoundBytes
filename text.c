@@ -94,6 +94,14 @@ void addRemoveStopLoop(char *str_ptr){
         printf("TEXT: clap\n");
         audio_markLoopInactive(DRUMS_CLAP);
       }
+      if(strcmp(str_ptr, "bass") == 0){
+         printf("TEXT: bass\n");
+         audio_markLoopInactive(BASS);
+      }
+      if(strcmp(str_ptr, "keys") == 0){
+         printf("TEXT: keys\n");
+         audio_markLoopInactive(KEYS);
+      }
     }
   }
   if (strcmp(str_ptr, "stop") == 0){
