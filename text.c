@@ -18,9 +18,9 @@ enum instruction{
 typedef enum instruction Instruction;
 
 void instructionControl(char *string_pointer);
-void addLoop(char *string);
-void removeLoop(char *string);
-void stopAllLoops(char *string);
+void addLoop(char *string_pointer);
+void removeLoop(char *string_pointer);
+void stopAllLoops(char *string_pointer);
 void setLoop(char *string_pointer);
 void setVolume(char *string_pointer, Loop index);
 void passBack(char *input_string);
@@ -69,37 +69,24 @@ void instructionControl(char *string_pointer)
   int instruction_to_execute = selectInstruction(string_pointer);
 
   switch(instruction_to_execute){
-    case ADD:
-      string_pointer = strtok(NULL, " \n.()");
-      addLoop(string_pointer);
-    break;
-
-    case REMOVE:
-      string_pointer = strtok(NULL, " \n.()");
-      removeLoop(string_pointer);
-    break;
-
-    case SET:
-      string_pointer = strtok(NULL, " \n.()");
-      setLoop(string_pointer);
-    break;
-
-    case STOP:
-      stopAllLoops(string_pointer);
-    break;
+    case ADD: addLoop(string_pointer); break;
+    case REMOVE: removeLoop(string_pointer); break;
+    case SET: setLoop(string_pointer); break;
+    case STOP: stopAllLoops(string_pointer); break;
   }
-    input_string = strtok(NULL, "");
-    passBack(input_string);
+  input_string = strtok(NULL, "");
+  passBack(input_string);
 }
 
-void addLoop(char *string)
+void addLoop(char *string_pointer)
 {
   int loop_to_add;
+  string_pointer = strtok(NULL, " \n.()");
 
-  if(string){
-    printf("TEXT: Add function: Instrument: %s\n", string);
+  if(string_pointer){
+    printf("TEXT: Add function: Instrument: %s\n", string_pointer);
 
-    loop_to_add = selectLoop(string);
+    loop_to_add = selectLoop(string_pointer);
     printf("loop_to_add: %d\n", loop_to_add);
 
     switch(loop_to_add) {
@@ -111,14 +98,15 @@ void addLoop(char *string)
   }
 }
 
-void removeLoop(char *string)
+void removeLoop(char *string_pointer)
 {
   int loop_to_remove;
+  string_pointer = strtok(NULL, " \n.()");
 
-  if(string){
-    printf("TEXT: Remove function: Instrument: %s\n", string);
+  if(string_pointer){
+    printf("TEXT: Remove function: Instrument: %s\n", string_pointer);
 
-    loop_to_remove = selectLoop(string);
+    loop_to_remove = selectLoop(string_pointer);
     printf("loop_to_remove: %d\n", loop_to_remove);
 
     switch(loop_to_remove) {
@@ -134,6 +122,8 @@ void setLoop(char *string_pointer)
 {
   int set_loop_volume;
   char *temp;
+  string_pointer = strtok(NULL, " \n.()");
+
   if(string_pointer){
     // temp now points to "volume".
     temp = strtok(NULL, " \n.()");
@@ -184,9 +174,9 @@ void setVolume(char *string_pointer, Loop index)
   }
 }
 
-void stopAllLoops(char *string)
+void stopAllLoops(char *string_pointer)
 {
-  if(string){
+  if(string_pointer){
     audio_stop();
     printf("TEXT: All loops stopped.\n");
   }
