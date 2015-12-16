@@ -140,37 +140,37 @@ void removeLoop(char *string)
 void setLoop(char *string_pointer)
 {
   int set_loop_volume;
+  char *temp;
   if(string_pointer){
-    set_loop_volume = selectLoop(string_pointer);
+    // temp now points to "volume".
+    temp = strtok(NULL, " \n.()");
 
-    switch(set_loop_volume){
-      case DRUMS_SHUFFLE:
-        string_pointer = strtok(NULL, " \n.()");
-        if (strcmp(string_pointer, "volume") == 0){
+    if (strcmp(temp, "volume") == 0){
+      set_loop_volume = selectLoop(string_pointer);
+
+      //switch only compares earlier pointer - which hopefully
+      //points to the instrument
+      switch(set_loop_volume){
+        case DRUMS_SHUFFLE:
+          string_pointer = strtok(NULL, " \n.()");
           setVolume(string_pointer, DRUMS_SHUFFLE);
-        }
-      break;
+        break;
 
-      case DRUMS_CLAP:
-        string_pointer = strtok(NULL, " \n.()");
-        if (strcmp(string_pointer, "volume") == 0){
+        case DRUMS_CLAP:
+          string_pointer = strtok(NULL, " \n.()");
           setVolume(string_pointer, DRUMS_CLAP);
-        }
-      break;
+        break;
 
-      case BASS:
-        string_pointer = strtok(NULL, " \n.()");
-        if (strcmp(string_pointer, "volume") == 0){
+        case BASS:
+          string_pointer = strtok(NULL, " \n.()");
           setVolume(string_pointer, BASS);
-        }
-      break;
+        break;
 
-      case KEYS:
-        string_pointer = strtok(NULL, " \n.()");
-        if (strcmp(string_pointer, "volume") == 0){
+        case KEYS:
+          string_pointer = strtok(NULL, " \n.()");
           setVolume(string_pointer, KEYS);
-        }
-      break;
+        break;
+      }
     }
   }
 }
