@@ -220,8 +220,8 @@ void passBack(char *input_string)
 
 int selectLoop(char *string)
 {
-  if(strcmp(string, "drums") == 0){
-     printf("TEXT: drums\n");
+  if(strcmp(string, "drum") == 0){
+     printf("TEXT: drum\n");
      return DRUMS_SHUFFLE;
   }
   if(strcmp(string, "clap") == 0){
