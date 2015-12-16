@@ -17,7 +17,7 @@ enum instruction{
 };
 typedef enum instruction Instruction;
 
-void instructionControl(char *string_pointer, Instruction execute);
+void instructionControl(char *string_pointer);
 void addLoop(char *string);
 void removeLoop(char *string);
 void stopAllLoops(char *string);
@@ -57,24 +57,18 @@ void text_receiveUpdate(char *input_string)
 
   while(string_pointer){
     printf("TEXT: Instruction %d Received: %s\n", i, string_pointer);
-
-    instruction_to_execute = selectInstruction(string_pointer);
-
-    switch(instruction_to_execute){
-      case ADD: instructionControl(string_pointer, ADD); break;
-      case REMOVE: instructionControl(string_pointer, REMOVE); break;
-      case SET: instructionControl(string_pointer, SET); break;
-      case STOP: instructionControl(string_pointer, STOP); break;
-    }
-    string_pointer = strtok(NULL, " \n.()");
-    i++;
+    instructionControl(string_pointer);
+  }
+  string_pointer = strtok(NULL, " \n.()");
+  i++;
   }
 }
 
-void instructionControl(char *string_pointer, Instruction execute)
+void instructionControl(char *string_pointer)
 {
   char *input_string;
-  switch(execute){
+  int instruction_to_execute = selectInstruction(string_pointer);
+  switch(instruction_to_execute){
     case ADD:
       string_pointer = strtok(NULL, " \n.()");
       printf("\tstring to pass into add: %s\n", string_pointer);
