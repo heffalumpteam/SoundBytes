@@ -137,50 +137,44 @@ void removeLoop(char *string)
   }
 }
 
-void stopAllLoops(char *string)
-{
-  if(string){
-    audio_stop();
-    printf("TEXT: All loops stopped.\n");
-  }
-}
-
 void setLoop(char *string_pointer)
 {
   int set_loop_volume;
-
   if(string_pointer){
-    // Could eventually make the volume stuff a separate function,
-    // if we create more set commands.
-    if(strcmp(string_pointer, "volume") == 0){
-      printf("Set function: Instrument: %s\n", string_pointer);
-      set_loop_volume = selectLoop(string_pointer);
-      printf("set_loop_volume: %d\n", set_loop_volume);
+    set_loop_volume = selectLoop(string_pointer);
 
-      switch(set_loop_volume){
-        case DRUMS_SHUFFLE:
-          string_pointer = strtok(NULL, " \n.()");
+    switch(set_loop_volume){
+      case DRUMS_SHUFFLE:
+        string_pointer = strtok(NULL, " \n.()");
+        if (strcmp(string_pointer, "volume") == 0){
           setVolume(string_pointer, DRUMS_SHUFFLE);
-        break;
+        }
+      break;
 
-        case DRUMS_CLAP:
-          string_pointer = strtok(NULL, " \n.()");
+      case DRUMS_CLAP:
+        string_pointer = strtok(NULL, " \n.()");
+        if (strcmp(string_pointer, "volume") == 0){
           setVolume(string_pointer, DRUMS_CLAP);
-        break;
+        }
+      break;
 
-        case BASS:
-          string_pointer = strtok(NULL, " \n.()");
+      case BASS:
+        string_pointer = strtok(NULL, " \n.()");
+        if (strcmp(string_pointer, "volume") == 0){
           setVolume(string_pointer, BASS);
-        break;
+        }
+      break;
 
-        case KEYS:
-          string_pointer = strtok(NULL, " \n.()");
+      case KEYS:
+        string_pointer = strtok(NULL, " \n.()");
+        if (strcmp(string_pointer, "volume") == 0){
           setVolume(string_pointer, KEYS);
-        break;
-      }
+        }
+      break;
     }
   }
 }
+
 
 void setVolume(char *string_pointer, Loop index)
 {
@@ -209,6 +203,14 @@ void setVolume(char *string_pointer, Loop index)
     printf("Next time please enter a number between 0 and 11!\n");
     input_string = strtok(NULL, "");
     passBack(input_string);
+  }
+}
+
+void stopAllLoops(char *string)
+{
+  if(string){
+    audio_stop();
+    printf("TEXT: All loops stopped.\n");
   }
 }
 
@@ -251,13 +253,13 @@ int selectInstruction(char *string)
     printf("TEXT: remove\n");
     return REMOVE;
   }
-  if(strcmp(string, "stop") == 0){
-    printf("TEXT: stop\n");
-    return STOP;
-  }
   if(strcmp(string, "set") == 0){
     printf("TEXT: set\n");
     return SET;
+  }
+  if(strcmp(string, "stop") == 0){
+    printf("TEXT: stop\n");
+    return STOP;
   }
   return -1;
 }
