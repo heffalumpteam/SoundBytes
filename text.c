@@ -45,7 +45,7 @@ void text_receiveButtonPress(char *input_string)
 
 void text_receiveUpdate(char *input_string)
 {
-  int j, instruction_to_execute;
+  int j;
   int i = 1;
   char* string_pointer;
 
@@ -61,17 +61,16 @@ void text_receiveUpdate(char *input_string)
   }
   string_pointer = strtok(NULL, " \n.()");
   i++;
-  }
 }
 
 void instructionControl(char *string_pointer)
 {
   char *input_string;
   int instruction_to_execute = selectInstruction(string_pointer);
+
   switch(instruction_to_execute){
     case ADD:
       string_pointer = strtok(NULL, " \n.()");
-      printf("\tstring to pass into add: %s\n", string_pointer);
       addLoop(string_pointer);
     break;
 
@@ -145,21 +144,10 @@ void setLoop(char *string_pointer)
       //switch only compares earlier pointer - which hopefully
       //points to the instrument
       switch(set_loop_volume){
-        case DRUMS_SHUFFLE:
-          setVolume(string_pointer, DRUMS_SHUFFLE);
-        break;
-
-        case DRUMS_CLAP:
-          setVolume(string_pointer, DRUMS_CLAP);
-        break;
-
-        case BASS:
-          setVolume(string_pointer, BASS);
-        break;
-
-        case KEYS:
-          setVolume(string_pointer, KEYS);
-        break;
+        case DRUMS_SHUFFLE: setVolume(string_pointer, DRUMS_SHUFFLE); break;
+        case DRUMS_CLAP: setVolume(string_pointer, DRUMS_CLAP); break;
+        case BASS: setVolume(string_pointer, BASS); break;
+        case KEYS: setVolume(string_pointer, KEYS); break;
       }
     }
   }
