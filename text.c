@@ -152,22 +152,18 @@ void setLoop(char *string_pointer)
       //points to the instrument
       switch(set_loop_volume){
         case DRUMS_SHUFFLE:
-          string_pointer = strtok(NULL, " \n.()");
           setVolume(string_pointer, DRUMS_SHUFFLE);
         break;
 
         case DRUMS_CLAP:
-          string_pointer = strtok(NULL, " \n.()");
           setVolume(string_pointer, DRUMS_CLAP);
         break;
 
         case BASS:
-          string_pointer = strtok(NULL, " \n.()");
           setVolume(string_pointer, BASS);
         break;
 
         case KEYS:
-          string_pointer = strtok(NULL, " \n.()");
           setVolume(string_pointer, KEYS);
         break;
       }
