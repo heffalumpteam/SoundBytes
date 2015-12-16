@@ -9,14 +9,6 @@ enum loop{
 };
 typedef enum loop Loop;
 
-enum instruction{
-  START, /*Starting playback*/
-  STOP,  /*Stop playback*/
-  ADD,   /*Add a loop*/
-  REMOVE /*Stop a loop*/
-};
-typedef enum instruction Instruction;
-
 void audio_init(void);
 void audio_close(void);
 void audio_mainLoop(void);
