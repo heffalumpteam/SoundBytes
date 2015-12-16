@@ -17,10 +17,10 @@ enum instruction{
 };
 typedef enum instruction Instruction;
 
-void instructionControl(char *string_pointer, Instruction execute);
-void addLoop(char *string);
-void removeLoop(char *string);
-void stopAllLoops(char *string);
+void instructionControl(char *string_pointer);
+void addLoop(char *string_pointer);
+void removeLoop(char *string_pointer);
+void stopAllLoops(char *string_pointer);
 void setLoop(char *string_pointer);
 void setVolume(char *string_pointer, Loop index);
 void passBack(char *input_string);
@@ -45,7 +45,7 @@ void text_receiveButtonPress(char *input_string)
 
 void text_receiveUpdate(char *input_string)
 {
-  int j, instruction_to_execute;
+  int j;
   int i = 1;
   char* string_pointer;
 
@@ -57,56 +57,36 @@ void text_receiveUpdate(char *input_string)
 
   while(string_pointer){
     printf("TEXT: Instruction %d Received: %s\n", i, string_pointer);
-
-    instruction_to_execute = selectInstruction(string_pointer);
-
-    switch(instruction_to_execute){
-      case ADD: instructionControl(string_pointer, ADD); break;
-      case REMOVE: instructionControl(string_pointer, REMOVE); break;
-      case SET: instructionControl(string_pointer, SET); break;
-      case STOP: instructionControl(string_pointer, STOP); break;
-    }
+    instructionControl(string_pointer);
     string_pointer = strtok(NULL, " \n.()");
     i++;
   }
 }
 
-void instructionControl(char *string_pointer, Instruction execute)
+void instructionControl(char *string_pointer)
 {
   char *input_string;
-  switch(execute){
-    case ADD:
-      string_pointer = strtok(NULL, " \n.()");
-      printf("\tstring to pass into add: %s\n", string_pointer);
-      addLoop(string_pointer);
-    break;
+  int instruction_to_execute = selectInstruction(string_pointer);
 
-    case REMOVE:
-      string_pointer = strtok(NULL, " \n.()");
-      removeLoop(string_pointer);
-    break;
-
-    case SET:
-      string_pointer = strtok(NULL, " \n.()");
-      setLoop(string_pointer);
-    break;
-
-    case STOP:
-      stopAllLoops(string_pointer);
-    break;
+  switch(instruction_to_execute){
+    case ADD: addLoop(string_pointer); break;
+    case REMOVE: removeLoop(string_pointer); break;
+    case SET: setLoop(string_pointer); break;
+    case STOP: stopAllLoops(string_pointer); break;
   }
-    input_string = strtok(NULL, "");
-    passBack(input_string);
+  input_string = strtok(NULL, "");
+  passBack(input_string);
 }
 
-void addLoop(char *string)
+void addLoop(char *string_pointer)
 {
   int loop_to_add;
+  string_pointer = strtok(NULL, " \n.()");
 
-  if(string){
-    printf("TEXT: Add function: Instrument: %s\n", string);
+  if(string_pointer){
+    printf("TEXT: Add function: Instrument: %s\n", string_pointer);
 
-    loop_to_add = selectLoop(string);
+    loop_to_add = selectLoop(string_pointer);
     printf("loop_to_add: %d\n", loop_to_add);
 
     switch(loop_to_add) {
@@ -118,14 +98,15 @@ void addLoop(char *string)
   }
 }
 
-void removeLoop(char *string)
+void removeLoop(char *string_pointer)
 {
   int loop_to_remove;
+  string_pointer = strtok(NULL, " \n.()");
 
-  if(string){
-    printf("TEXT: Remove function: Instrument: %s\n", string);
+  if(string_pointer){
+    printf("TEXT: Remove function: Instrument: %s\n", string_pointer);
 
-    loop_to_remove = selectLoop(string);
+    loop_to_remove = selectLoop(string_pointer);
     printf("loop_to_remove: %d\n", loop_to_remove);
 
     switch(loop_to_remove) {
@@ -141,6 +122,8 @@ void setLoop(char *string_pointer)
 {
   int set_loop_volume;
   char *temp;
+  string_pointer = strtok(NULL, " \n.()");
+
   if(string_pointer){
     // temp now points to "volume".
     temp = strtok(NULL, " \n.()");
@@ -151,21 +134,10 @@ void setLoop(char *string_pointer)
       //switch only compares earlier pointer - which hopefully
       //points to the instrument
       switch(set_loop_volume){
-        case DRUMS_SHUFFLE:
-          setVolume(string_pointer, DRUMS_SHUFFLE);
-        break;
-
-        case DRUMS_CLAP:
-          setVolume(string_pointer, DRUMS_CLAP);
-        break;
-
-        case BASS:
-          setVolume(string_pointer, BASS);
-        break;
-
-        case KEYS:
-          setVolume(string_pointer, KEYS);
-        break;
+        case DRUMS_SHUFFLE: setVolume(string_pointer, DRUMS_SHUFFLE); break;
+        case DRUMS_CLAP: setVolume(string_pointer, DRUMS_CLAP); break;
+        case BASS: setVolume(string_pointer, BASS); break;
+        case KEYS: setVolume(string_pointer, KEYS); break;
       }
     }
   }
@@ -202,9 +174,9 @@ void setVolume(char *string_pointer, Loop index)
   }
 }
 
-void stopAllLoops(char *string)
+void stopAllLoops(char *string_pointer)
 {
-  if(string){
+  if(string_pointer){
     audio_stop();
     printf("TEXT: All loops stopped.\n");
   }
