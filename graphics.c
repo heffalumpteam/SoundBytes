@@ -57,7 +57,6 @@ void attachFunctions(GtkBuilder *builder){
   GObject *window;
   GtkButton *button1;
   GtkButton *button2;
-  GtkButton *playtoggle;
   GtkButton *runButton;
   guint timeoutID;
   GtkWidget *icon = gtk_image_new_from_file ("graphicsFiles/icons/start.png");
@@ -69,9 +68,6 @@ void attachFunctions(GtkBuilder *builder){
 
   button1 = setUpGtkButton(builder, "button1", events_buttonPress); /* Generic function, see below */
   button2 = setUpGtkButton(builder, "button2", events_buttonPress);
-
-  playtoggle = (GtkButton *)gtk_builder_get_object (builder, "playToggle");
-  g_signal_connect (playtoggle, "clicked", G_CALLBACK (events_toggle), NULL);
 
   runButton = (GtkButton *)gtk_builder_get_object (builder, "runButton");
   g_signal_connect (runButton, "clicked", G_CALLBACK (launchTextEvent), NULL);
