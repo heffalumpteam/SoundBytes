@@ -21,11 +21,17 @@ void text_mainLoop(void)
 
 void text_receiveButtonPress(char *input_str)
 {
-  if((strcmp(input_str, "drum(shuffle)") == 0)){
+  if((strcmp(input_str, "drum") == 0)){
     audio_playSampleOnce(DRUMS_SHUFFLE);
   }
-  if((strcmp(input_str, "clap(shuffle)") == 0)){
+  if((strcmp(input_str, "clap") == 0)){
     audio_playSampleOnce(DRUMS_CLAP);
+  }
+  if((strcmp(input_str, "keys") == 0)){
+    audio_playSampleOnce(KEYS);
+  }
+  if((strcmp(input_str, "bass") == 0)){
+    audio_playSampleOnce(BASS);
   }
 }
 
