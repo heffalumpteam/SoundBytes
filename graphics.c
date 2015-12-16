@@ -2,6 +2,7 @@
 #include <glib.h>
 #include <string.h> //for the CSS loading
 //  https://wiki.gnome.org/Projects/GtkSourceView   https://github.com/GNOME/gtksourceview
+#include <assert.h>
 
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
@@ -46,11 +47,6 @@ void initSourceView(GtkBuilder *builder){
   gtk_source_language_manager_set_search_path(manager, languagesDirs);
   GtkSourceLanguage *language = gtk_source_language_manager_get_language(manager, "heffalump");
   gtk_source_buffer_set_language(sourcebuffer, language);
-
-  /*gtk_text_buffer_set_text(GTK_TEXT_BUFFER(sourcebuffer),
-      "Type stop and press run to stop the beat\n", -1);*/
-
-  /*g_signal_connect(G_OBJECT(sourcebuffer), "changed", G_CALLBACK(events_textChanged), sourcebuffer);*/
 }
 
 void attachFunctions(GtkBuilder *builder){
@@ -62,16 +58,22 @@ void attachFunctions(GtkBuilder *builder){
   GtkButton *runButton;
   guint timeoutID;
   GtkWidget *icon = gtk_image_new_from_file ("graphicsFiles/icons/start.png");
+  assert(icon != NULL);
 
   window = gtk_builder_get_object (builder, "window");
   g_signal_connect (window, "destroy", G_CALLBACK (events_quitting), NULL);
 
   timeoutID = g_timeout_add(NUM_MS, events_mainLoop, NULL);
+  assert(timeoutID > 0);
 
   button1 = setUpGtkButton(builder, "button1", events_buttonPress); /* Generic function, see below */
+  assert(button1 != NULL);
   button2 = setUpGtkButton(builder, "button2", events_buttonPress);
+  assert(button2 != NULL);
   button3 = setUpGtkButton(builder, "button3", events_buttonPress); /* Generic function, see below */
+  assert(button3 != NULL);
   button4 = setUpGtkButton(builder, "button4", events_buttonPress);
+  assert(button4 != NULL);
 
   runButton = (GtkButton *)gtk_builder_get_object (builder, "runButton");
   g_signal_connect (runButton, "clicked", G_CALLBACK (launchTextEvent), NULL);

@@ -22,6 +22,9 @@ GtkTextMark* textMarker;
 gboolean events_mainLoop(gpointer user_data){
   /*https://developer.gnome.org/gtk-tutorial/stable/c1759.html*/
   /*This loop runs every NUM_MS and takes the place of code that would usually be in main()*/
+  if(user_data != NULL){
+    fprintf(stderr, "\n\tError: UserData in events_mainLoop was not NULL\n");
+  }
   if(play){
     if(beat > BEATS_IN_A_BAR-1){
       bar++;
@@ -75,7 +78,6 @@ https://git.gnome.org/browse/gtk+/tree/demos/gtk-demo/textview.c
 
   */
   GtkTextIter start, end;
-  // gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(sourcebuffer), &start, 0);
   gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(sourcebuffer), &start, textMarker);
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(sourcebuffer), &end, 3);
   gtk_text_iter_forward_to_end (&end);
