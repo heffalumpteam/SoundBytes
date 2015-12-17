@@ -210,7 +210,7 @@ void readSampleInfo()
 	char *tokens[MAXFILEINFOTOKENS];
 	int i = 0;
 
-	sampleInfoFile = fopen("sampleFilePaths.txt", "r");
+	sampleInfoFile = fopen("sampleFileInfo.txt", "r");
 	if(!sampleInfoFile) {
 		fprintf(stderr, "Could not open sample information file.\n");
 	}
