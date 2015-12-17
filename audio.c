@@ -51,6 +51,7 @@ void readSampleInfo();
 void tokenizeSampleInfo(char *sampleInfo, char *tokens[]);
 void addToActiveArray(Loop index, Sample sample);
 void setLoopActiveFlag(Loop index, bool flag);
+char *createSampleFilePath(char *path);
 
 /* Will hold all the paths to the samples for easy reference during runtime. Thoughts? */
 char* sampleFilePaths[MAXNUMBEROFSAMPLES];
@@ -142,6 +143,9 @@ void audio_close(void){
 
   for (i = 0; i < MAXNUMBEROFSAMPLES; ++i) {
     audio_removeLoop(i);
+		if(sampleFilePaths[i]) {
+		  free(sampleFilePaths[i]);
+		}
   }
 
   Mix_Quit();
@@ -206,18 +210,28 @@ void readSampleInfo()
 	char *tokens[MAXFILEINFOTOKENS];
 	int i = 0;
 
-	sampleInfoFile = fopen("sampleFilePaths.txt", "r");
+	sampleInfoFile = fopen("sampleFileInfo.txt", "r");
 	if(!sampleInfoFile) {
 		fprintf(stderr, "Could not open sample information file.\n");
 	}
 	while(fgets(sampleInfo, MAXSAMPLEINFOLENGTH, sampleInfoFile) != NULL) {
 		tokenizeSampleInfo(sampleInfo, tokens);
-		sampleFilePaths[i] = malloc(MAXSAMPLEINFOLENGTH);
-    strcpy(sampleFilePaths[i], tokens[FILENAME]);
+		sampleFilePaths[i] = createSampleFilePath(tokens[FILENAME]);
 		sampleLoopLengths[i] = atoi(tokens[LOOPLENGTH]);
 		i++;
 	}
 	fclose(sampleInfoFile);
+}
+
+char *createSampleFilePath(char *path)
+{
+	char *newSampleFilePath = malloc(MAXSAMPLEINFOLENGTH);
+
+	if(!newSampleFilePath) {
+		fprintf(stderr, "Could not allocate sample file path.\n");
+	}
+	strcpy(newSampleFilePath, path);
+	return newSampleFilePath;
 }
 
 void tokenizeSampleInfo(char *sampleInfo, char *tokens[])
