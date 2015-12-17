@@ -115,7 +115,7 @@ void add_(char *string_pointer)
     }
   }
 }
-
+// No need for switch - already have data so just call the function!
 void addDrum(char *string_pointer)
 {
   int drum_type_to_add;
@@ -130,7 +130,7 @@ void addDrum(char *string_pointer)
     }
   }
 }
-
+// No need for switch - already have data so just call the function!
 void addBass(char *string_pointer)
 {
   int bass_type_to_add;
@@ -144,7 +144,7 @@ void addBass(char *string_pointer)
     }
   }
 }
-
+// No need for switch - already have data so just call the function!
 void addKeys(char *string_pointer)
 {
   int keys_type_to_add;
@@ -177,7 +177,7 @@ void remove_(char *string_pointer)
     }
   }
 }
-
+// No need for switch - already have data so just call the function!
 void removeDrum(char *string_pointer)
 {
   int drum_type_to_remove;
@@ -192,7 +192,7 @@ void removeDrum(char *string_pointer)
     }
   }
 }
-
+// No need for switch - already have data so just call the function!
 void removeBass(char *string_pointer)
 {
   int bass_type_to_remove;
@@ -206,7 +206,7 @@ void removeBass(char *string_pointer)
     }
   }
 }
-
+// No need for switch - already have data so just call the function!
 void removeKeys(char *string_pointer)
 {
   int keys_type_to_remove;
@@ -247,7 +247,7 @@ void set_(char *string_pointer)
     }
   }
 }
-
+// No need for switch - already have data so just call the function!
 void setDrumVolume(char *string_pointer)
 {
   int drum_type_to_set_volume;
@@ -267,7 +267,7 @@ void setDrumVolume(char *string_pointer)
     }
   }
 }
-
+// No need for switch - already have data so just call the function!
 void setBassVolume(char *string_pointer)
 {
   int bass_type_to_set_volume;
@@ -281,7 +281,7 @@ void setBassVolume(char *string_pointer)
     }
   }
 }
-
+// No need for switch - already have data so just call the function!
 void setKeysVolume(char *string_pointer)
 {
   int keys_type_to_set_volume;
