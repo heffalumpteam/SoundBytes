@@ -224,25 +224,30 @@ void removeKeys(char *string_pointer)
 void set_(char *string_pointer)
 {
   int set_instrument_volume;
-  char *temp;
+  char *loop_type, *command;
   string_pointer = strtok(NULL, " \n.()");
 
   if(string_pointer){
     // temp now points to "volume".
-    temp = strtok(NULL, " \n.()");
-    temp = strtok(NULL, " \n.()");
-    printf("temp:%s\n", temp);
+    loop_type = strtok(NULL, " \n.()");
+    command = strtok(NULL, " \n.()");
+    /*
+    printf("loop_type:%s\n", loop_type);
+    printf("command:%s\n", command);
+    */
 
-    if (strcmp(temp, "volume") == 0){
+    if (strcmp(command, "volume") == 0){
+      /*
       printf("string b4 instrument switch in set: %s\n", string_pointer);
+      */
       set_instrument_volume = selectInstrument(string_pointer);
 
       //switch only compares earlier pointer - which hopefully
       //points to the instrument
       switch(set_instrument_volume){
-        case DRUM: setDrumVolume(string_pointer); break;
-        case BASS: setBassVolume(string_pointer); break;
-        case KEYS: setKeysVolume(string_pointer); break;
+        case DRUM: setDrumVolume(loop_type); break;
+        case BASS: setBassVolume(loop_type); break;
+        case KEYS: setKeysVolume(loop_type); break;
       }
     }
   }
@@ -251,13 +256,14 @@ void set_(char *string_pointer)
 void setDrumVolume(char *string_pointer)
 {
   int drum_type_to_set_volume;
+  /*
   printf("receieved strng in setDrumVolume: %s\n", string_pointer);
-  //Strtok here doesn't get (kick) or any loop types in brackets. Have
-  //tried changing delimiters as well as strtok'ing again but no luck...
+  Strtok here doesn't get (kick) or any loop types in brackets. Have
+  tried changing delimiters as well as strtok'ing again but no luck...
   string_pointer = strtok(NULL, " \n.()");
 
   printf("strng in setDrumVolume b4 switch: %s\n", string_pointer);
-
+  */
   if(string_pointer){
     drum_type_to_set_volume = selectDrumLoop(string_pointer);
 
@@ -271,7 +277,6 @@ void setDrumVolume(char *string_pointer)
 void setBassVolume(char *string_pointer)
 {
   int bass_type_to_set_volume;
-  string_pointer = strtok(NULL, " \n.()");
 
   if(string_pointer){
     bass_type_to_set_volume = selectBassLoop(string_pointer);
@@ -285,7 +290,6 @@ void setBassVolume(char *string_pointer)
 void setKeysVolume(char *string_pointer)
 {
   int keys_type_to_set_volume;
-  string_pointer = strtok(NULL, " \n.()");
 
   if(string_pointer){
     keys_type_to_set_volume = selectKeysLoop(string_pointer);
