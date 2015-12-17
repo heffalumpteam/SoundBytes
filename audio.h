@@ -2,7 +2,7 @@
 #define _audio
 
 enum instrument{
-  DRUMS,
+  DRUM,
   BASS,
   KEYS
 };
