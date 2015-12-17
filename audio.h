@@ -1,11 +1,18 @@
 #ifndef _audio
 #define _audio
 
-enum loop{
-  DRUMS_SHUFFLE,
-  DRUMS_CLAP,
+enum instrument{
+  DRUM,
   BASS,
   KEYS
+};
+typedef enum instrument Instrument;
+
+enum loop{
+  DRUM_KICK,
+  DRUM_CLAP,
+  BASS_1,
+  KEYS_1
 };
 typedef enum loop Loop;
 
