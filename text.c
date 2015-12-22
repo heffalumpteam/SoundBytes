@@ -48,8 +48,9 @@ void text_mainLoop(void)
 void text_receiveButtonPress(char *input_string)
 {
   int instrument_to_play_once, loop_to_play_once;
+  char *string_pointer, *temp;
 
-  char *string_pointer = createStringCopy(input_string);
+  temp = string_pointer = createStringCopy(input_string);
   string_pointer = strtok(string_pointer, " \n.()");
   instrument_to_play_once = selectInstrument(string_pointer);
   string_pointer = strtok(NULL, " \n.()");
@@ -64,8 +65,8 @@ void text_receiveButtonPress(char *input_string)
     case DRUM_CLAP: audio_playSampleOnce(DRUM_CLAP); break;
     case BASS_1: audio_playSampleOnce(BASS_1); break;
     case KEYS_1: audio_playSampleOnce(KEYS_1); break;
-    default: printf("Nothing to play\n"); break;
   }
+  free(temp);
 }
 
 void text_receiveUpdate(char *input_string)
