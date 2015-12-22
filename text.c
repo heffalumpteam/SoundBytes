@@ -47,12 +47,16 @@ void text_mainLoop(void)
 void text_receiveButtonPress(char *input_string)
 {
   int instrument_to_play_once, loop_to_play_once;
+
+  char* string_pointer = strtok(input_string, " \n.()");
+  string_pointer = strtok(NULL, " \n.()");
+
   instrument_to_play_once = selectInstrument(input_string);
 
   switch(instrument_to_play_once){
-    case DRUM: loop_to_play_once = selectDrumLoop(input_string); break;
-    case BASS: loop_to_play_once = selectBassLoop(input_string); break;
-    case KEYS: loop_to_play_once = selectKeysLoop(input_string); break;
+    case DRUM: loop_to_play_once = selectDrumLoop(string_pointer); break;
+    case BASS: loop_to_play_once = selectBassLoop(string_pointer); break;
+    case KEYS: loop_to_play_once = selectKeysLoop(string_pointer); break;
   }
   switch(loop_to_play_once){
     case DRUM_KICK: audio_playSampleOnce(DRUM_KICK); break;
