@@ -48,11 +48,10 @@ void text_mainLoop(void)
 void text_receiveButtonPress(char *input_string)
 {
   int instrument_to_play_once, loop_to_play_once;
-  char *string_pointer, *temp;
+<<<<<<< HEAD
+=======
 
-  temp = string_pointer = createStringCopy(input_string);
-  string_pointer = strtok(string_pointer, " \n.()");
-  instrument_to_play_once = selectInstrument(string_pointer);
+>>>>>>> 859b5f5fe5c7b96f0e9de70b1f0572bf4d99e384
   string_pointer = strtok(NULL, " \n.()");
 
   switch(instrument_to_play_once){
