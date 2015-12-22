@@ -47,8 +47,8 @@ void text_mainLoop(void)
 void text_receiveButtonPress(char *input_string)
 {
   int instrument_to_play_once, loop_to_play_once;
-
-  char* string_pointer = strtok(input_string, " \n.()");
+  char* string_pointer = NULL;
+  string_pointer = strtok(input_string, " \n.()");
   string_pointer = strtok(NULL, " \n.()");
 
   instrument_to_play_once = selectInstrument(input_string);
