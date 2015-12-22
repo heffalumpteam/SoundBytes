@@ -38,6 +38,7 @@ int selectInstrument(char *string);
 int selectDrumLoop(char *string);
 int selectBassLoop(char *string);
 int selectKeysLoop(char *string);
+char *createStringCopy(char *input_string);
 
 void text_mainLoop(void)
 {
@@ -48,8 +49,7 @@ void text_receiveButtonPress(char input_string[])
 {
   int instrument_to_play_once, loop_to_play_once;
 
-  char *string_pointer = malloc((strlen(input_string) * sizeof(char)) + 1);
-  strcpy(string_pointer, input_string);
+  char *string_pointer = createStringCopy(input_string);
   string_pointer = strtok(string_pointer, " \n.()");
   instrument_to_play_once = selectInstrument(string_pointer);
   string_pointer = strtok(NULL, " \n.()");
@@ -421,4 +421,17 @@ int selectKeysLoop(char *string)
      return KEYS_1;
   }
   return -1;
+}
+
+char *createStringCopy(char *input_string)
+{
+  char *copy;
+
+  copy = malloc((strlen(input_string) * sizeof(char)) + NULLCHAR);
+  if(!copy) {
+    fprintf(stderr, "Could not allocate string copy.\n");
+    exit(1);
+  }
+  strcpy(copy, input_string);
+  return copy;
 }
