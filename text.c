@@ -45,7 +45,7 @@ void text_mainLoop(void)
   audio_mainLoop();
 }
 
-void text_receiveButtonPress(char input_string[])
+void text_receiveButtonPress(char *input_string)
 {
   int instrument_to_play_once, loop_to_play_once;
 
