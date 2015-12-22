@@ -44,14 +44,15 @@ void text_mainLoop(void)
   audio_mainLoop();
 }
 
-void text_receiveButtonPress(char *input_string)
+void text_receiveButtonPress(char input_string[])
 {
   int instrument_to_play_once, loop_to_play_once;
 
-  char* string_pointer = strtok(input_string, " \n.()");
+  char *string_pointer = malloc((strlen(input_string) * sizeof(char)) + 1);
+  strcpy(string_pointer, input_string);
+  string_pointer = strtok(string_pointer, " \n.()");
+  instrument_to_play_once = selectInstrument(string_pointer);
   string_pointer = strtok(NULL, " \n.()");
-
-  instrument_to_play_once = selectInstrument(input_string);
 
   switch(instrument_to_play_once){
     case DRUM: loop_to_play_once = selectDrumLoop(string_pointer); break;
@@ -63,6 +64,7 @@ void text_receiveButtonPress(char *input_string)
     case DRUM_CLAP: audio_playSampleOnce(DRUM_CLAP); break;
     case BASS_1: audio_playSampleOnce(BASS_1); break;
     case KEYS_1: audio_playSampleOnce(KEYS_1); break;
+    default: printf("Nothing to play\n"); break;
   }
 }
 
@@ -373,6 +375,7 @@ int selectInstruction(char *string)
 
 int selectInstrument(char *string)
 {
+  printf("TEXT: Select instrument string: %s\n", string);
   if(strcmp(string, "drum") == 0){
      printf("TEXT: drum\n");
      return DRUM;
@@ -390,6 +393,7 @@ int selectInstrument(char *string)
 
 int selectDrumLoop(char *string)
 {
+  printf("Select Drum Loop string: %s\n", string);
   if(strcmp(string, "kick") == 0){
      printf("TEXT: drum(kick)\n");
      return DRUM_KICK;
