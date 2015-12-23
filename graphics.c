@@ -106,7 +106,7 @@ void openFileDialog(GtkButton *button, GtkBuilder *builder)
   GObject *window;
   GtkWidget *dialog;
   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
-  gint res;
+  gint result;
 
   window = gtk_builder_get_object (builder, "window");
   g_signal_connect (window, "destroy", G_CALLBACK (events_quitting), NULL);
@@ -114,14 +114,14 @@ void openFileDialog(GtkButton *button, GtkBuilder *builder)
   dialog = gtk_file_chooser_dialog_new ("Open File", (GtkWindow*) window, action, ("Cancel"), GTK_RESPONSE_CANCEL,("Open"),
     GTK_RESPONSE_ACCEPT, NULL);
 
-  res = gtk_dialog_run (GTK_DIALOG (dialog));
+  result = gtk_dialog_run (GTK_DIALOG (dialog));
 
-  if (res == GTK_RESPONSE_ACCEPT)
+  if (result == GTK_RESPONSE_ACCEPT)
   {
     char *filename;
     GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
     filename = (char*)gtk_file_chooser_get_filename (chooser);
-    events_openFile(filename);
+    events_openFile(filename, sourcebuffer);
   }
 
   gtk_widget_destroy(dialog);

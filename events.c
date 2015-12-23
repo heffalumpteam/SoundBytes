@@ -73,7 +73,7 @@ void events_init(GtkSourceBuffer* sourcebuffer)
   events_toggle();
 }
 
-void events_openFile(char* filename)
+void events_openFile(char* filename, GtkSourceBuffer *sourcebuffer)
 {
   FILE* f_input = NULL;
   char *contents;
@@ -85,6 +85,7 @@ void events_openFile(char* filename)
     contents = (char*)calloc(length, sizeof(char));
     rewind(f_input);
     fread(contents, sizeof(char), length, f_input);
+    gtk_text_buffer_set_text(GTK_TEXT_BUFFER(sourcebuffer), contents, -1);
     fclose(f_input);
     free(contents);  
   }
