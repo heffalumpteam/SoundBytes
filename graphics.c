@@ -3,7 +3,6 @@
 #include <string.h> //for the CSS loading
 //  https://wiki.gnome.org/Projects/GtkSourceView   https://github.com/GNOME/gtksourceview
 #include <assert.h>
-#include <stdlib.h>
 
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
@@ -121,43 +120,11 @@ void openFileDialog(GtkButton *button, GtkBuilder *builder)
   {
     char *filename;
     GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
-    filename = gtk_file_chooser_get_filename (chooser);
-    openFile (filename);
-    g_free (filename);
+    filename = (char*)gtk_file_chooser_get_filename (chooser);
+    events_openFile(filename);
   }
 
-  gtk_widget_destroy (dialog);
-}
-
-void openFile(char* filename)
-{
-  FILE* f_input = NULL;
-  char *contents;
-  int length = 0;
-
-  f_input = fopen(filename, "r");
-  if((f_input = fopen(filename, "r"))){
-    length = fileLength(f_input);
-    contents = (char*)calloc(length, sizeof(char));
-    rewind(f_input);
-    fread(contents, sizeof(char), length, f_input);
-    printf("%s\n", contents);
-    fclose(f_input);  
-  }
-  else{
-    printf("Couldn't open file\n");
-  }
-}
-
-int fileLength(FILE* f_input)
-{
-  int c, count = 0;
-
-  while(!feof(f_input)){
-    c = getc(f_input);
-    count++;
-  }
-  return count;
+  gtk_widget_destroy(dialog);
 }
 
 void style(void){
