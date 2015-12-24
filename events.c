@@ -3,6 +3,7 @@
 #include <gtksourceview/gtksourcebuffer.h>
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "events.h"
 #include "graphics.h"
@@ -79,7 +80,6 @@ void events_openFile(char* filename, GtkSourceBuffer *sourcebuffer)
   char *contents;
   int length = 0;
 
-  f_input = fopen(filename, "r");
   if((f_input = fopen(filename, "r"))){
     length = fileLength(f_input);
     contents = (char*)calloc(length, sizeof(char));
@@ -96,7 +96,20 @@ void events_openFile(char* filename, GtkSourceBuffer *sourcebuffer)
 
 void events_saveFile(char* filename, GtkSourceBuffer *sourcebuffer)
 {
-  
+  FILE* f_output = NULL;
+  GtkTextIter start, end;
+  char* buffer;
+
+  gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(sourcebuffer), &start, &end);
+  buffer = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(sourcebuffer), &start, &end, FALSE);
+
+  if((f_output = fopen(filename, "w"))){
+    fputs(buffer, f_output);
+    fclose(f_output);
+  }
+  else{
+    printf("Couldn't write file\n");
+  }
 }
 
 int fileLength(FILE* f_input)
