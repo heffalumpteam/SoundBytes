@@ -3,7 +3,7 @@
 #include <string.h> //for the CSS loading
 //  https://wiki.gnome.org/Projects/GtkSourceView   https://github.com/GNOME/gtksourceview
 #include <assert.h>
-
+#include <stdlib.h>
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguagemanager.h>
@@ -22,6 +22,7 @@ void initSourceView(GtkBuilder *builder);
 void attachFunctions(GtkBuilder *builder);
 void launchTextEvent(void);
 void openFileDialog(GtkButton *button, GtkBuilder *builder);
+void saveFileDialog(GtkButton *button, GtkBuilder *builder);
 void openFile(char* filename);
 int fileLength(FILE* f_input);
 void style(void);
@@ -62,6 +63,7 @@ void attachFunctions(GtkBuilder *builder){
   GtkButton *button4;
   GtkButton *runButton;
   GtkButton *openButton;
+  GtkButton *saveButton;
   guint timeoutID;
   GtkWidget *icon = gtk_image_new_from_file ("graphicsFiles/icons/start.png");
   assert(icon != NULL);
@@ -86,6 +88,9 @@ void attachFunctions(GtkBuilder *builder){
 
   openButton = (GtkButton *)gtk_builder_get_object (builder, "openButton");
   g_signal_connect (openButton, "clicked", G_CALLBACK (openFileDialog), builder);
+
+  saveButton = (GtkButton *)gtk_builder_get_object (builder, "saveButton");
+  g_signal_connect (saveButton, "clicked", G_CALLBACK (saveFileDialog), builder);
 }
 
 GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*)) {
@@ -106,27 +111,56 @@ void launchTextEvent(void){
 void openFileDialog(GtkButton *button, GtkBuilder *builder)
 {
   GObject *window;
-  GtkWidget *dialog;
+  GtkWidget *open_dialog;
   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
   gint result;
 
   UNUSED(button);
-  window = gtk_builder_get_object (builder, "window");
-
-  dialog = gtk_file_chooser_dialog_new ("Open File", (GtkWindow*) window, action, ("Cancel"), GTK_RESPONSE_CANCEL,("Open"),
+  window = gtk_builder_get_object(builder, "window");
+  open_dialog = gtk_file_chooser_dialog_new("Open File", (GtkWindow*) window, action, ("Cancel"), GTK_RESPONSE_CANCEL,("Open"),
     GTK_RESPONSE_ACCEPT, NULL);
 
-  result = gtk_dialog_run (GTK_DIALOG (dialog));
+  result = gtk_dialog_run(GTK_DIALOG (open_dialog));
 
   if (result == GTK_RESPONSE_ACCEPT)
   {
     char *filename;
-    GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
-    filename = (char*)gtk_file_chooser_get_filename (chooser);
+    GtkFileChooser *chooser = GTK_FILE_CHOOSER (open_dialog);
+    filename = (char*)gtk_file_chooser_get_filename(chooser);
     events_openFile(filename, sourcebuffer);
+    free(filename);
   }
+  gtk_widget_destroy(open_dialog);
+}
 
-  gtk_widget_destroy(dialog);
+void saveFileDialog(GtkButton *button, GtkBuilder *builder)
+{
+  GObject *window;
+  GtkWidget *save_dialog;
+  GtkFileChooser *chooser;
+  GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SAVE;
+  gint result;
+
+  UNUSED(button);
+  window = gtk_builder_get_object(builder, "window");
+  save_dialog = gtk_file_chooser_dialog_new("Save File", (GtkWindow*) window, action, ("Cancel"), GTK_RESPONSE_CANCEL, ("_Save"),
+    GTK_RESPONSE_ACCEPT, NULL);
+  
+  chooser = GTK_FILE_CHOOSER(save_dialog);
+  gtk_file_chooser_set_do_overwrite_confirmation(chooser, TRUE);
+
+  gtk_file_chooser_set_current_name(chooser,("mytune.lump"));
+
+  result = gtk_dialog_run(GTK_DIALOG(save_dialog));
+
+  if (result == GTK_RESPONSE_ACCEPT)
+  {
+    char *filename;
+    filename = (char*)gtk_file_chooser_get_filename(chooser);
+    events_saveFile(filename, sourcebuffer);
+    free(filename);
+  }
+  gtk_widget_destroy(save_dialog);
 }
 
 void style(void){

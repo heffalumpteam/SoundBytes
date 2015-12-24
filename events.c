@@ -94,6 +94,11 @@ void events_openFile(char* filename, GtkSourceBuffer *sourcebuffer)
   }
 }
 
+void events_saveFile(char* filename, GtkSourceBuffer *sourcebuffer)
+{
+  
+}
+
 int fileLength(FILE* f_input)
 {
   int count = 0;
