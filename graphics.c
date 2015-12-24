@@ -11,6 +11,8 @@
 #include "graphics.h"
 #include "events.h"
 
+#define UNUSED(x) (void)(x)
+
 extern unsigned char running;
 GtkSourceBuffer *sourcebuffer;
 gchar languagesPath[] = "lang/language-specs/";
@@ -108,8 +110,8 @@ void openFileDialog(GtkButton *button, GtkBuilder *builder)
   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
   gint result;
 
+  UNUSED(button);
   window = gtk_builder_get_object (builder, "window");
-  g_signal_connect (window, "destroy", G_CALLBACK (events_quitting), NULL);
 
   dialog = gtk_file_chooser_dialog_new ("Open File", (GtkWindow*) window, action, ("Cancel"), GTK_RESPONSE_CANCEL,("Open"),
     GTK_RESPONSE_ACCEPT, NULL);
