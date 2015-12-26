@@ -78,7 +78,6 @@ void audio_mainLoop(void){
 	int i;
 	for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
 		if(SAMPLE_IS_ACTIVE(i)){
-			printf("AUDIO: Volume = %d\n", activeSamples[i].volume);
 			SET_VOLUME(i);
 			if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)){
 				BARS_LEFT(i) = BARS_IN_LOOP(i);
