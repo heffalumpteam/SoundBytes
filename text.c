@@ -38,6 +38,7 @@ int selectInstrument(char *string);
 int selectDrumLoop(char *string);
 int selectBassLoop(char *string);
 int selectKeysLoop(char *string);
+char *createStringCopy(char *input_string);
 
 void text_mainLoop(void)
 {
@@ -47,12 +48,17 @@ void text_mainLoop(void)
 void text_receiveButtonPress(char *input_string)
 {
   int instrument_to_play_once, loop_to_play_once;
-  instrument_to_play_once = selectInstrument(input_string);
+  char *string_pointer, *temp;
+
+  temp = string_pointer = createStringCopy(input_string);
+  string_pointer = strtok(string_pointer, " \n.()");
+  instrument_to_play_once = selectInstrument(string_pointer);
+  string_pointer = strtok(NULL, " \n.()");
 
   switch(instrument_to_play_once){
-    case DRUM: loop_to_play_once = selectDrumLoop(input_string); break;
-    case BASS: loop_to_play_once = selectBassLoop(input_string); break;
-    case KEYS: loop_to_play_once = selectKeysLoop(input_string); break;
+    case DRUM: loop_to_play_once = selectDrumLoop(string_pointer); break;
+    case BASS: loop_to_play_once = selectBassLoop(string_pointer); break;
+    case KEYS: loop_to_play_once = selectKeysLoop(string_pointer); break;
   }
   switch(loop_to_play_once){
     case DRUM_KICK: audio_playSampleOnce(DRUM_KICK); break;
@@ -60,6 +66,7 @@ void text_receiveButtonPress(char *input_string)
     case BASS_1: audio_playSampleOnce(BASS_1); break;
     case KEYS_1: audio_playSampleOnce(KEYS_1); break;
   }
+  free(temp);
 }
 
 void text_receiveUpdate(char *input_string)
@@ -369,6 +376,7 @@ int selectInstruction(char *string)
 
 int selectInstrument(char *string)
 {
+  printf("TEXT: Select instrument string: %s\n", string);
   if(strcmp(string, "drum") == 0){
      printf("TEXT: drum\n");
      return DRUM;
@@ -386,6 +394,7 @@ int selectInstrument(char *string)
 
 int selectDrumLoop(char *string)
 {
+  printf("Select Drum Loop string: %s\n", string);
   if(strcmp(string, "kick") == 0){
      printf("TEXT: drum(kick)\n");
      return DRUM_KICK;
@@ -413,4 +422,17 @@ int selectKeysLoop(char *string)
      return KEYS_1;
   }
   return -1;
+}
+
+char *createStringCopy(char *input_string)
+{
+  char *copy;
+
+  copy = malloc((strlen(input_string) * sizeof(char)) + NULLCHAR);
+  if(!copy) {
+    fprintf(stderr, "Could not allocate string copy.\n");
+    exit(1);
+  }
+  strcpy(copy, input_string);
+  return copy;
 }
