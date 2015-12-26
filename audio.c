@@ -28,6 +28,7 @@
 #define BEATS_IN_A_BAR 4
 
 #define SAMPLE_IS_ACTIVE(i) activeSamples[i].active
+#define SET_VOLUME(i) Mix_Volume(activeSamples[i].channel, activeSamples[i].volume)
 #define REPEATS_LEFT(i) activeSamples[i].repeatsLeft
 #define BARS_LEFT(i) activeSamples[i].barsLeft
 #define BARS_IN_LOOP(i) activeSamples[i].loopLength
@@ -43,6 +44,7 @@ struct sample
 	int loopLength;
 	int barsLeft;
 	int repeatsLeft; //-1 to keep playing indefinitely
+	int volume;
 };
 typedef struct sample Sample;
 
@@ -56,7 +58,7 @@ char *createSampleFilePath(char *path);
 /* Will hold all the paths to the samples for easy reference during runtime. Thoughts? */
 char* sampleFilePaths[MAXNUMBEROFSAMPLES];
 int sampleLoopLengths[MAXNUMBEROFSAMPLES];
-Sample activeSamples[MAXNUMBEROFSAMPLES] = {{NULL, DEFAULTCHANNEL, false, 1, 0,-1}};
+Sample activeSamples[MAXNUMBEROFSAMPLES] = {{NULL, DEFAULTCHANNEL, false, 1, 0,-1, DEFAULTVOLUME}};
 int channel1, channel2, abeat = 0, abar = 0;
 
 /*Sample buttonSound = {NULL, DEFAULTCHANNEL, false, 1, 0, 0};*/
@@ -76,6 +78,7 @@ void audio_mainLoop(void){
 	int i;
 	for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
 		if(SAMPLE_IS_ACTIVE(i)){
+			SET_VOLUME(i);
 			if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)){
 				BARS_LEFT(i) = BARS_IN_LOOP(i);
 				if(LOOP_IS_NOT_PLAYING(i)){
@@ -124,7 +127,7 @@ void setLoopActiveFlag(Loop index, bool flag)
 
 Sample loadSample(Loop index) {
 //for some reason setting channel to 0 doesn't work
-  Sample sample = {NULL, DEFAULTCHANNEL, false, 1, 0, -1}; //must read in looplength and repeatsleft from the file/user input
+  Sample sample = {NULL, DEFAULTCHANNEL, false, 1, 0, -1, DEFAULTVOLUME}; //must read in looplength and repeatsleft from the file/user input
   sample.sample = Mix_LoadWAV(sampleFilePaths[index]);
 	sample.loopLength = sampleLoopLengths[index];
   if (!sample.sample){
@@ -154,6 +157,9 @@ void audio_close(void){
 
 void audio_startLoop(Loop index) {
    activeSamples[index].channel = Mix_PlayChannel(-1, activeSamples[index].sample, activeSamples[index].repeatsLeft);
+	 /* have to initialise volume here because channel is not set until this point.
+	 After this audio_mainLoop takes over and checks the volume at regular intervals */
+   Mix_Volume(activeSamples[index].channel, activeSamples[index].volume);
 	   /* (channel -1 = dont care, sound, times to repeat)*/
 }
 
@@ -179,7 +185,7 @@ void audio_markLoopInactive(Loop index)
 
 void audio_playSampleOnce(Loop index)
 {
-	Sample buttonSound = {NULL, DEFAULTCHANNEL, false, 1, 0, 1};
+	Sample buttonSound = {NULL, DEFAULTCHANNEL, false, 1, 0, 1, DEFAULTVOLUME};
 	if(!buttonSound.sample) {
 		buttonSound = loadSample(index);
 		buttonSound.repeatsLeft = 1;
@@ -200,7 +206,7 @@ void audio_stop(void)
 
 void audio_changeVolume(Loop index, int volume)
 {
-  Mix_Volume(activeSamples[index].channel, volume);
+	activeSamples[index].volume = volume;
 }
 
 void readSampleInfo()
