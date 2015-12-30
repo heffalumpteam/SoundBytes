@@ -112,20 +112,29 @@ void openFileDialog(GtkButton *button, GtkBuilder *builder)
 {
   GObject *window;
   GtkWidget *open_dialog;
+  GtkFileFilter *filter, *filterAll;
   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
   gint result;
 
   UNUSED(button);
+  filter = gtk_file_filter_new();
+  filterAll = gtk_file_filter_new();
+  gtk_file_filter_add_pattern(filter, "*.lump");
+  gtk_file_filter_set_name(filter, "*.lump");
+  gtk_file_filter_add_pattern(filterAll, "*");
+  gtk_file_filter_set_name(filterAll, "All files");
   window = gtk_builder_get_object(builder, "window");
   open_dialog = gtk_file_chooser_dialog_new("Open File", (GtkWindow*) window, action, ("Cancel"), GTK_RESPONSE_CANCEL,("Open"),
     GTK_RESPONSE_ACCEPT, NULL);
-
+  GtkFileChooser *chooser = GTK_FILE_CHOOSER (open_dialog);
+    gtk_file_chooser_add_filter(chooser, filter);
+    gtk_file_chooser_add_filter(chooser, filterAll);
+    gtk_file_chooser_set_filter(chooser, filter);
   result = gtk_dialog_run(GTK_DIALOG (open_dialog));
 
   if (result == GTK_RESPONSE_ACCEPT)
   {
     char *filename;
-    GtkFileChooser *chooser = GTK_FILE_CHOOSER (open_dialog);
     filename = (char*)gtk_file_chooser_get_filename(chooser);
     events_openFile(filename, sourcebuffer);
     free(filename);
