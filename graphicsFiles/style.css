@@ -5,7 +5,7 @@
 @define-color defaultText rgb(0,0,0);
 @define-color buttonCol rgb(100,100,100);
 @define-color consoleCol rgb(180, 180, 180);
-@define-color textCol rgb(255,255,255);
+@define-color textCol rgb(0,0,0);
 @define-color bg_color green;
 @define-color hover_color rgb(25,79,6);
  
@@ -15,7 +15,28 @@ GtkWindow {
   color: white;
 }
 
-GtkButton {
+/*GtkToolBar GtkButton {
+  color: @textCol;
+  font: Courier 13;
+  background-image: -gtk-gradient (linear,
+  left top,
+  left bottom, from (@bg_color), color-stop (0.5, darker (@bg_color)), to (@bg_color));
+  border-radius: 5px;
+  border-color: rgb(50,50,50);
+}*/
+
+/*GtkButtonBox GtkButton {
+  color: @textCol;
+  font: Courier 13;
+  background-image: -gtk-gradient (linear,
+  left top,
+  left bottom, from (@bg_color), color-stop (0.5, darker (@bg_color)), to (@bg_color));
+  border-radius: 5px;
+  border-color: rgb(50,50,50);
+}*/
+
+
+.drums {
   color: @textCol;
   font: Courier 13;
   background-image: -gtk-gradient (linear,
@@ -25,11 +46,7 @@ GtkButton {
   border-color: rgb(50,50,50);
 }
 
-GtkButton #button1{
-  background-color: red;
-}
-
-.button:hover {
+.drums:hover {
   color: @textCol;
   font: Courier 13;
   background-image: -gtk-gradient (linear,
@@ -39,17 +56,56 @@ GtkButton #button1{
   border-color: rgb(70,70,70);
 }
 
+.bass {
+  color: @textCol;
+  font: Courier 13;
+  background-image: -gtk-gradient (linear,
+  left top,
+  left bottom, from (#003D99), color-stop (0.5, darker (#003D99)), to (#003D99));
+  border-radius: 5px;
+  border-color: rgb(50,50,50);
+}
+
+.bass:hover {
+  color: @textCol;
+  font: Courier 13;
+  background-image: -gtk-gradient (linear,
+  left top,
+  left bottom, from (#002966), color-stop (0.5, darker (#002966)), to (#002966));
+  border-radius: 5px;
+  border-color: rgb(70,70,70);
+}
+
+.keys {
+  color: @textCol;
+  font: Courier 13;
+  background-image: -gtk-gradient (linear,
+  left top,
+  left bottom, from (#B30000), color-stop (0.5, darker (#B30000)), to (#B30000));
+  border-radius: 5px;
+  border-color: rgb(50,50,50);
+}
+
+.keys:hover {
+  color: @textCol;
+  font: Courier 13;
+  background-image: -gtk-gradient (linear,
+  left top,
+  left bottom, from (#800000), color-stop (0.5, darker (#800000)), to (#800000));
+  border-radius: 5px;
+  border-color: rgb(70,70,70);
+}
+
 .button:active {
   border-style: inset;
   background: rgb(100,100,100);
-  color: @textCol;
-  font: Courier 13;
+  color: #000;
   border-image: none;
   border-color: rgb(70,70,70);
 }
 
-GtkButton GtkLabel {
-    color: #E0E0E0; /* This changes the text color in the button */
+GtkButtonBox GtkButton GtkLabel {
+    color: #EFE; /* This changes the text color in the button */
 }
 
 GtkTextView{

@@ -127,9 +127,9 @@ void openFileDialog(GtkButton *button, GtkBuilder *builder)
   open_dialog = gtk_file_chooser_dialog_new("Open File", (GtkWindow*) window, action, ("Cancel"), GTK_RESPONSE_CANCEL,("Open"),
     GTK_RESPONSE_ACCEPT, NULL);
   GtkFileChooser *chooser = GTK_FILE_CHOOSER (open_dialog);
-    gtk_file_chooser_add_filter(chooser, filter);
-    gtk_file_chooser_add_filter(chooser, filterAll);
-    gtk_file_chooser_set_filter(chooser, filter);
+  gtk_file_chooser_add_filter(chooser, filter);
+  gtk_file_chooser_add_filter(chooser, filterAll);
+  gtk_file_chooser_set_filter(chooser, filter);
   result = gtk_dialog_run(GTK_DIALOG (open_dialog));
 
   if (result == GTK_RESPONSE_ACCEPT)
