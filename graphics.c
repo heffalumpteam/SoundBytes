@@ -100,7 +100,7 @@ GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(
 
 void setUpPreviewButtons(GtkBuilder *builder)
 {
-  int i = 0;
+  int i = 0, filenameLength;
   GtkButton* button;
   char* filename;
 
@@ -110,6 +110,14 @@ void setUpPreviewButtons(GtkBuilder *builder)
     assert(button != NULL);
 
     filename = extractFilenameFromPath(sampleFilePaths[i]);
+    filenameLength = strlen(filename);
+    if (filenameLength > MAXFILENAMELENGTH)
+    {
+      filename[MAXFILENAMELENGTH - 4] = '.';
+      filename[MAXFILENAMELENGTH - 3] = '.';
+      filename[MAXFILENAMELENGTH - 2] = '.';
+      filename[MAXFILENAMELENGTH - 1] = '\0';
+    }
     gtk_button_set_label (button, filename);
 
     i++;

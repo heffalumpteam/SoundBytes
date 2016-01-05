@@ -1,4 +1,4 @@
 samples/Kick1.wav 4
 samples/Snare1.wav 4
-samples/Bass1.wav 4
+samples/Bass1hkjdfhsfjhgdfknghjkdfngjdhfg.wav 4
 samples/Keys1.wav 4
