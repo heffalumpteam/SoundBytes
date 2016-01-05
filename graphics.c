@@ -12,11 +12,15 @@
 #include "events.h"
 
 #define UNUSED(x) (void)(x)
+#define MAX_NUMBER_OF_BUTTONS 10
 
 extern unsigned char running;
 GtkSourceBuffer *sourcebuffer;
 gchar languagesPath[] = "lang/language-specs/";
 gchar* languagesDirs[] = {languagesPath, NULL};
+
+gchar* buttonIDs[MAX_NUMBER_OF_BUTTONS] = {"button1", "button2", "button3", "button4"};
+gchar* buttonLabels[MAX_NUMBER_OF_BUTTONS] = {"drum(kick)", "drum(clap)", "keys(1)", "bass(1)"};
 
 void initSourceView(GtkBuilder *builder);
 void attachFunctions(GtkBuilder *builder);
@@ -27,6 +31,7 @@ void openFile(char* filename);
 int fileLength(FILE* f_input);
 void style(void);
 GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*));
+void setUpPreviewButtons(GtkBuilder *builder);
 
 void graphics_init(void){
   GtkBuilder *builder;
@@ -74,14 +79,18 @@ void attachFunctions(GtkBuilder *builder){
   timeoutID = g_timeout_add(NUM_MS, events_mainLoop, NULL);
   assert(timeoutID > 0);
 
-  button1 = setUpGtkButton(builder, "button1", events_buttonPress); /* Generic function, see below */
-  assert(button1 != NULL);
-  button2 = setUpGtkButton(builder, "button2", events_buttonPress);
-  assert(button2 != NULL);
-  button3 = setUpGtkButton(builder, "button3", events_buttonPress); /* Generic function, see below */
-  assert(button3 != NULL);
-  button4 = setUpGtkButton(builder, "button4", events_buttonPress);
-  assert(button4 != NULL);
+  // button1 = setUpGtkButton(builder, "button1", events_buttonPress); /* Generic function, see below */
+  // assert(button1 != NULL);
+  // button2 = setUpGtkButton(builder, "button2", events_buttonPress);
+  // assert(button2 != NULL);
+  // button3 = setUpGtkButton(builder, "button3", events_buttonPress); /* Generic function, see below */
+  // assert(button3 != NULL);
+  // button4 = setUpGtkButton(builder, "button4", events_buttonPress);
+  // assert(button4 != NULL);
+
+  setUpPreviewButtons(builder);
+
+
 
   runButton = (GtkButton *)gtk_builder_get_object (builder, "runButton");
   g_signal_connect (runButton, "clicked", G_CALLBACK (launchTextEvent), NULL);
@@ -101,6 +110,21 @@ GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(
   g_signal_connect(button, "clicked", G_CALLBACK(function), buttonID);
 
   return button;
+}
+
+void setUpPreviewButtons(GtkBuilder *builder)
+{
+  int i = 0;
+  GtkButton* button;
+
+  while(buttonIDs[i])
+  {
+    button = setUpGtkButton(builder, buttonIDs[i], events_buttonPress);
+    assert(button != NULL);
+    gtk_button_set_label (button, buttonLabels[i]);
+    i++;
+    printf("%d\n", i);
+  }
 }
 
 void launchTextEvent(void){
