@@ -21,7 +21,6 @@ gchar languagesPath[] = "lang/language-specs/";
 gchar* languagesDirs[] = {languagesPath, NULL};
 
 gchar* buttonIDs[MAXNUMBEROFSAMPLES] = {"button1", "button2", "button3", "button4"};
-//gchar* buttonLabels[MAX_NUMBER_OF_BUTTONS] = {"drum(kick)", "drum(clap)", "keys(1)", "bass(1)"};
 
 void initSourceView(GtkBuilder *builder);
 void attachFunctions(GtkBuilder *builder);
@@ -64,10 +63,6 @@ void initSourceView(GtkBuilder *builder){
 
 void attachFunctions(GtkBuilder *builder){
   GObject *window;
-  GtkButton *button1;
-  GtkButton *button2;
-  GtkButton *button3;
-  GtkButton *button4;
   GtkButton *runButton;
   GtkButton *openButton;
   GtkButton *saveButton;
@@ -81,18 +76,7 @@ void attachFunctions(GtkBuilder *builder){
   timeoutID = g_timeout_add(NUM_MS, events_mainLoop, NULL);
   assert(timeoutID > 0);
 
-  // button1 = setUpGtkButton(builder, "button1", events_buttonPress); /* Generic function, see below */
-  // assert(button1 != NULL);
-  // button2 = setUpGtkButton(builder, "button2", events_buttonPress);
-  // assert(button2 != NULL);
-  // button3 = setUpGtkButton(builder, "button3", events_buttonPress); /* Generic function, see below */
-  // assert(button3 != NULL);
-  // button4 = setUpGtkButton(builder, "button4", events_buttonPress);
-  // assert(button4 != NULL);
-
   setUpPreviewButtons(builder);
-
-
 
   runButton = (GtkButton *)gtk_builder_get_object (builder, "runButton");
   g_signal_connect (runButton, "clicked", G_CALLBACK (launchTextEvent), NULL);
@@ -124,10 +108,11 @@ void setUpPreviewButtons(GtkBuilder *builder)
   {
     button = setUpGtkButton(builder, buttonIDs[i], events_buttonPress);
     assert(button != NULL);
+
     filename = extractFilenameFromPath(sampleFilePaths[i]);
     gtk_button_set_label (button, filename);
+
     i++;
-    printf("%d\n", i);
   }
 }
 
