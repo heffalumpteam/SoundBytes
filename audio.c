@@ -11,6 +11,7 @@
 #endif
 
 #include "audio.h"
+#include "samples.h"
 #include <string.h>
 #include <stdbool.h>
 #include <limits.h>
@@ -18,7 +19,6 @@
 #define SAMPLERATE 44100
 #define NUMAUDIOCHANNELS 2
 #define BUFFSIZE 2048
-#define MAXNUMBEROFSAMPLES 50
 #define MAXSAMPLEINFOLENGTH 30
 #define MAXFILEINFOTOKENS 2
 #define FILENAME 0
@@ -48,6 +48,7 @@ struct sample
 };
 typedef struct sample Sample;
 
+/* Functions */
 Sample loadSample(Loop index);
 void readSampleInfo();
 void tokenizeSampleInfo(char *sampleInfo, char *tokens[]);
@@ -55,8 +56,7 @@ void addToActiveArray(Loop index, Sample sample);
 void setLoopActiveFlag(Loop index, bool flag);
 char *createSampleFilePath(char *path);
 
-/* Will hold all the paths to the samples for easy reference during runtime. Thoughts? */
-char* sampleFilePaths[MAXNUMBEROFSAMPLES];
+/* Variables */
 int sampleLoopLengths[MAXNUMBEROFSAMPLES];
 Sample activeSamples[MAXNUMBEROFSAMPLES] = {{NULL, DEFAULTCHANNEL, false, 1, 0,-1, DEFAULTVOLUME}};
 int channel1, channel2, abeat = 0, abar = 0;

@@ -10,6 +10,7 @@
 
 #include "graphics.h"
 #include "events.h"
+#include "samples.h"
 
 #define UNUSED(x) (void)(x)
 #define MAX_NUMBER_OF_BUTTONS 10
@@ -19,8 +20,8 @@ GtkSourceBuffer *sourcebuffer;
 gchar languagesPath[] = "lang/language-specs/";
 gchar* languagesDirs[] = {languagesPath, NULL};
 
-gchar* buttonIDs[MAX_NUMBER_OF_BUTTONS] = {"button1", "button2", "button3", "button4"};
-gchar* buttonLabels[MAX_NUMBER_OF_BUTTONS] = {"drum(kick)", "drum(clap)", "keys(1)", "bass(1)"};
+gchar* buttonIDs[MAXNUMBEROFSAMPLES] = {"button1", "button2", "button3", "button4"};
+//gchar* buttonLabels[MAX_NUMBER_OF_BUTTONS] = {"drum(kick)", "drum(clap)", "keys(1)", "bass(1)"};
 
 void initSourceView(GtkBuilder *builder);
 void attachFunctions(GtkBuilder *builder);
@@ -32,6 +33,7 @@ int fileLength(FILE* f_input);
 void style(void);
 GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*));
 void setUpPreviewButtons(GtkBuilder *builder);
+char* extractFilenameFromPath(char* path);
 
 void graphics_init(void){
   GtkBuilder *builder;
@@ -116,15 +118,28 @@ void setUpPreviewButtons(GtkBuilder *builder)
 {
   int i = 0;
   GtkButton* button;
+  char* filename;
 
   while(buttonIDs[i])
   {
     button = setUpGtkButton(builder, buttonIDs[i], events_buttonPress);
     assert(button != NULL);
-    gtk_button_set_label (button, buttonLabels[i]);
+    filename = extractFilenameFromPath(sampleFilePaths[i]);
+    gtk_button_set_label (button, filename);
     i++;
     printf("%d\n", i);
   }
+}
+
+char* extractFilenameFromPath(char* path)
+{
+  char* token;
+
+  token = strchr(path, '/');
+  token++;
+  token = strtok(token, ".");
+
+  return token;
 }
 
 void launchTextEvent(void){

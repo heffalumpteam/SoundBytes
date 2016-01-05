@@ -1,0 +1,3 @@
+#define MAXNUMBEROFSAMPLES 50
+
+char* sampleFilePaths[MAXNUMBEROFSAMPLES];
