@@ -2,6 +2,8 @@
 
 #include <gtksourceview/gtksourcebuffer.h>
 
+#include <stdlib.h>
+#include <string.h>
 
 #include "events.h"
 #include "graphics.h"
@@ -17,7 +19,7 @@ unsigned int play = 0;
 
 GtkTextMark* textMarker;
 
-
+int fileLength(FILE* f_input);
 
 gboolean events_mainLoop(gpointer user_data){
   /*https://developer.gnome.org/gtk-tutorial/stable/c1759.html*/
@@ -70,6 +72,55 @@ void events_init(GtkSourceBuffer* sourcebuffer)
                            TRUE);
 
   events_toggle();
+}
+
+void events_openFile(char* filename, GtkSourceBuffer *sourcebuffer)
+{
+  FILE* f_input = NULL;
+  char *contents;
+  int length = 0;
+
+  if((f_input = fopen(filename, "r"))){
+    length = fileLength(f_input);
+    contents = (char*)calloc(length, sizeof(char));
+    rewind(f_input);
+    fread(contents, sizeof(char), length, f_input);
+    gtk_text_buffer_set_text(GTK_TEXT_BUFFER(sourcebuffer), contents, -1);
+    fclose(f_input);
+    free(contents);  
+  }
+  else{
+    printf("Couldn't open file\n");
+  }
+}
+
+void events_saveFile(char* filename, GtkSourceBuffer *sourcebuffer)
+{
+  FILE* f_output = NULL;
+  GtkTextIter start, end;
+  char* buffer;
+
+  gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(sourcebuffer), &start, &end);
+  buffer = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(sourcebuffer), &start, &end, FALSE);
+
+  if((f_output = fopen(filename, "w"))){
+    fputs(buffer, f_output);
+    fclose(f_output);
+  }
+  else{
+    printf("Couldn't write file\n");
+  }
+}
+
+int fileLength(FILE* f_input)
+{
+  int count = 0;
+
+  while(!feof(f_input)){
+    getc(f_input);
+    count++;
+  }
+  return count;
 }
 
 void events_launchText(GtkSourceBuffer *sourcebuffer){

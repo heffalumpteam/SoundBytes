@@ -25,9 +25,9 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">6</property>
-    <property name="title" translatable="yes">Heffaloops</property>
+    <property name="title" translatable="yes">SoundBytes</property>
     <property name="default_width">600</property>
-    <property name="default_height">400</property>
+    <property name="default_height">500</property>
     <property name="icon">icon.png</property>
     <child>
       <object class="GtkBox" id="box1">
@@ -147,6 +147,7 @@
                 <property name="label" translatable="yes">Open</property>
                 <property name="use_underline">True</property>
                 <property name="icon_widget">open</property>
+                <accelerator key="o" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -160,6 +161,7 @@
                 <property name="label" translatable="yes">Save</property>
                 <property name="use_underline">True</property>
                 <property name="icon_widget">save</property>
+                <accelerator key="s" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -237,6 +239,9 @@
                             <property name="receives_default">True</property>
                             <property name="image_position">top</property>
                             <property name="always_show_image">True</property>
+                            <style>
+                              <class name="drums"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -250,6 +255,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="drums"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -263,6 +271,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="keys"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -276,6 +287,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="bass"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -289,6 +303,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="drums"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -302,6 +319,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="keys"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -315,6 +335,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="keys"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -328,6 +351,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="keys"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -341,6 +367,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="keys"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -354,6 +383,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="keys"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
