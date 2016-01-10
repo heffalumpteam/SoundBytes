@@ -1,7 +1,8 @@
 enum loop{
   DRUMS_SHUFFLE,
   DRUMS_CLAP,
-  SYNTH_STAB
+  BASS,
+  KEYS
 };
 typedef enum loop Loop;
 
@@ -22,3 +23,5 @@ void audio_stopLoop(Loop index);
 void audio_addLoop(Loop index);
 void audio_removeLoop(Loop index);
 void audio_markLoopInactive(Loop index);
+void audio_stop(void);
+void audio_changeVolume(Loop index, int volume);

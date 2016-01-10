@@ -13,7 +13,6 @@
     <style id="comment" _name="Comment"   map-to="def:comment"/>
     <style id="string"  _name="String"    map-to="def:string"/>
     <style id="type"    _name="Data Type" map-to="def:type"/>
-    <style id="weird"      _name="Operators"          map-to="def:type"/>
   </styles>
 
   <definitions>
@@ -52,11 +51,6 @@
       <keyword>(s|S)ynth</keyword>
     </context>
 
-    <context id="operators" style-ref="weird">
-      <match extended="true">[(].*[)]
-      </match>
-    </context>
-
     <context id="heffalump">
       <include>
         <context ref="keywords"/>
@@ -70,7 +64,3 @@
   </definitions>
 
 </language>
-
-
-
-
