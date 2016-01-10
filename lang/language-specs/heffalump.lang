@@ -13,21 +13,17 @@
     <style id="comment" _name="Comment"   map-to="def:comment"/>
     <style id="string"  _name="String"    map-to="def:string"/>
     <style id="type"    _name="Data Type" map-to="def:type"/>
+    <style id="weird"      _name="Operators"          map-to="def:type"/>
   </styles>
 
   <definitions>
     <context id="keywords" style-ref="keyword">
       <keyword>add</keyword>
-      <keyword>by</keyword>
-      <keyword>make</keyword>
-      <keyword>louder</keyword>
-      <keyword>faster</keyword>
-      <keyword>do</keyword>
       <keyword>after</keyword>
-      <keyword>stop</keyword>
-      <keyword>remote</keyword>
-      <keyword>start</keyword>
+      <keyword>remove</keyword>
       <keyword>set</keyword>
+      <keyword>start</keyword>
+      <keyword>stop</keyword>
       <keyword>volume</keyword>
     </context>
 
@@ -47,13 +43,18 @@
     </context>
 
     <context id="types" style-ref="type">
-      <keyword>Bass</keyword> 
-      <keyword>Clap</keyword>
-      <keyword>ClosedHiHat</keyword>
-      <keyword>Drums</keyword>
-      <keyword>Keys</keyword>
-      <keyword>OpenHiHat</keyword>
-      <keyword>Synth</keyword>
+      <keyword>(b|B)ass</keyword> 
+      <keyword>clap</keyword>
+      <keyword>chihat</keyword>
+      <keyword>(d|D)rums</keyword>
+      <keyword>(k|K)eys</keyword>
+      <keyword>ohihat</keyword>
+      <keyword>(s|S)ynth</keyword>
+    </context>
+
+    <context id="operators" style-ref="weird">
+      <match extended="true">[(].*[)]
+      </match>
     </context>
 
     <context id="heffalump">
