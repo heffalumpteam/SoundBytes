@@ -10,8 +10,8 @@
 #include "audio.h"
 #include "text.h"
 
-#define BPM 120
-#define MSperBEAT 500
+#define BPM 125
+#define MSperBEAT 480
 #define BEATS_IN_A_BAR 4
 
 unsigned char beat = 0, bar = 0;

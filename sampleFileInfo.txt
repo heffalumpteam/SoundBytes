@@ -3,3 +3,6 @@ samples/Snare1.wav 4
 samples/Bass1hkjdfhsfjhgdfknghjkdfngjdhfg.wav 4
 samples/Keys1.wav 4
 samples/Openhat1.wav 4
+samples/MUB1Clap004.wav 4
+samples/dropclap.wav 4
+samples/arplead.wav 4
