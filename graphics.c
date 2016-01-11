@@ -4,6 +4,7 @@
 //  https://wiki.gnome.org/Projects/GtkSourceView   https://github.com/GNOME/gtksourceview
 #include <assert.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguagemanager.h>
@@ -16,10 +17,19 @@
 #define MAX_NUMBER_OF_BUTTONS 10
 
 extern unsigned char running;
+
+typedef struct
+{
+  GtkButton* button;
+  char* buttonID;
+} Button;
+
 GtkSourceBuffer *sourcebuffer;
 gchar languagesPath[] = "lang/language-specs/";
 gchar* languagesDirs[] = {languagesPath, NULL};
-gchar* buttonIDs[MAXNUMBEROFSAMPLES] = {"button1", "button2", "button3", "button4"};
+gchar* buttonIDs[MAXNUMBEROFSAMPLES];
+Button buttons[MAXNUMBEROFSAMPLES];
+
 
 
 void initSourceView(GtkBuilder *builder);
@@ -33,6 +43,7 @@ void style(void);
 GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*, gpointer));
 void setUpPreviewButtons(GtkBuilder *builder);
 char* extractFilenameFromPath(char* path);
+void setUpButtonIDs();
 
 void graphics_init(void){
   GtkBuilder *builder;
@@ -41,6 +52,7 @@ void graphics_init(void){
 
   builder = gtk_builder_new_from_file ("graphicsFiles/ui.ui");
 
+  setUpButtonIDs();
   attachFunctions(builder);
   initSourceView(builder);
 
@@ -50,6 +62,20 @@ void graphics_init(void){
 
   // g_object_unref( G_OBJECT( builder ) );
   gtk_main ();
+}
+
+void setUpButtonIDs()
+{
+  char* buffer;
+  int i;
+
+  for (i = 0; i < MAXNUMBEROFSAMPLES; ++i)
+  {
+    buffer = malloc(10 * sizeof *buffer);
+    sprintf(buffer, "button%d", i);
+    buttonIDs[i] = (gchar*)buffer;
+    // printf("%s\n", buttonIDs[i]);
+  }
 }
 
 void initSourceView(GtkBuilder *builder){
@@ -104,10 +130,13 @@ void setUpPreviewButtons(GtkBuilder *builder)
   GtkButton* button;
   char* filename;
 
-  while(buttonIDs[i])
+  while(sampleFilePaths[i])
   {
+    printf("hello\n");
     button = setUpGtkButton(builder, buttonIDs[i], events_buttonPress);
     assert(button != NULL);
+
+    // buttons[i] = button;
 
     filename = extractFilenameFromPath(sampleFilePaths[i]);
     filenameLength = strlen(filename);
@@ -119,7 +148,6 @@ void setUpPreviewButtons(GtkBuilder *builder)
       filename[MAXFILENAMELENGTH - 1] = '\0';
     }
     gtk_button_set_label (button, filename);
-
     i++;
   }
 }
@@ -127,10 +155,15 @@ void setUpPreviewButtons(GtkBuilder *builder)
 char* extractFilenameFromPath(char* path)
 {
   char* token;
+  char* temp = malloc(strlen(path) + 1);
 
-  token = strchr(path, '/');
+  strcpy(temp, path);
+
+  token = strchr(temp, '/');
   token++;
   token = strtok(token, ".");
+
+  free(temp);
 
   return token;
 }

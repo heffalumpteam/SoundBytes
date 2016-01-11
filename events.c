@@ -48,12 +48,13 @@ void events_toggle(void){
   }
 }
 
-void events_buttonPress(GtkButton *button, gpointer data) {
-  char *label;
-  printf("HELLO\n");
-  printf("%s\n", (char*)data);
-  label = (char *)gtk_button_get_label(button);
-  text_receiveButtonPress(label);
+void events_buttonPress(GtkButton *button, gpointer buttonID) {
+  //char *label;
+  //int index;
+  //printf("%s\n", (char*)data);
+  //label = (char *)gtk_button_get_label(button);
+  //index = text_extractNumberFromString((char*)buttonID);
+  text_receiveButtonPress(buttonID);
 }
 
 void events_start(void){

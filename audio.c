@@ -128,7 +128,8 @@ Sample loadSample(Loop index) {
 //for some reason setting channel to 0 doesn't work
   Sample sample = {NULL, DEFAULTCHANNEL, false, 1, 0, -1, DEFAULTVOLUME}; //must read in looplength and repeatsleft from the file/user input
   sample.sample = Mix_LoadWAV(sampleFilePaths[index]);
-	sample.loopLength = sampleLoopLengths[index];
+  printf("%s\n", sampleFilePaths[index]);
+    sample.loopLength = sampleLoopLengths[index];
   if (!sample.sample){
     fprintf(stderr, "Audio: Failed to load sample \"%s\"!\n", sampleFilePaths[index]);
   }

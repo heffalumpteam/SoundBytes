@@ -39,6 +39,7 @@ int selectDrumLoop(char *string);
 int selectBassLoop(char *string);
 int selectKeysLoop(char *string);
 char *createStringCopy(char *input_string);
+int extractNumberFromString(char* string);
 
 void text_mainLoop(void)
 {
@@ -47,26 +48,28 @@ void text_mainLoop(void)
 
 void text_receiveButtonPress(char *input_string)
 {
-  int instrument_to_play_once, loop_to_play_once;
-  char *string_pointer, *temp;
+  // int instrument_to_play_once, loop_to_play_once;
+  // char *string_pointer, *temp;
 
-  temp = string_pointer = createStringCopy(input_string);
-  string_pointer = strtok(string_pointer, " \n.()");
-  instrument_to_play_once = selectInstrument(string_pointer);
-  string_pointer = strtok(NULL, " \n.()");
+  // temp = string_pointer = createStringCopy(input_string);
+  // string_pointer = strtok(string_pointer, " \n.()");
+  // instrument_to_play_once = selectInstrument(string_pointer);
+  // string_pointer = strtok(NULL, " \n.()");
 
-  switch(instrument_to_play_once){
-    case DRUM: loop_to_play_once = selectDrumLoop(string_pointer); break;
-    case BASS: loop_to_play_once = selectBassLoop(string_pointer); break;
-    case KEYS: loop_to_play_once = selectKeysLoop(string_pointer); break;
-  }
-  switch(loop_to_play_once){
-    case DRUM_KICK: audio_playSampleOnce(DRUM_KICK); break;
-    case DRUM_CLAP: audio_playSampleOnce(DRUM_CLAP); break;
-    case BASS_1: audio_playSampleOnce(BASS_1); break;
-    case KEYS_1: audio_playSampleOnce(KEYS_1); break;
-  }
-  free(temp);
+  // switch(instrument_to_play_once){
+  //   case DRUM: loop_to_play_once = selectDrumLoop(string_pointer); break;
+  //   case BASS: loop_to_play_once = selectBassLoop(string_pointer); break;
+  //   case KEYS: loop_to_play_once = selectKeysLoop(string_pointer); break;
+  // }
+  // switch(loop_to_play_once){
+  //   case DRUM_KICK: audio_playSampleOnce(DRUM_KICK); break;
+  //   case DRUM_CLAP: audio_playSampleOnce(DRUM_CLAP); break;
+  //   case BASS_1: audio_playSampleOnce(BASS_1); break;
+  //   case KEYS_1: audio_playSampleOnce(KEYS_1); break;
+  // }
+  // free(temp);
+
+  audio_playSampleOnce(extractNumberFromString(input_string));
 }
 
 void text_receiveUpdate(char *input_string)
@@ -435,4 +438,18 @@ char *createStringCopy(char *input_string)
   }
   strcpy(copy, input_string);
   return copy;
+}
+
+int extractNumberFromString(char* string)
+{
+  int index;
+
+  while(!isdigit(*string))
+  {
+    string++;
+  }
+
+  sscanf(string, "%d", &index);
+
+  return index;
 }
