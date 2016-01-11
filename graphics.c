@@ -18,19 +18,9 @@
 
 extern unsigned char running;
 
-typedef struct
-{
-  GtkButton* button;
-  char* buttonID;
-} Button;
-
 GtkSourceBuffer *sourcebuffer;
 gchar languagesPath[] = "lang/language-specs/";
 gchar* languagesDirs[] = {languagesPath, NULL};
-gchar* buttonIDs[MAXNUMBEROFSAMPLES];
-Button buttons[MAXNUMBEROFSAMPLES];
-
-
 
 void initSourceView(GtkBuilder *builder);
 void attachFunctions(GtkBuilder *builder);
@@ -43,7 +33,7 @@ void style(void);
 GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*, gpointer));
 void setUpPreviewButtons(GtkBuilder *builder);
 char* extractFilenameFromPath(char* path);
-void setUpButtonIDs();
+gchar* createButtonIDForIndex(int i);
 
 void graphics_init(void){
   GtkBuilder *builder;
@@ -52,7 +42,7 @@ void graphics_init(void){
 
   builder = gtk_builder_new_from_file ("graphicsFiles/ui.ui");
 
-  setUpButtonIDs();
+  //setUpButtonIDs();
   attachFunctions(builder);
   initSourceView(builder);
 
@@ -64,18 +54,13 @@ void graphics_init(void){
   gtk_main ();
 }
 
-void setUpButtonIDs()
+gchar* createButtonIDForIndex(int i)
 {
   char* buffer;
-  int i;
 
-  for (i = 0; i < MAXNUMBEROFSAMPLES; ++i)
-  {
     buffer = malloc(10 * sizeof *buffer);
     sprintf(buffer, "button%d", i);
-    buttonIDs[i] = (gchar*)buffer;
-    // printf("%s\n", buttonIDs[i]);
-  }
+    return (gchar*)buffer;
 }
 
 void initSourceView(GtkBuilder *builder){
@@ -126,14 +111,15 @@ GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(
 
 void setUpPreviewButtons(GtkBuilder *builder)
 {
-  int i = 0, filenameLength;
-  GtkButton* button;
+  int i = 0, j = 0, filenameLength;
+  GtkButton *button;
   char* filename;
 
   while(sampleFilePaths[i])
   {
-    printf("hello\n");
-    button = setUpGtkButton(builder, buttonIDs[i], events_buttonPress);
+
+    buttons[i].buttonID = createButtonIDForIndex(i);
+    button = setUpGtkButton(builder, buttons[i].buttonID, events_buttonPress);
     assert(button != NULL);
 
     // buttons[i] = button;
@@ -147,7 +133,17 @@ void setUpPreviewButtons(GtkBuilder *builder)
       filename[MAXFILENAMELENGTH - 2] = '.';
       filename[MAXFILENAMELENGTH - 1] = '\0';
     }
+    printf("%c\n", filename[0]);
+    j = 0;
+    while(filename[j] != '\0')
+    {
+      filename[j] = tolower(filename[j]);
+      j++;
+    }
+    printf("%s\n", filename);
+    strcpy(buttons[i].sampleName, filename);
     gtk_button_set_label (button, filename);
+    //printf("%s\n", buttons[i].sampleName);
     i++;
   }
 }

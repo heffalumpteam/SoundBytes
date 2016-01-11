@@ -8,7 +8,7 @@
 
 #include "text.h"
 #include "audio.h"
-
+#include "samples.h"
 enum instruction{
   ADD,
   REMOVE,
@@ -40,6 +40,7 @@ int selectBassLoop(char *string);
 int selectKeysLoop(char *string);
 char *createStringCopy(char *input_string);
 int extractNumberFromString(char* string);
+void findSampleInArray(char* string_pointer);
 
 void text_mainLoop(void)
 {
@@ -76,26 +77,36 @@ void text_receiveUpdate(char *input_string)
 {
   int j;
   int i = 1;
-  char* string_pointer;
+  char* string_pointer = NULL;
 
   for (j= 0; input_string[j] != '\0'; j++) {
      input_string[j] = tolower(input_string[j]);
    }
   /*Takes input line from GUI and splits into individual words*/
-  string_pointer = strtok(input_string, " \n.()");
+  string_pointer = strtok(input_string, " \n");
+  instructionControl(string_pointer);
+  //printf("STRING POINTER IS: %s\n", string_pointer);
 
-  while(string_pointer){
-    printf("TEXT: Instruction %d Received: %s\n", i, string_pointer);
-    instructionControl(string_pointer);
-    string_pointer = strtok(NULL, " \n.()");
-    i++;
-  }
+  // while(string_pointer){
+  //   printf("TEXT: Instruction %d Received: %s\n", i, string_pointer);
+  //   instructionControl(string_pointer);
+  //   string_pointer = strtok(NULL, " \n.()");
+  //   i++;
+  // }
 }
 
 void instructionControl(char *string_pointer)
 {
   char *input_string;
+
+  if (!string_pointer)
+  {
+    return;
+  }
   int instruction_to_execute = selectInstruction(string_pointer);
+  printf("INSTRUCTION IS: %d\n", instruction_to_execute);
+  string_pointer = strtok(NULL, "\n");
+    printf("STRING POINTER NOW IS: %s\n", string_pointer);
 
   switch(instruction_to_execute){
     case ADD: add_(string_pointer); break;
@@ -103,28 +114,51 @@ void instructionControl(char *string_pointer)
     case SET: set_(string_pointer); break;
     case STOP: stopAll_(string_pointer); break;
   }
-  input_string = strtok(NULL, "");
-  passBack(input_string);
+
+  // input_string = strtok(NULL, "");
+  // // printf("INPUT STRING IS: %s\n", INPUT);
+  // passBack(input_string);
 }
 
 void add_(char *string_pointer)
 {
-  int instrument_to_add;
-  string_pointer = strtok(NULL, " \n.()");
+  //string_pointer = strtok(NULL, " \n.()");
 
-  if(string_pointer){
-    printf("TEXT: Add function: Instrument: %s\n", string_pointer);
+  printf("this%s\n", string_pointer);
+  findSampleInArray(string_pointer);
 
-    instrument_to_add = selectInstrument(string_pointer);
-    printf("instrument_to_add : %d\n", instrument_to_add );
 
-    switch(instrument_to_add) {
-      case DRUM: addDrum(string_pointer); break;
-      case BASS: addBass(string_pointer); break;
-      case KEYS: addKeys(string_pointer); break;
+
+  // if(string_pointer){
+  //   printf("TEXT: Add function: Instrument: %s\n", string_pointer);
+
+  //   instrument_to_add = selectInstrument(string_pointer);
+  //   printf("instrument_to_add : %d\n", instrument_to_add );
+
+  //   switch(instrument_to_add) {
+  //     case DRUM: addDrum(string_pointer); break;
+  //     case BASS: addBass(string_pointer); break;
+  //     case KEYS: addKeys(string_pointer); break;
+  //   }
+  // }
+}
+
+void findSampleInArray(char* string_pointer)
+{
+  int i;
+  printf("the string pointer inside find sample in findSampleInArray %c\n", string_pointer[0]);
+  for(i=0; i < audio_noOfSamplesLoaded; i++)
+  {
+    printf("SP: %s, SN: %s\n", string_pointer,buttons[i].sampleName );
+    if (strcmp(string_pointer, buttons[i].sampleName) == 0)
+    {
+      printf("YO\n");
+        audio_addLoop(extractNumberFromString(buttons[i].buttonID));
     }
   }
 }
+
+
 // No need for switch - already have data so just call the function!
 void addDrum(char *string_pointer)
 {
@@ -443,6 +477,8 @@ char *createStringCopy(char *input_string)
 int extractNumberFromString(char* string)
 {
   int index;
+
+  printf("%p\n", string);
 
   while(!isdigit(*string))
   {

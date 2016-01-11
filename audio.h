@@ -16,6 +16,8 @@ enum loop{
 };
 typedef enum loop Loop;
 
+int audio_noOfSamplesLoaded;
+
 void audio_init(void);
 void audio_close(void);
 void audio_mainLoop(void);

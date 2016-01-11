@@ -223,11 +223,13 @@ void readSampleInfo()
     if(!sampleInfoFile) {
         fprintf(stderr, "Could not open sample information file.\n");
     }
+    audio_noOfSamplesLoaded = 0;
     while(fgets(sampleInfo, MAXSAMPLEINFOLENGTH, sampleInfoFile) != NULL) {
         tokenizeSampleInfo(sampleInfo, tokens);
         sampleFilePaths[i] = createSampleFilePath(tokens[FILENAME]);
         sampleLoopLengths[i] = atoi(tokens[LOOPLENGTH]);
         i++;
+        audio_noOfSamplesLoaded++;
     }
     fclose(sampleInfoFile);
 }

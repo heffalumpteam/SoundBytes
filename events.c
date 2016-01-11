@@ -128,9 +128,8 @@ int fileLength(FILE* f_input)
 
 void events_launchText(GtkSourceBuffer *sourcebuffer){
   /*
-https://git.gnome.org/browse/gtk+/tree/demos/gtk-demo/textview.c
+https://git.gnome.org/browse/gtk+/tree/demos/gtk-demo/textview.c */
 
-  */
   GtkTextIter start, end;
   gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(sourcebuffer), &start, textMarker);
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(sourcebuffer), &end, 3);
