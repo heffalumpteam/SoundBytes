@@ -13,7 +13,7 @@ void events_quitting(void);
 void events_launchText(GtkSourceBuffer *sourcebuffer);
 void events_openFile(char* filename, GtkSourceBuffer *sourcebuffer);
 void events_saveFile(char* filename, GtkSourceBuffer *sourcebuffer);
-void events_buttonPress(GtkButton *);
+void events_buttonPress(GtkButton *button, gpointer data);
 void events_init(GtkSourceBuffer* sourcebuffer);
 
 #endif

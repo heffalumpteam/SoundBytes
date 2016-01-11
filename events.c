@@ -48,8 +48,10 @@ void events_toggle(void){
   }
 }
 
-void events_buttonPress(GtkButton *button) {
+void events_buttonPress(GtkButton *button, gpointer data) {
   char *label;
+  printf("HELLO\n");
+  printf("%s\n", (char*)data);
   label = (char *)gtk_button_get_label(button);
   text_receiveButtonPress(label);
 }

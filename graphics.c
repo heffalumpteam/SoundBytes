@@ -19,8 +19,8 @@ extern unsigned char running;
 GtkSourceBuffer *sourcebuffer;
 gchar languagesPath[] = "lang/language-specs/";
 gchar* languagesDirs[] = {languagesPath, NULL};
-
 gchar* buttonIDs[MAXNUMBEROFSAMPLES] = {"button1", "button2", "button3", "button4"};
+
 
 void initSourceView(GtkBuilder *builder);
 void attachFunctions(GtkBuilder *builder);
@@ -30,7 +30,7 @@ void saveFileDialog(GtkButton *button, GtkBuilder *builder);
 void openFile(char* filename);
 int fileLength(FILE* f_input);
 void style(void);
-GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*));
+GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*, gpointer));
 void setUpPreviewButtons(GtkBuilder *builder);
 char* extractFilenameFromPath(char* path);
 
@@ -88,7 +88,7 @@ void attachFunctions(GtkBuilder *builder){
   g_signal_connect (saveButton, "clicked", G_CALLBACK (saveFileDialog), builder);
 }
 
-GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*)) {
+GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*, gpointer)) {
 
   GtkButton* button;
 
