@@ -117,12 +117,9 @@ void setUpPreviewButtons(GtkBuilder *builder)
 
   while(sampleFilePaths[i])
   {
-
     buttons[i].buttonID = createButtonIDForIndex(i);
     button = setUpGtkButton(builder, buttons[i].buttonID, events_buttonPress);
     assert(button != NULL);
-
-    // buttons[i] = button;
 
     filename = extractFilenameFromPath(sampleFilePaths[i]);
     filenameLength = strlen(filename);
@@ -133,17 +130,17 @@ void setUpPreviewButtons(GtkBuilder *builder)
       filename[MAXFILENAMELENGTH - 2] = '.';
       filename[MAXFILENAMELENGTH - 1] = '\0';
     }
-    printf("%c\n", filename[0]);
+
     j = 0;
     while(filename[j] != '\0')
     {
       filename[j] = tolower(filename[j]);
       j++;
     }
-    printf("%s\n", filename);
+
     strcpy(buttons[i].sampleName, filename);
     gtk_button_set_label (button, filename);
-    //printf("%s\n", buttons[i].sampleName);
+
     i++;
   }
 }

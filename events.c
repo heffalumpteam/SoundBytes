@@ -49,11 +49,7 @@ void events_toggle(void){
 }
 
 void events_buttonPress(GtkButton *button, gpointer buttonID) {
-  //char *label;
-  //int index;
-  //printf("%s\n", (char*)data);
-  //label = (char *)gtk_button_get_label(button);
-  //index = text_extractNumberFromString((char*)buttonID);
+  (void) button;
   text_receiveButtonPress(buttonID);
 }
 

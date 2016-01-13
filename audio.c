@@ -80,23 +80,18 @@ void audio_mainLoop(void){
             SET_VOLUME(i);
             if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)){
                 BARS_LEFT(i) = BARS_IN_LOOP(i);
-                //printf("Loop length: %d, BL: %d", activeSamples[MAXNUMBEROFSAMPLES-1].loopLength, activeSamples[MAXNUMBEROFSAMPLES-1].barsLeft);
                 if(LOOP_IS_NOT_PLAYING(i)){
                     RESTART_LOOP(i);
-                    printf("Repeats left:%d\n", activeSamples[i].repeatsLeft);
                     if(REPEATS_LEFT(i) > 0){
                         REPEATS_LEFT(i)--;
                     }
-                }
-                
+                }   
             }
             else if(BARS_LEFT(i) == 0 && REPEATS_LEFT(i) == 0){
                 printf("hello\n");
                 REMOVE_LOOP(i);
             }
             BARS_LEFT(i)--;
-            printf("Loop length: %d, BL: %d, Active: %d, RL: %d\n", activeSamples[MAXNUMBEROFSAMPLES-1].loopLength, activeSamples[MAXNUMBEROFSAMPLES-1].barsLeft, activeSamples[MAXNUMBEROFSAMPLES-1].active, activeSamples[MAXNUMBEROFSAMPLES-1].repeatsLeft);
-
         }
         else{
             if(activeSamples[i].sample != NULL){
@@ -130,10 +125,8 @@ void setLoopActiveFlag(Loop index, bool flag)
 }
 
 Sample loadSample(Loop index) {
-//for some reason setting channel to 0 doesn't work
   Sample sample = {NULL, DEFAULTCHANNEL, false, 1, 0, -1, DEFAULTVOLUME}; //must read in looplength and repeatsleft from the file/user input
   sample.sample = Mix_LoadWAV(sampleFilePaths[index]);
-  printf("%s\n", sampleFilePaths[index]);
     sample.loopLength = sampleLoopLengths[index];
   if (!sample.sample){
     fprintf(stderr, "Audio: Failed to load sample \"%s\"!\n", sampleFilePaths[index]);
@@ -191,7 +184,6 @@ void audio_playSampleOnce(Loop index)
     if(!buttonSound.sample) {
         buttonSound = loadSample(index);
         buttonSound.repeatsLeft = 1;
-        printf("Loop length: %d, BL: %d", buttonSound.loopLength, buttonSound.barsLeft);
         addToActiveArray(MAXNUMBEROFSAMPLES-1, buttonSound);
         setLoopActiveFlag(MAXNUMBEROFSAMPLES-1, true);
     }
