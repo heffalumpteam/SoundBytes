@@ -10,8 +10,8 @@
 #include "audio.h"
 #include "text.h"
 
-#define BPM 120
-#define MSperBEAT 500
+#define BPM 125
+#define MSperBEAT 480
 #define BEATS_IN_A_BAR 4
 
 unsigned char beat = 0, bar = 0;
@@ -48,10 +48,9 @@ void events_toggle(void){
   }
 }
 
-void events_buttonPress(GtkButton *button) {
-  char *label;
-  label = (char *)gtk_button_get_label(button);
-  text_receiveButtonPress(label);
+void events_buttonPress(GtkButton *button, gpointer buttonID) {
+  (void) button;
+  text_receiveButtonPress(buttonID);
 }
 
 void events_start(void){
@@ -125,9 +124,8 @@ int fileLength(FILE* f_input)
 
 void events_launchText(GtkSourceBuffer *sourcebuffer){
   /*
-https://git.gnome.org/browse/gtk+/tree/demos/gtk-demo/textview.c
+https://git.gnome.org/browse/gtk+/tree/demos/gtk-demo/textview.c */
 
-  */
   GtkTextIter start, end;
   gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(sourcebuffer), &start, textMarker);
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(sourcebuffer), &end, 3);

@@ -4,16 +4,20 @@
 //  https://wiki.gnome.org/Projects/GtkSourceView   https://github.com/GNOME/gtksourceview
 #include <assert.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguagemanager.h>
 
 #include "graphics.h"
 #include "events.h"
+#include "samples.h"
 
 #define UNUSED(x) (void)(x)
+#define MAX_NUMBER_OF_BUTTONS 10
 
 extern unsigned char running;
+
 GtkSourceBuffer *sourcebuffer;
 gchar languagesPath[] = "lang/language-specs/";
 gchar* languagesDirs[] = {languagesPath, NULL};
@@ -26,7 +30,10 @@ void saveFileDialog(GtkButton *button, GtkBuilder *builder);
 void openFile(char* filename);
 int fileLength(FILE* f_input);
 void style(void);
-GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*));
+GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*, gpointer));
+void setUpPreviewButtons(GtkBuilder *builder);
+char* extractFilenameFromPath(char* path);
+gchar* createButtonIDForIndex(int i);
 
 void graphics_init(void){
   GtkBuilder *builder;
@@ -35,6 +42,7 @@ void graphics_init(void){
 
   builder = gtk_builder_new_from_file ("graphicsFiles/ui.ui");
 
+  //setUpButtonIDs();
   attachFunctions(builder);
   initSourceView(builder);
 
@@ -44,6 +52,15 @@ void graphics_init(void){
 
   // g_object_unref( G_OBJECT( builder ) );
   gtk_main ();
+}
+
+gchar* createButtonIDForIndex(int i)
+{
+  char* buffer;
+
+    buffer = malloc(10 * sizeof *buffer);
+    sprintf(buffer, "button%d", i);
+    return (gchar*)buffer;
 }
 
 void initSourceView(GtkBuilder *builder){
@@ -57,10 +74,6 @@ void initSourceView(GtkBuilder *builder){
 
 void attachFunctions(GtkBuilder *builder){
   GObject *window;
-  GtkButton *button1;
-  GtkButton *button2;
-  GtkButton *button3;
-  GtkButton *button4;
   GtkButton *runButton;
   GtkButton *openButton;
   GtkButton *saveButton;
@@ -74,14 +87,8 @@ void attachFunctions(GtkBuilder *builder){
   timeoutID = g_timeout_add(NUM_MS, events_mainLoop, NULL);
   assert(timeoutID > 0);
 
-  button1 = setUpGtkButton(builder, "button1", events_buttonPress); /* Generic function, see below */
-  assert(button1 != NULL);
-  button2 = setUpGtkButton(builder, "button2", events_buttonPress);
-  assert(button2 != NULL);
-  button3 = setUpGtkButton(builder, "button3", events_buttonPress); /* Generic function, see below */
-  assert(button3 != NULL);
-  button4 = setUpGtkButton(builder, "button4", events_buttonPress);
-  assert(button4 != NULL);
+  setUpPreviewButtons(builder);
+
 
   runButton = (GtkButton *)gtk_builder_get_object (builder, "runButton");
   g_signal_connect (runButton, "clicked", G_CALLBACK (launchTextEvent), NULL);
@@ -93,7 +100,7 @@ void attachFunctions(GtkBuilder *builder){
   g_signal_connect (saveButton, "clicked", G_CALLBACK (saveFileDialog), builder);
 }
 
-GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*)) {
+GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*, gpointer)) {
 
   GtkButton* button;
 
@@ -101,6 +108,58 @@ GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(
   g_signal_connect(button, "clicked", G_CALLBACK(function), buttonID);
 
   return button;
+}
+
+void setUpPreviewButtons(GtkBuilder *builder)
+{
+  int i = 0, j = 0, filenameLength;
+  GtkButton *button;
+  char* filename;
+
+  while(sampleFilePaths[i])
+  {
+    buttons[i].buttonID = createButtonIDForIndex(i);
+    button = setUpGtkButton(builder, buttons[i].buttonID, events_buttonPress);
+    assert(button != NULL);
+
+    filename = extractFilenameFromPath(sampleFilePaths[i]);
+    filenameLength = strlen(filename);
+    if (filenameLength > MAXFILENAMELENGTH)
+    {
+      filename[MAXFILENAMELENGTH - 4] = '.';
+      filename[MAXFILENAMELENGTH - 3] = '.';
+      filename[MAXFILENAMELENGTH - 2] = '.';
+      filename[MAXFILENAMELENGTH - 1] = '\0';
+    }
+
+    j = 0;
+    while(filename[j] != '\0')
+    {
+      filename[j] = tolower(filename[j]);
+      j++;
+    }
+
+    strcpy(buttons[i].sampleName, filename);
+    gtk_button_set_label (button, filename);
+
+    i++;
+  }
+}
+
+char* extractFilenameFromPath(char* path)
+{
+  char* token;
+  char* temp = malloc(strlen(path) + 1);
+
+  strcpy(temp, path);
+
+  token = strchr(temp, '/');
+  token++;
+  token = strtok(token, ".");
+
+  free(temp);
+
+  return token;
 }
 
 void launchTextEvent(void){
