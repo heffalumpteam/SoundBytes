@@ -89,6 +89,7 @@ void attachFunctions(GtkBuilder *builder){
 
   setUpPreviewButtons(builder);
 
+
   runButton = (GtkButton *)gtk_builder_get_object (builder, "runButton");
   g_signal_connect (runButton, "clicked", G_CALLBACK (launchTextEvent), NULL);
 

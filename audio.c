@@ -88,7 +88,6 @@ void audio_mainLoop(void){
                 }   
             }
             else if(BARS_LEFT(i) == 0 && REPEATS_LEFT(i) == 0){
-                printf("hello\n");
                 REMOVE_LOOP(i);
             }
             BARS_LEFT(i)--;
@@ -239,7 +238,7 @@ char *createSampleFilePath(char *path)
 
 void tokenizeSampleInfo(char *sampleInfo, char *tokens[])
 {
-    int i = 0;
+  int i = 0;
 
   tokens[i++] = strtok(sampleInfo, " ");
   while(i < MAXFILEINFOTOKENS) {
