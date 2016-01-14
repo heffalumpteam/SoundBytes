@@ -1,5 +1,5 @@
-#ifndef _text
-#define _text
+#ifndef text_H_
+#define text_H_
 #define NULLCHAR 1
 
 void text_mainLoop(void);

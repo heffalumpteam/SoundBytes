@@ -12,6 +12,7 @@
 
 #include "audio.h"
 #include "samples.h"
+
 #include <string.h>
 #include <stdbool.h>
 #include <limits.h>
@@ -35,73 +36,70 @@
 #define REMOVE_LOOP(i) audio_removeLoop(i)
 #define RESTART_LOOP(i) audio_startLoop(i)
 
-struct sample {
+typedef struct {
   Mix_Chunk* sample;
   int channel;
   bool active;
-    int loopLength;
-    int barsLeft;
-    int repeatsLeft; //-1 to keep playing indefinitely
-    int volume;
-};
-typedef struct sample Sample;
+  int loopLength;
+  int barsLeft;
+  int repeatsLeft; //-1 to keep playing indefinitely
+  int volume;
+} Sample;
 
-/* Functions */
-Sample loadSample(int index);
-void readSampleInfo();
-void tokenizeSampleInfo(char *sampleInfo, char *tokens[]);
-void addToActiveArray(int index, Sample sample);
-void setLoopActiveFlag(int index, bool flag);
-char *createSampleFilePath(char *path);
-
-/* Variables */
 int sampleLoopLengths[MAXNUMBEROFSAMPLES];
 Sample activeSamples[MAXNUMBEROFSAMPLES] = {{NULL, DEFAULTCHANNEL, false, 1, 0,-1, DEFAULTVOLUME}};
-int channel1, channel2, abeat = 0, abar = 0;
 
-/*Sample buttonSound = {NULL, DEFAULTCHANNEL, false, 1, 0, 0};*/
-Mix_Chunk *clap1_sound = NULL;
-
-/*https://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_28.html*/
+/* Sample functions */
+Sample loadSample(int index);
+void addToActiveArray(int index, Sample sample);
+void setLoopActiveFlag(int index, bool flag);
+/* File info */
+void readSampleInfo();
+void tokenizeSampleInfo(char *sampleInfo, char *tokens[]);
+char *createSampleFilePath(char *path);
 
 void audio_init(void) {
   SDL_Init(SDL_INIT_AUDIO);
-    if( Mix_OpenAudio( SAMPLERATE, MIX_DEFAULT_FORMAT, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ) {
+
+  if( Mix_OpenAudio( SAMPLERATE, MIX_DEFAULT_FORMAT, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ) {
     fprintf(stderr, "Audio: SDL_mixer Error: %s\n", Mix_GetError());
   }
+
   readSampleInfo();
 }
 
+/* Loops through activeSamples array once every bar, checks which samples have stopped and retriggers them if they have repeats left, otherwise
+  removes and frees them */
 void audio_mainLoop(void) {
   int i;
   for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
-      if(SAMPLE_IS_ACTIVE(i)) {
-        SET_VOLUME(i);
-        if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)) { /* Sample needs re-triggering */
-          BARS_LEFT(i) = BARS_IN_LOOP(i);
-          if(LOOP_IS_NOT_PLAYING(i)) {
-            RESTART_LOOP(i);
-            if(REPEATS_LEFT(i) > 0) {
-              REPEATS_LEFT(i)--;
-            }
-          }   
-        }
-        else if(BARS_LEFT(i) == 0 && REPEATS_LEFT(i) == 0) { /* Sample has finished, needs to be removed */
-            REMOVE_LOOP(i);
-        }
-          BARS_LEFT(i)--;
-      }
-      else {  /* Inactive samples, need to get removed */
-          if(activeSamples[i].sample != NULL) {
-              REMOVE_LOOP(i);
+    if(SAMPLE_IS_ACTIVE(i)) {
+      SET_VOLUME(i);
+      if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)) { /* Sample needs re-triggering */
+        BARS_LEFT(i) = BARS_IN_LOOP(i);
+        if(LOOP_IS_NOT_PLAYING(i)) {
+          RESTART_LOOP(i);
+          if(REPEATS_LEFT(i) > 0) {
+            REPEATS_LEFT(i)--;
           }
+        }   
       }
+      else if(BARS_LEFT(i) == 0 && REPEATS_LEFT(i) == 0) { /* Sample has finished, needs to be removed */
+        REMOVE_LOOP(i);
+      }
+      BARS_LEFT(i)--;
+    }
+    else {  /* Inactive samples, need to be removed */
+      if(activeSamples[i].sample != NULL) {
+        REMOVE_LOOP(i);
+      }
+    }
   }
 }
 
 void audio_addLoop(int index) {
   Sample sample;
-  if (activeSamples[index].sample == NULL){
+  if (activeSamples[index].sample == NULL) {
     printf("AUDIO MADE ACTIVE\n");
     sample = loadSample(index);
     addToActiveArray(index, sample);
@@ -175,11 +173,12 @@ void audio_playSampleOnce(int index) {
 
 void audio_stop(void) {
   int i;
-    for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
+
+  for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
     if(activeSamples[i].sample != NULL) {
       activeSamples[i].active = false;
-        }
     }
+  }
 }
 
 void audio_changeVolume(int index, int volume) {
@@ -188,23 +187,26 @@ void audio_changeVolume(int index, int volume) {
 
 void readSampleInfo() {
   FILE* sampleInfoFile;
-    char sampleInfo[MAXSAMPLEINFOLENGTH];
-    char *tokens[MAXFILEINFOTOKENS];
-    int i = 0;
+  char sampleInfo[MAXSAMPLEINFOLENGTH];
+  char *tokens[MAXFILEINFOTOKENS];
+  int i = 0;
 
-    sampleInfoFile = fopen("sampleFileInfo.txt", "r");
-    if(!sampleInfoFile) {
-        fprintf(stderr, "Could not open sample information file.\n");
-    }
-    audio_noOfSamplesLoaded = 0;
-    while(fgets(sampleInfo, MAXSAMPLEINFOLENGTH, sampleInfoFile) != NULL) {
-      tokenizeSampleInfo(sampleInfo, tokens);
-      sampleFilePaths[i] = createSampleFilePath(tokens[FILENAME]);
-      sampleLoopLengths[i] = atoi(tokens[LOOPLENGTH]);
-      i++;
-      audio_noOfSamplesLoaded++;
-    }
-    fclose(sampleInfoFile);
+  sampleInfoFile = fopen("sampleFileInfo.txt", "r");
+  if(!sampleInfoFile) {
+      fprintf(stderr, "Could not open sample information file.\n");
+  }
+
+  audio_noOfSamplesLoaded = 0;
+
+  while(fgets(sampleInfo, MAXSAMPLEINFOLENGTH, sampleInfoFile) != NULL) {
+    tokenizeSampleInfo(sampleInfo, tokens);
+    sampleFilePaths[i] = createSampleFilePath(tokens[FILENAME]);
+    sampleLoopLengths[i] = atoi(tokens[LOOPLENGTH]);
+    i++;
+    audio_noOfSamplesLoaded++;
+  }
+
+  fclose(sampleInfoFile);
 }
 
 char *createSampleFilePath(char *path) {

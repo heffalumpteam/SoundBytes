@@ -1,5 +1,5 @@
-#ifndef _events
-#define _events
+#ifndef EVENTS_H_
+#define EVENTS_H_
 
 #define NUM_MS 480
 

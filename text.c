@@ -9,6 +9,7 @@
 #include "text.h"
 #include "audio.h"
 #include "samples.h"
+
 enum instruction {
   ADD,
   REMOVE,
@@ -17,13 +18,15 @@ enum instruction {
 };
 typedef enum instruction Instruction;
 
+/* Instructions */
+int selectInstruction(char *string);
 void instructionControl(char *string_pointer);
 void add_(char *string_pointer);
 void remove_(char *string_pointer);
 void set_(char *string_pointer);
 void changeVolume(char *string_pointer, char* desiredVolume);
 void stopAll_(void);
-int selectInstruction(char *string);
+/* Helpers */
 int extractNumberFromString(char* string);
 char* findSampleInArray(char* string_pointer);
 
@@ -53,11 +56,13 @@ void text_receiveUpdate(char *input_string) {
 
 void instructionControl(char *string_pointer) {
   char* buttonID;
+  int instruction_to_execute;
 
   if (!string_pointer) {
     return;
   }
-  int instruction_to_execute = selectInstruction(string_pointer);
+  
+  instruction_to_execute = selectInstruction(string_pointer);
 
   string_pointer = strtok(NULL, " \n");
   
@@ -74,6 +79,7 @@ void instructionControl(char *string_pointer) {
 }
 
 void add_(char *buttonID) {
+
   if (buttonID) {
     audio_addLoop(extractNumberFromString(buttonID));
   }
@@ -82,10 +88,8 @@ void add_(char *buttonID) {
 char* findSampleInArray(char* string_pointer) {
   int i;
 
-  for(i=0; i < audio_noOfSamplesLoaded; i++)
-  {
-    if (strcmp(string_pointer, buttons[i].sampleName) == 0)
-    {
+  for(i=0; i < audio_noOfSamplesLoaded; i++) {
+    if (strcmp(string_pointer, buttons[i].sampleName) == 0) {
       return buttons[i].buttonID;
     }
   }
@@ -94,8 +98,8 @@ char* findSampleInArray(char* string_pointer) {
 }
 
 void remove_(char *buttonID) {
-  if (buttonID)
-  {
+  
+  if (buttonID) {
     audio_markLoopInactive(extractNumberFromString(buttonID));
   }
 }
@@ -105,7 +109,7 @@ void set_(char *string_pointer) {
   char* buttonID;
 
   if(string_pointer) {
-    // temp now points to "volume".
+    // now points to "volume" and the digit after it.
     volumeCommand = strtok(NULL, " \n.()");
     desiredVolume = strtok(NULL, " \n.()");
 
@@ -126,10 +130,9 @@ void changeVolume(char *string_pointer, char* desiredVolume) {
   // The user entered a valid volume number
   if ((volume > 0) && (volume < 12)) {
     printf("atoi check: %d\n", volume);
-    volume = ((128 / 11) * volume);
+    volume = ((128 / 11) * volume); // Scales the volume to the range 0-128
     audio_changeVolume(extractNumberFromString(string_pointer), volume);
   }
-  // Invalid no
   else {
     fprintf(stderr, "Next time please enter a number between 0 and 11!\n");
   }

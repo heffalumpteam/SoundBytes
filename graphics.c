@@ -14,27 +14,30 @@
 #include "samples.h"
 
 #define UNUSED(x) (void)(x)
-#define MAX_NUMBER_OF_BUTTONS 10
+#define MAX_BUTTON_ID_LENGTH 10
 
 extern unsigned char running;
 
 GtkSourceBuffer *sourcebuffer;
-gchar languagesPath[] = "lang/language-specs/";
+gchar languagesPath[] = "lang/language-specs/"; /* Custom language file for syntax highlighting */
 gchar* languagesDirs[] = {languagesPath, NULL};
 
+/* Setup */
 void initSourceView(GtkBuilder *builder);
 void attachFunctions(GtkBuilder *builder);
-void launchTextEvent(void);
-void openFileDialog(GtkButton *button, GtkBuilder *builder);
-void saveFileDialog(GtkButton *button, GtkBuilder *builder);
-void openFile(char* filename);
-int fileLength(FILE* f_input);
-void style(void);
 GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*, gpointer));
 void setUpPreviewButtons(GtkBuilder *builder);
+/* Saving and loading .lump files */
+void openFileDialog(GtkButton *button, GtkBuilder *builder);
+void saveFileDialog(GtkButton *button, GtkBuilder *builder);
+/* Helper functions */
 char* extractFilenameFromPath(char* path);
 gchar* createButtonIDForIndex(int i);
 void makeLowercase(char* filename);
+/* Misc */
+void launchTextEvent(void);
+void style(void);
+
 
 void graphics_init(void) {
   GtkBuilder *builder;
@@ -49,15 +52,13 @@ void graphics_init(void) {
   events_init(sourcebuffer);
 
   style();
-
-  // g_object_unref( G_OBJECT( builder ) );
   gtk_main ();
 }
 
 gchar* createButtonIDForIndex(int i) {
   char* buffer;
 
-  buffer = malloc(10 * sizeof *buffer);
+  buffer = malloc(MAX_BUTTON_ID_LENGTH * sizeof *buffer);
   sprintf(buffer, "button%d", i);
   return (gchar*)buffer;
 }

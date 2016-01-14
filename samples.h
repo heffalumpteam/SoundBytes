@@ -11,7 +11,7 @@ typedef struct {
   char sampleName[MAXFILENAMELENGTH];
 } Button;
 
-Button buttons[MAXNUMBEROFSAMPLES];
+Button buttons[MAXNUMBEROFSAMPLES]; // Info about buttons
 
 char* sampleFilePaths[MAXNUMBEROFSAMPLES];
 #endif

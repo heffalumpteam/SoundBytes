@@ -1,5 +1,5 @@
-#ifndef _audio
-#define _audio
+#ifndef AUDIO_H_
+#define AUDIO_H_
 
 int audio_noOfSamplesLoaded;
 
