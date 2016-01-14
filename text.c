@@ -55,7 +55,7 @@ void text_receiveUpdate(char *input_string) {
 }
 
 void instructionControl(char *string_pointer) {
-  char* buttonID;
+  char* buttonID = NULL;
   int instruction_to_execute;
 
   if (!string_pointer) {
