@@ -110,7 +110,7 @@ GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(
 }
 
 void setUpPreviewButtons(GtkBuilder *builder) {
-  int i = 0, j = 0, filenameLength;
+  int i = 0, filenameLength;
   GtkButton *button;
   char* filename;
 
@@ -128,8 +128,6 @@ void setUpPreviewButtons(GtkBuilder *builder) {
       filename[MAXFILENAMELENGTH - 2] = '.';
       filename[MAXFILENAMELENGTH - 1] = '\0';
     }
-
-    j = 0;
     
     makeLowercase(filename);
 
