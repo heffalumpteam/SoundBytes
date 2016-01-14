@@ -5,7 +5,7 @@
 @define-color defaultText rgb(0,0,0);
 @define-color buttonCol rgb(100,100,100);
 @define-color consoleCol rgb(180, 180, 180);
-@define-color textCol rgb(0,0,0);
+@define-color textCol rgb(30,30,30);
 @define-color bg_color green;
 @define-color hover_color rgb(25,79,6);
  
@@ -15,28 +15,15 @@ GtkWindow {
   color: white;
 }
 
-/*GtkToolBar GtkButton {
-  color: @textCol;
-  font: Courier 13;
-  background-image: -gtk-gradient (linear,
-  left top,
-  left bottom, from (@bg_color), color-stop (0.5, darker (@bg_color)), to (@bg_color));
-  border-radius: 5px;
-  border-color: rgb(50,50,50);
-}*/
+GtkButtonBox GtkButton GtkLabel {
+    color: #EFE; /* This changes the text color in the button */
+}
 
-/*GtkButtonBox GtkButton {
-  color: @textCol;
-  font: Courier 13;
-  background-image: -gtk-gradient (linear,
-  left top,
-  left bottom, from (@bg_color), color-stop (0.5, darker (@bg_color)), to (@bg_color));
-  border-radius: 5px;
-  border-color: rgb(50,50,50);
-}*/
+GtkFileChooserDialog GtkButton GtkLabel{
+  color: black;
+}
 
-
-.drums {
+.green_buttons {
   color: @textCol;
   font: Courier 13;
   background-image: -gtk-gradient (linear,
@@ -46,7 +33,7 @@ GtkWindow {
   border-color: rgb(50,50,50);
 }
 
-.drums:hover {
+.green_buttons:hover {
   color: @textCol;
   font: Courier 13;
   background-image: -gtk-gradient (linear,
@@ -56,7 +43,7 @@ GtkWindow {
   border-color: rgb(70,70,70);
 }
 
-.bass {
+.blue_buttons {
   color: @textCol;
   font: Courier 13;
   background-image: -gtk-gradient (linear,
@@ -66,7 +53,7 @@ GtkWindow {
   border-color: rgb(50,50,50);
 }
 
-.bass:hover {
+.blue_buttons:hover {
   color: @textCol;
   font: Courier 13;
   background-image: -gtk-gradient (linear,
@@ -76,7 +63,7 @@ GtkWindow {
   border-color: rgb(70,70,70);
 }
 
-.keys {
+.red_buttons {
   color: @textCol;
   font: Courier 13;
   background-image: -gtk-gradient (linear,
@@ -86,7 +73,7 @@ GtkWindow {
   border-color: rgb(50,50,50);
 }
 
-.keys:hover {
+.red_buttons:hover {
   color: @textCol;
   font: Courier 13;
   background-image: -gtk-gradient (linear,
@@ -104,9 +91,7 @@ GtkWindow {
   border-color: rgb(70,70,70);
 }
 
-GtkButtonBox GtkButton GtkLabel {
-    color: #EFE; /* This changes the text color in the button */
-}
+
 
 GtkTextView{
   background-color:@consoleCol;

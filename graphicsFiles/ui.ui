@@ -233,14 +233,14 @@
                         <property name="layout_style">start</property>
                         <child>
                           <object class="GtkButton" id="button0">
-                            <property name="label" translatable="yes">drum(kick)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="image_position">top</property>
                             <property name="always_show_image">True</property>
                             <style>
-                              <class name="drums"/>
+                              <class name="red_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -251,14 +251,14 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button1">
-                            <property name="label" translatable="yes">drum(kick)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="image_position">top</property>
                             <property name="always_show_image">True</property>
                             <style>
-                              <class name="drums"/>
+                              <class name="red_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -269,12 +269,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button2">
-                            <property name="label" translatable="yes">drum(clap)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <style>
-                              <class name="drums"/>
+                              <class name="red_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -285,12 +285,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button3">
-                            <property name="label" translatable="yes">keys(1)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <style>
-                              <class name="keys"/>
+                              <class name="red_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -301,12 +301,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button4">
-                            <property name="label" translatable="yes">bass(1)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <style>
-                              <class name="bass"/>
+                              <class name="green_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -317,12 +317,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button5">
-                            <property name="label" translatable="yes">drums(shuffle)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <style>
-                              <class name="drums"/>
+                              <class name="green_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -333,12 +333,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button6">
-                            <property name="label" translatable="yes">synth(pad1)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <style>
-                              <class name="keys"/>
+                              <class name="green_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -349,12 +349,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button7">
-                            <property name="label" translatable="yes">synth(pad1)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <style>
-                              <class name="keys"/>
+                              <class name="green_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -365,12 +365,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button8">
-                            <property name="label" translatable="yes">synth(pad1)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <style>
-                              <class name="keys"/>
+                              <class name="blue_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -381,12 +381,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button9">
-                            <property name="label" translatable="yes">synth(stab1)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <style>
-                              <class name="keys"/>
+                              <class name="blue_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -397,12 +397,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button10">
-                            <property name="label" translatable="yes">synth(stab1)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <style>
-                              <class name="keys"/>
+                              <class name="blue_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -413,10 +413,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button11">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="blue_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -426,10 +429,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button12">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="red_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -439,10 +445,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button13">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="red_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -452,10 +461,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button14">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="red_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -465,10 +477,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button15">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                           <style>
+                              <class name="red_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -478,10 +493,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button16">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="green_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -491,10 +509,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button17">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="green_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -504,10 +525,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button18">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="green_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -517,10 +541,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button19">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="green_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -530,14 +557,14 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button20">
-                            <property name="label" translatable="yes">drum(kick)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="image_position">top</property>
                             <property name="always_show_image">True</property>
                             <style>
-                              <class name="drums"/>
+                              <class name="blue_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -548,14 +575,14 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button21">
-                            <property name="label" translatable="yes">drum(kick)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="image_position">top</property>
                             <property name="always_show_image">True</property>
                             <style>
-                              <class name="drums"/>
+                              <class name="blue_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -566,12 +593,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button22">
-                            <property name="label" translatable="yes">drum(clap)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <style>
-                              <class name="drums"/>
+                              <class name="blue_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -582,12 +609,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button23">
-                            <property name="label" translatable="yes">keys(1)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <style>
-                              <class name="keys"/>
+                           <style>
+                              <class name="blue_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -598,12 +625,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button24">
-                            <property name="label" translatable="yes">bass(1)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <style>
-                              <class name="bass"/>
+                              <class name="red_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -614,12 +641,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button25">
-                            <property name="label" translatable="yes">drums(shuffle)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <style>
-                              <class name="drums"/>
+                              <class name="red_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -630,12 +657,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button26">
-                            <property name="label" translatable="yes">synth(pad1)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <style>
-                              <class name="keys"/>
+                              <class name="red_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -646,12 +673,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button27">
-                            <property name="label" translatable="yes">synth(pad1)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <style>
-                              <class name="keys"/>
+                              <class name="red_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -662,12 +689,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button28">
-                            <property name="label" translatable="yes">synth(pad1)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <style>
-                              <class name="keys"/>
+                           <style>
+                              <class name="green_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -678,12 +705,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button29">
-                            <property name="label" translatable="yes">synth(stab1)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <style>
-                              <class name="keys"/>
+                             <style>
+                              <class name="green_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -694,12 +721,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button30">
-                            <property name="label" translatable="yes">synth(stab1)</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <style>
-                              <class name="keys"/>
+                             <style>
+                              <class name="green_buttons"/>
                             </style>
                           </object>
                           <packing>
@@ -710,10 +737,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button31">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                             <style>
+                              <class name="green_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -723,10 +753,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button32">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="blue_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -736,10 +769,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button33">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="blue_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -749,10 +785,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button34">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="blue_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -762,10 +801,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button35">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="blue_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -775,10 +817,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button36">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="red_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -788,10 +833,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button37">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="red_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -801,10 +849,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button38">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="red_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -814,10 +865,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button39">
-                            <property name="label" translatable="yes">button</property>
+                            <property name="label" translatable="yes"></property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <style>
+                              <class name="red_buttons"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
