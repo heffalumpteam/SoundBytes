@@ -73,13 +73,17 @@ void events_init(GtkSourceBuffer* sourcebuffer) {
 void events_openFile(char* filename, GtkSourceBuffer *sourcebuffer) {
   FILE* f_input = NULL;
   char *contents;
-  int length = 0;
+  int length = 0, read;
 
   if((f_input = fopen(filename, "r"))) {
     length = fileLength(f_input);
     contents = (char*)calloc(length, sizeof(char));
     rewind(f_input);
-    fread(contents, sizeof(char), length, f_input);
+    read = fread(contents, sizeof(char), length, f_input);
+    //Check length read in is equal to file length minus EOF char
+    if(read != (length - 1)){
+      printf("Warning: Length of file %d characters, length read %d characters\n", (length -1), read);
+    }
     gtk_text_buffer_set_text(GTK_TEXT_BUFFER(sourcebuffer), contents, -1);
     fclose(f_input);
     free(contents);  
