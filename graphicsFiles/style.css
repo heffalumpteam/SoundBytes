@@ -7,13 +7,20 @@
 @define-color consoleCol rgb(180, 180, 180);
 @define-color textCol rgb(30,30,30);
 @define-color bg_color green;
-@define-color red_button #B30000;
 @define-color hover_color rgb(25,79,6);
  
 
 GtkWindow {
   background-color: @windowBkgrnd;
   color: white;
+}
+
+GtkButtonBox GtkButton GtkLabel {
+    color: #EFE; /* This changes the text color in the button */
+}
+
+GtkFileChooserDialog GtkButton GtkLabel{
+  color: black;
 }
 
 .green_buttons {
@@ -84,9 +91,7 @@ GtkWindow {
   border-color: rgb(70,70,70);
 }
 
-GtkButtonBox GtkButton GtkLabel {
-    color: #EFE; /* This changes the text color in the button */
-}
+
 
 GtkTextView{
   background-color:@consoleCol;
