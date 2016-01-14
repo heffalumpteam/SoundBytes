@@ -18,7 +18,6 @@
   <definitions>
     <context id="keywords" style-ref="keyword">
       <keyword>add</keyword>
-      <keyword>after</keyword>
       <keyword>remove</keyword>
       <keyword>set</keyword>
       <keyword>start</keyword>
@@ -43,12 +42,11 @@
 
     <context id="types" style-ref="type">
       <keyword>(b|B)ass</keyword> 
-      <keyword>clap</keyword>
-      <keyword>chihat</keyword>
+      <keyword>(F|f)x</keyword>
       <keyword>(d|D)rums</keyword>
       <keyword>(k|K)eys</keyword>
-      <keyword>ohihat</keyword>
       <keyword>(s|S)ynth</keyword>
+      <keyword>(G|g)uitar</keyword>
     </context>
 
     <context id="heffalump">
