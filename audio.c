@@ -65,35 +65,35 @@ Mix_Chunk *clap1_sound = NULL;
 
 /*https://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer_28.html*/
 
-void audio_init(void){
+void audio_init(void) {
   SDL_Init(SDL_INIT_AUDIO);
-    if( Mix_OpenAudio( SAMPLERATE, MIX_DEFAULT_FORMAT, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ){
+    if( Mix_OpenAudio( SAMPLERATE, MIX_DEFAULT_FORMAT, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ) {
     fprintf(stderr, "Audio: SDL_mixer Error: %s\n", Mix_GetError());
   }
-    readSampleInfo();
+  readSampleInfo();
 }
 
-void audio_mainLoop(void){
+void audio_mainLoop(void) {
     int i;
     for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
-        if(SAMPLE_IS_ACTIVE(i)){
+        if(SAMPLE_IS_ACTIVE(i)) {
             SET_VOLUME(i);
-            if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)){
+            if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)) {
                 BARS_LEFT(i) = BARS_IN_LOOP(i);
                 if(LOOP_IS_NOT_PLAYING(i)){
                     RESTART_LOOP(i);
-                    if(REPEATS_LEFT(i) > 0){
+                    if(REPEATS_LEFT(i) > 0) {
                         REPEATS_LEFT(i)--;
                     }
                 }   
             }
-            else if(BARS_LEFT(i) == 0 && REPEATS_LEFT(i) == 0){
+            else if(BARS_LEFT(i) == 0 && REPEATS_LEFT(i) == 0) {
                 REMOVE_LOOP(i);
             }
             BARS_LEFT(i)--;
         }
         else{
-            if(activeSamples[i].sample != NULL){
+            if(activeSamples[i].sample != NULL) {
                 REMOVE_LOOP(i);
             }
         }
@@ -107,8 +107,7 @@ void audio_mainLoop(void){
     }*/
 }
 
-void audio_addLoop(int index)
-{
+void audio_addLoop(int index) {
     Sample sample;
   if (activeSamples[index].sample == NULL){
         printf("AUDIO MADE ACTIVE\n");
@@ -118,8 +117,7 @@ void audio_addLoop(int index)
   }
 }
 
-void setLoopActiveFlag(int index, bool flag)
-{
+void setLoopActiveFlag(int index, bool flag) {
   activeSamples[index].active = flag;
 }
 
@@ -127,18 +125,17 @@ Sample loadSample(int index) {
   Sample sample = {NULL, DEFAULTCHANNEL, false, 1, 0, -1, DEFAULTVOLUME}; //must read in looplength and repeatsleft from the file/user input
   sample.sample = Mix_LoadWAV(sampleFilePaths[index]);
     sample.loopLength = sampleLoopLengths[index];
-  if (!sample.sample){
+  if (!sample.sample) {
     fprintf(stderr, "Audio: Failed to load sample \"%s\"!\n", sampleFilePaths[index]);
   }
   return sample;
 }
 
-void addToActiveArray(int index, Sample sample)
-{
+void addToActiveArray(int index, Sample sample) {
   activeSamples[index] = sample;
 }
 
-void audio_close(void){
+void audio_close(void) {
   int i;
 
   for (i = 0; i < MAXNUMBEROFSAMPLES; ++i) {
@@ -167,29 +164,25 @@ void audio_removeLoop(int index) {
     Mix_FreeChunk(activeSamples[index].sample);
     activeSamples[index].sample = NULL;
     activeSamples[index].channel = DEFAULTCHANNEL;
-    setLoopActiveFlag(index, false);
-    
+    setLoopActiveFlag(index, false); 
 }
 
-void audio_markLoopInactive(int index)
-{
+void audio_markLoopInactive(int index) {
   printf("Audio: inactive\n");
   setLoopActiveFlag(index, false);
 }
 
-void audio_playSampleOnce(int index)
-{
-    Sample buttonSound = {NULL, DEFAULTCHANNEL, false, 1, 0, 1, DEFAULTVOLUME};
-    if(!buttonSound.sample) {
-        buttonSound = loadSample(index);
-        buttonSound.repeatsLeft = 1;
-        addToActiveArray(MAXNUMBEROFSAMPLES-1, buttonSound);
-        setLoopActiveFlag(MAXNUMBEROFSAMPLES-1, true);
-    }
+void audio_playSampleOnce(int index) {
+  Sample buttonSound = {NULL, DEFAULTCHANNEL, false, 1, 0, 1, DEFAULTVOLUME};
+  if(!buttonSound.sample) {
+    buttonSound = loadSample(index);
+    buttonSound.repeatsLeft = 1;
+    addToActiveArray(MAXNUMBEROFSAMPLES-1, buttonSound);
+    setLoopActiveFlag(MAXNUMBEROFSAMPLES-1, true);
+  }
 }
 
-void audio_stop(void)
-{
+void audio_stop(void) {
   int i;
     for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
     if(activeSamples[i].sample != NULL) {
@@ -198,13 +191,11 @@ void audio_stop(void)
     }
 }
 
-void audio_changeVolume(int index, int volume)
-{
+void audio_changeVolume(int index, int volume) {
     activeSamples[index].volume = volume;
 }
 
-void readSampleInfo()
-{
+void readSampleInfo() {
   FILE* sampleInfoFile;
     char sampleInfo[MAXSAMPLEINFOLENGTH];
     char *tokens[MAXFILEINFOTOKENS];
@@ -216,17 +207,16 @@ void readSampleInfo()
     }
     audio_noOfSamplesLoaded = 0;
     while(fgets(sampleInfo, MAXSAMPLEINFOLENGTH, sampleInfoFile) != NULL) {
-        tokenizeSampleInfo(sampleInfo, tokens);
-        sampleFilePaths[i] = createSampleFilePath(tokens[FILENAME]);
-        sampleLoopLengths[i] = atoi(tokens[LOOPLENGTH]);
-        i++;
-        audio_noOfSamplesLoaded++;
+      tokenizeSampleInfo(sampleInfo, tokens);
+      sampleFilePaths[i] = createSampleFilePath(tokens[FILENAME]);
+      sampleLoopLengths[i] = atoi(tokens[LOOPLENGTH]);
+      i++;
+      audio_noOfSamplesLoaded++;
     }
     fclose(sampleInfoFile);
 }
 
-char *createSampleFilePath(char *path)
-{
+char *createSampleFilePath(char *path) {
     char *newSampleFilePath = malloc(MAXSAMPLEINFOLENGTH);
 
     if(!newSampleFilePath) {
@@ -236,8 +226,7 @@ char *createSampleFilePath(char *path)
     return newSampleFilePath;
 }
 
-void tokenizeSampleInfo(char *sampleInfo, char *tokens[])
-{
+void tokenizeSampleInfo(char *sampleInfo, char *tokens[]) {
   int i = 0;
 
   tokens[i++] = strtok(sampleInfo, " ");

@@ -9,7 +9,7 @@
 #include "text.h"
 #include "audio.h"
 #include "samples.h"
-enum instruction{
+enum instruction {
   ADD,
   REMOVE,
   SET,
@@ -27,18 +27,15 @@ int selectInstruction(char *string);
 int extractNumberFromString(char* string);
 char* findSampleInArray(char* string_pointer);
 
-void text_mainLoop(void)
-{
+void text_mainLoop(void) {
   audio_mainLoop();
 }
 
-void text_receiveButtonPress(char *input_string)
-{
+void text_receiveButtonPress(char *input_string) {
   audio_playSampleOnce(extractNumberFromString(input_string));
 }
 
-void text_receiveUpdate(char *input_string)
-{
+void text_receiveUpdate(char *input_string) {
   int j;
   char* string_pointer = NULL;
 
@@ -54,8 +51,7 @@ void text_receiveUpdate(char *input_string)
   }
 }
 
-void instructionControl(char *string_pointer)
-{
+void instructionControl(char *string_pointer) {
   char* buttonID;
 
   if (!string_pointer) {
@@ -69,7 +65,7 @@ void instructionControl(char *string_pointer)
     buttonID = findSampleInArray(string_pointer);
   }
 
-  switch(instruction_to_execute){
+  switch(instruction_to_execute) {
     case ADD: add_(buttonID); break;
     case REMOVE: remove_(buttonID); break;
     case SET: set_(string_pointer); break;
@@ -77,15 +73,13 @@ void instructionControl(char *string_pointer)
   }
 }
 
-void add_(char *buttonID)
-{
+void add_(char *buttonID) {
   if (buttonID) {
     audio_addLoop(extractNumberFromString(buttonID));
   }
 }
 
-char* findSampleInArray(char* string_pointer)
-{
+char* findSampleInArray(char* string_pointer) {
   int i;
 
   for(i=0; i < audio_noOfSamplesLoaded; i++)
@@ -99,25 +93,23 @@ char* findSampleInArray(char* string_pointer)
   return NULL;
 }
 
-void remove_(char *buttonID)
-{
+void remove_(char *buttonID) {
   if (buttonID)
   {
     audio_markLoopInactive(extractNumberFromString(buttonID));
   }
 }
 
-void set_(char *string_pointer)
-{
+void set_(char *string_pointer) {
   char *volumeCommand, *desiredVolume;
   char* buttonID;
 
-  if(string_pointer){
+  if(string_pointer) {
     // temp now points to "volume".
     volumeCommand = strtok(NULL, " \n.()");
     desiredVolume = strtok(NULL, " \n.()");
 
-    if (strcmp(volumeCommand, "volume") == 0){
+    if (strcmp(volumeCommand, "volume") == 0) {
 
       buttonID = findSampleInArray(string_pointer);
       changeVolume(buttonID, desiredVolume);
@@ -125,8 +117,7 @@ void set_(char *string_pointer)
   }
 }
 
-void changeVolume(char *string_pointer, char* desiredVolume)
-{
+void changeVolume(char *string_pointer, char* desiredVolume) {
   int volume;
 
   // Convert the string to an int
@@ -144,35 +135,32 @@ void changeVolume(char *string_pointer, char* desiredVolume)
   }
 }
 
-void stopAll_(void)
-{
+void stopAll_(void) {
     audio_stop();
     printf("TEXT: All loops stopped.\n");
 }
 
-int selectInstruction(char *string)
-{
+int selectInstruction(char *string) {
   if(strcmp(string, "add") == 0){
     printf("TEXT: add\n");
     return ADD;
   }
-  if(strcmp(string, "remove") == 0){
+  if(strcmp(string, "remove") == 0) {
     printf("TEXT: remove\n");
     return REMOVE;
   }
-  if(strcmp(string, "set") == 0){
+  if(strcmp(string, "set") == 0) {
     printf("TEXT: set\n");
     return SET;
   }
-  if(strcmp(string, "stop") == 0){
+  if(strcmp(string, "stop") == 0) {
     printf("TEXT: stop\n");
     return STOP;
   }
   return -1;
 }
 
-int extractNumberFromString(char* string)
-{
+int extractNumberFromString(char* string) {
   int index;
 
   while(!isdigit(*string)) {
