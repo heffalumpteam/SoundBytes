@@ -72,10 +72,14 @@ void audio_init(void) {
 
 /* Loops through activeSamples array once every bar, checks which samples have stopped and retriggers them if they have repeats left, otherwise
   removes and frees them */
-#pragma omp parallel for
 void audio_mainLoop(void) {
-  int i;
+  int i, flag = 0;
+  #pragma omp parallel for
   for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
+    if(!flag){
+      flag = 1;
+      printf("Threads: %d\n", omp_get_num_threads());
+    }
     if(SAMPLE_IS_ACTIVE(i)) {
       /*SET_VOLUME(i);*/
       if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)) { /* Sample needs re-triggering */
