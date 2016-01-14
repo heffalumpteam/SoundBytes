@@ -64,7 +64,9 @@ void readSampleInfo();
 void tokenizeSampleInfo(char *sampleInfo, char *tokens[]);
 char *createSampleFilePath(char *path);
 
-Uint32 newTime, expectedTime, time_difference;
+Uint32 newTime, expectedTime;
+Uint32 startedF, leftF;
+int32_t time_difference, timeF;
 
 void audio_init(void) {
   SDL_Init(SDL_INIT_AUDIO);
@@ -83,6 +85,7 @@ void audio_mainLoop(void) {
   int i, flag = 0;
 
   newTime = SDL_GetTicks();
+  startedF = newTime;
   if(newTime != expectedTime){
     time_difference = newTime - expectedTime;
     if(time_difference > 0){
@@ -124,6 +127,10 @@ void audio_mainLoop(void) {
       }
     }
   }
+
+  leftF = SDL_GetTicks();
+  timeF = leftF - startedF;
+  printf("audio_mainLoop takes %dms \n", timeF);
 }
 
 void audio_addLoop(int index) {
