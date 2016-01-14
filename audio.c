@@ -35,8 +35,7 @@
 #define REMOVE_LOOP(i) audio_removeLoop(i)
 #define RESTART_LOOP(i) audio_startLoop(i)
 
-struct sample
-{
+struct sample {
   Mix_Chunk* sample;
   int channel;
   bool active;
@@ -74,43 +73,36 @@ void audio_init(void) {
 }
 
 void audio_mainLoop(void) {
-    int i;
-    for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
-        if(SAMPLE_IS_ACTIVE(i)) {
-            SET_VOLUME(i);
-            if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)) {
-                BARS_LEFT(i) = BARS_IN_LOOP(i);
-                if(LOOP_IS_NOT_PLAYING(i)){
-                    RESTART_LOOP(i);
-                    if(REPEATS_LEFT(i) > 0) {
-                        REPEATS_LEFT(i)--;
-                    }
-                }   
+  int i;
+  for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
+      if(SAMPLE_IS_ACTIVE(i)) {
+        SET_VOLUME(i);
+        if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)) { /* Sample needs re-triggering */
+          BARS_LEFT(i) = BARS_IN_LOOP(i);
+          if(LOOP_IS_NOT_PLAYING(i)) {
+            RESTART_LOOP(i);
+            if(REPEATS_LEFT(i) > 0) {
+              REPEATS_LEFT(i)--;
             }
-            else if(BARS_LEFT(i) == 0 && REPEATS_LEFT(i) == 0) {
-                REMOVE_LOOP(i);
-            }
-            BARS_LEFT(i)--;
+          }   
         }
-        else{
-            if(activeSamples[i].sample != NULL) {
-                REMOVE_LOOP(i);
-            }
+        else if(BARS_LEFT(i) == 0 && REPEATS_LEFT(i) == 0) { /* Sample has finished, needs to be removed */
+            REMOVE_LOOP(i);
         }
-    }
-
-    /*if there is sound loaded by pressing a button and it's not playing*/
-/*  if( (buttonSound.sample) && (!Mix_Playing(buttonSound.channel)) ){
-            Mix_FreeChunk(buttonSound.sample);
-            buttonSound.sample = NULL;
-            buttonSound.channel = DEFAULTCHANNEL;
-    }*/
+          BARS_LEFT(i)--;
+      }
+      else {  /* Inactive samples, need to get removed */
+          if(activeSamples[i].sample != NULL) {
+              REMOVE_LOOP(i);
+          }
+      }
+  }
 }
 
 void audio_addLoop(int index) {
-    Sample sample;
+  Sample sample;
   if (activeSamples[index].sample == NULL){
-        printf("AUDIO MADE ACTIVE\n");
+    printf("AUDIO MADE ACTIVE\n");
     sample = loadSample(index);
     addToActiveArray(index, sample);
     setLoopActiveFlag(index, true);
@@ -140,9 +132,9 @@ void audio_close(void) {
 
   for (i = 0; i < MAXNUMBEROFSAMPLES; ++i) {
     audio_removeLoop(i);
-        if(sampleFilePaths[i]) {
-          free(sampleFilePaths[i]);
-        }
+      if(sampleFilePaths[i]) {
+        free(sampleFilePaths[i]);
+      }
   }
 
   Mix_Quit();
@@ -150,11 +142,10 @@ void audio_close(void) {
 }
 
 void audio_startLoop(int index) {
-   activeSamples[index].channel = Mix_PlayChannel(-1, activeSamples[index].sample, activeSamples[index].repeatsLeft);
-     /* have to initialise volume here because channel is not set until this point.
-     After this audio_mainLoop takes over and checks the volume at regular intervals */
-   Mix_Volume(activeSamples[index].channel, activeSamples[index].volume);
-       /* (channel -1 = dont care, sound, times to repeat)*/
+  activeSamples[index].channel = Mix_PlayChannel(-1, activeSamples[index].sample, activeSamples[index].repeatsLeft);
+    /* have to initialise volume here because channel is not set until this point.
+    After this audio_mainLoop takes over and checks the volume at regular intervals */
+  Mix_Volume(activeSamples[index].channel, activeSamples[index].volume);
 }
 
 void audio_removeLoop(int index) {
@@ -192,7 +183,7 @@ void audio_stop(void) {
 }
 
 void audio_changeVolume(int index, int volume) {
-    activeSamples[index].volume = volume;
+  activeSamples[index].volume = volume;
 }
 
 void readSampleInfo() {
@@ -217,13 +208,12 @@ void readSampleInfo() {
 }
 
 char *createSampleFilePath(char *path) {
-    char *newSampleFilePath = malloc(MAXSAMPLEINFOLENGTH);
-
-    if(!newSampleFilePath) {
-        fprintf(stderr, "Could not allocate sample file path.\n");
-    }
-    strcpy(newSampleFilePath, path);
-    return newSampleFilePath;
+  char *newSampleFilePath = malloc(MAXSAMPLEINFOLENGTH);
+  if(!newSampleFilePath) {
+      fprintf(stderr, "Could not allocate sample file path.\n");
+  }
+  strcpy(newSampleFilePath, path);
+  return newSampleFilePath;
 }
 
 void tokenizeSampleInfo(char *sampleInfo, char *tokens[]) {

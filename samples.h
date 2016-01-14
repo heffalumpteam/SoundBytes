@@ -6,8 +6,7 @@
 #define MAXFILENAMELENGTH 20
 #define MAXBUTTONIDLENGTH 10
 
-typedef struct
-{
+typedef struct {
   char* buttonID;
   char sampleName[MAXFILENAMELENGTH];
 } Button;
