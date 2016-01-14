@@ -21,7 +21,7 @@ winGTK = `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0 gtksourcevie
 $(NAME) :
 
 linux : $(CFILES)
-	gcc $(CFILES) -o $(NAME) $(CFLAGS) $(linuxGTK) $(linuxLIBS)
+	gcc $(CFILES) -o $(NAME) $(OFLAGS) $(CFLAGS) $(linuxGTK) $(linuxLIBS)
 
 mac : $(CFILES)
 	gcc $(CFILES) -o $(NAME) $(CFLAGS) $(macGTK) $(macFRAMEWORKS) $(macINCLUDES)
