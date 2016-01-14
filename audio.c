@@ -48,11 +48,11 @@ struct sample
 typedef struct sample Sample;
 
 /* Functions */
-Sample loadSample(Loop index);
+Sample loadSample(int index);
 void readSampleInfo();
 void tokenizeSampleInfo(char *sampleInfo, char *tokens[]);
-void addToActiveArray(Loop index, Sample sample);
-void setLoopActiveFlag(Loop index, bool flag);
+void addToActiveArray(int index, Sample sample);
+void setLoopActiveFlag(int index, bool flag);
 char *createSampleFilePath(char *path);
 
 /* Variables */
@@ -107,7 +107,7 @@ void audio_mainLoop(void){
     }*/
 }
 
-void audio_addLoop(Loop index)
+void audio_addLoop(int index)
 {
     Sample sample;
   if (activeSamples[index].sample == NULL){
@@ -118,12 +118,12 @@ void audio_addLoop(Loop index)
   }
 }
 
-void setLoopActiveFlag(Loop index, bool flag)
+void setLoopActiveFlag(int index, bool flag)
 {
   activeSamples[index].active = flag;
 }
 
-Sample loadSample(Loop index) {
+Sample loadSample(int index) {
   Sample sample = {NULL, DEFAULTCHANNEL, false, 1, 0, -1, DEFAULTVOLUME}; //must read in looplength and repeatsleft from the file/user input
   sample.sample = Mix_LoadWAV(sampleFilePaths[index]);
     sample.loopLength = sampleLoopLengths[index];
@@ -133,7 +133,7 @@ Sample loadSample(Loop index) {
   return sample;
 }
 
-void addToActiveArray(Loop index, Sample sample)
+void addToActiveArray(int index, Sample sample)
 {
   activeSamples[index] = sample;
 }
@@ -152,7 +152,7 @@ void audio_close(void){
   SDL_Quit();
 }
 
-void audio_startLoop(Loop index) {
+void audio_startLoop(int index) {
    activeSamples[index].channel = Mix_PlayChannel(-1, activeSamples[index].sample, activeSamples[index].repeatsLeft);
      /* have to initialise volume here because channel is not set until this point.
      After this audio_mainLoop takes over and checks the volume at regular intervals */
@@ -160,7 +160,7 @@ void audio_startLoop(Loop index) {
        /* (channel -1 = dont care, sound, times to repeat)*/
 }
 
-void audio_removeLoop(Loop index) {
+void audio_removeLoop(int index) {
   if(Mix_Playing(activeSamples[index].channel)){
     Mix_HaltChannel(activeSamples[index].channel);
   }
@@ -171,13 +171,13 @@ void audio_removeLoop(Loop index) {
     
 }
 
-void audio_markLoopInactive(Loop index)
+void audio_markLoopInactive(int index)
 {
   printf("Audio: inactive\n");
   setLoopActiveFlag(index, false);
 }
 
-void audio_playSampleOnce(Loop index)
+void audio_playSampleOnce(int index)
 {
     Sample buttonSound = {NULL, DEFAULTCHANNEL, false, 1, 0, 1, DEFAULTVOLUME};
     if(!buttonSound.sample) {
@@ -198,7 +198,7 @@ void audio_stop(void)
     }
 }
 
-void audio_changeVolume(Loop index, int volume)
+void audio_changeVolume(int index, int volume)
 {
     activeSamples[index].volume = volume;
 }
