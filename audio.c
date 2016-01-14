@@ -17,7 +17,11 @@
 #include <stdbool.h>
 #include <limits.h>
 
-#include <omp.h>
+/*#define USE_OMP*/
+
+#ifdef USE_OMP
+  #include <omp.h>
+#endif
 
 #define SAMPLERATE 44100
 #define NUMAUDIOCHANNELS 2
@@ -64,6 +68,7 @@ void audio_init(void) {
   SDL_Init(SDL_INIT_AUDIO);
 
   if( Mix_OpenAudio( SAMPLERATE, MIX_DEFAULT_FORMAT, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ) {
+  /*if( Mix_OpenAudio( SAMPLERATE, AUDIO_F32SYS, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ) {*/
     fprintf(stderr, "Audio: SDL_mixer Error: %s\n", Mix_GetError());
   }
 
@@ -74,14 +79,16 @@ void audio_init(void) {
   removes and frees them */
 void audio_mainLoop(void) {
   int i, flag = 0;
-  #pragma omp parallel for
+  #ifdef USE_OMP
+    #pragma omp parallel for
+  #endif
   for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
-    if(!flag){
+    /*if(!flag){
       flag = 1;
       printf("Threads: %d\n", omp_get_num_threads());
-    }
+    }*/
     if(SAMPLE_IS_ACTIVE(i)) {
-      /*SET_VOLUME(i);*/
+      SET_VOLUME(i);
       if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)) { /* Sample needs re-triggering */
         BARS_LEFT(i) = BARS_IN_LOOP(i);
         if(LOOP_IS_NOT_PLAYING(i)) {

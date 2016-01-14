@@ -15,6 +15,7 @@
 
 #define UNUSED(x) (void)(x)
 #define MAX_BUTTON_ID_LENGTH 10
+#define VERY_HIGH_PRIORITY -200
 
 extern unsigned char running;
 
@@ -84,7 +85,8 @@ void attachFunctions(GtkBuilder *builder) {
   window = gtk_builder_get_object (builder, "window");
   g_signal_connect (window, "destroy", G_CALLBACK (events_quitting), NULL);
 
-  timeoutID = g_timeout_add(NUM_MS, events_mainLoop, NULL);
+  /*timeoutID = g_timeout_add(NUM_MS, events_mainLoop, NULL);*/
+  timeoutID = g_timeout_add_full(VERY_HIGH_PRIORITY, NUM_MS, events_mainLoop, NULL, NULL);
   assert(timeoutID > 0);
 
   setUpPreviewButtons(builder);
@@ -128,7 +130,7 @@ void setUpPreviewButtons(GtkBuilder *builder) {
       filename[MAXFILENAMELENGTH - 2] = '.';
       filename[MAXFILENAMELENGTH - 1] = '\0';
     }
-    
+
     makeLowercase(filename);
 
     strcpy(buttons[i].sampleName, filename);
@@ -207,7 +209,7 @@ void saveFileDialog(GtkButton *button, GtkBuilder *builder) {
   window = gtk_builder_get_object(builder, "window");
   save_dialog = gtk_file_chooser_dialog_new("Save File", (GtkWindow*) window, action, ("Cancel"), GTK_RESPONSE_CANCEL, ("_Save"),
     GTK_RESPONSE_ACCEPT, NULL);
-  
+
   chooser = GTK_FILE_CHOOSER(save_dialog);
   gtk_file_chooser_set_do_overwrite_confirmation(chooser, TRUE);
 
