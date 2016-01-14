@@ -14,56 +14,56 @@
 #include "samples.h"
 
 #define UNUSED(x) (void)(x)
-#define MAX_NUMBER_OF_BUTTONS 10
+#define MAX_BUTTON_ID_LENGTH 10
 
 extern unsigned char running;
 
 GtkSourceBuffer *sourcebuffer;
-gchar languagesPath[] = "lang/language-specs/";
+gchar languagesPath[] = "lang/language-specs/"; /* Custom language file for syntax highlighting */
 gchar* languagesDirs[] = {languagesPath, NULL};
 
+/* Setup */
 void initSourceView(GtkBuilder *builder);
 void attachFunctions(GtkBuilder *builder);
-void launchTextEvent(void);
-void openFileDialog(GtkButton *button, GtkBuilder *builder);
-void saveFileDialog(GtkButton *button, GtkBuilder *builder);
-void openFile(char* filename);
-int fileLength(FILE* f_input);
-void style(void);
 GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*, gpointer));
 void setUpPreviewButtons(GtkBuilder *builder);
+/* Saving and loading .lump files */
+void openFileDialog(GtkButton *button, GtkBuilder *builder);
+void saveFileDialog(GtkButton *button, GtkBuilder *builder);
+/* Helper functions */
 char* extractFilenameFromPath(char* path);
 gchar* createButtonIDForIndex(int i);
+void makeLowercase(char* filename);
+/* Misc */
+void launchTextEvent(void);
+void style(void);
 
-void graphics_init(void){
+
+void graphics_init(void) {
   GtkBuilder *builder;
 
   gtk_init (NULL, NULL);
 
   builder = gtk_builder_new_from_file ("graphicsFiles/ui.ui");
 
-  //setUpButtonIDs();
   attachFunctions(builder);
   initSourceView(builder);
 
   events_init(sourcebuffer);
 
   style();
-
-  // g_object_unref( G_OBJECT( builder ) );
   gtk_main ();
 }
 
-gchar* createButtonIDForIndex(int i)
-{
+gchar* createButtonIDForIndex(int i) {
   char* buffer;
 
-    buffer = malloc(10 * sizeof *buffer);
-    sprintf(buffer, "button%d", i);
-    return (gchar*)buffer;
+  buffer = malloc(MAX_BUTTON_ID_LENGTH * sizeof *buffer);
+  sprintf(buffer, "button%d", i);
+  return (gchar*)buffer;
 }
 
-void initSourceView(GtkBuilder *builder){
+void initSourceView(GtkBuilder *builder) {
   GtkSourceView *sourceview = GTK_SOURCE_VIEW(gtk_builder_get_object (builder, "gtksourceview1"));
   sourcebuffer = GTK_SOURCE_BUFFER(gtk_text_view_get_buffer(GTK_TEXT_VIEW(sourceview)));
   GtkSourceLanguageManager *manager = gtk_source_language_manager_get_default();
@@ -72,7 +72,7 @@ void initSourceView(GtkBuilder *builder){
   gtk_source_buffer_set_language(sourcebuffer, language);
 }
 
-void attachFunctions(GtkBuilder *builder){
+void attachFunctions(GtkBuilder *builder) {
   GObject *window;
   GtkButton *runButton;
   GtkButton *openButton;
@@ -88,7 +88,6 @@ void attachFunctions(GtkBuilder *builder){
   assert(timeoutID > 0);
 
   setUpPreviewButtons(builder);
-
 
   runButton = (GtkButton *)gtk_builder_get_object (builder, "runButton");
   g_signal_connect (runButton, "clicked", G_CALLBACK (launchTextEvent), NULL);
@@ -110,34 +109,27 @@ GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(
   return button;
 }
 
-void setUpPreviewButtons(GtkBuilder *builder)
-{
-  int i = 0, j = 0, filenameLength;
+void setUpPreviewButtons(GtkBuilder *builder) {
+  int i = 0, filenameLength;
   GtkButton *button;
   char* filename;
 
-  while(sampleFilePaths[i])
-  {
+  while(sampleFilePaths[i]) {
     buttons[i].buttonID = createButtonIDForIndex(i);
     button = setUpGtkButton(builder, buttons[i].buttonID, events_buttonPress);
     assert(button != NULL);
 
     filename = extractFilenameFromPath(sampleFilePaths[i]);
     filenameLength = strlen(filename);
-    if (filenameLength > MAXFILENAMELENGTH)
-    {
+
+    if (filenameLength > MAXFILENAMELENGTH) {
       filename[MAXFILENAMELENGTH - 4] = '.';
       filename[MAXFILENAMELENGTH - 3] = '.';
       filename[MAXFILENAMELENGTH - 2] = '.';
       filename[MAXFILENAMELENGTH - 1] = '\0';
     }
-
-    j = 0;
-    while(filename[j] != '\0')
-    {
-      filename[j] = tolower(filename[j]);
-      j++;
-    }
+    
+    makeLowercase(filename);
 
     strcpy(buttons[i].sampleName, filename);
     gtk_button_set_label (button, filename);
@@ -146,8 +138,17 @@ void setUpPreviewButtons(GtkBuilder *builder)
   }
 }
 
-char* extractFilenameFromPath(char* path)
-{
+void makeLowercase(char* filename) {
+
+  int j = 0;
+
+  while(filename[j] != '\0') {
+      filename[j] = tolower(filename[j]);
+      j++;
+    }
+}
+
+char* extractFilenameFromPath(char* path) {
   char* token;
   char* temp = malloc(strlen(path) + 1);
 
@@ -162,13 +163,12 @@ char* extractFilenameFromPath(char* path)
   return token;
 }
 
-void launchTextEvent(void){
+void launchTextEvent(void) {
   /*Seems a necceserry hack. It doesn't like passing sourcebuffer as arg to callback*/
   events_launchText(sourcebuffer);
 }
 
-void openFileDialog(GtkButton *button, GtkBuilder *builder)
-{
+void openFileDialog(GtkButton *button, GtkBuilder *builder) {
   GObject *window;
   GtkWidget *open_dialog;
   GtkFileFilter *filter;
@@ -187,8 +187,7 @@ void openFileDialog(GtkButton *button, GtkBuilder *builder)
   gtk_file_chooser_set_filter(chooser, filter);
   result = gtk_dialog_run(GTK_DIALOG (open_dialog));
 
-  if (result == GTK_RESPONSE_ACCEPT)
-  {
+  if (result == GTK_RESPONSE_ACCEPT) {
     char *filename;
     filename = (char*)gtk_file_chooser_get_filename(chooser);
     events_openFile(filename, sourcebuffer);
@@ -197,8 +196,7 @@ void openFileDialog(GtkButton *button, GtkBuilder *builder)
   gtk_widget_destroy(open_dialog);
 }
 
-void saveFileDialog(GtkButton *button, GtkBuilder *builder)
-{
+void saveFileDialog(GtkButton *button, GtkBuilder *builder) {
   GObject *window;
   GtkWidget *save_dialog;
   GtkFileChooser *chooser;
@@ -217,8 +215,7 @@ void saveFileDialog(GtkButton *button, GtkBuilder *builder)
 
   result = gtk_dialog_run(GTK_DIALOG(save_dialog));
 
-  if (result == GTK_RESPONSE_ACCEPT)
-  {
+  if (result == GTK_RESPONSE_ACCEPT) {
     char *filename;
     filename = (char*)gtk_file_chooser_get_filename(chooser);
     events_saveFile(filename, sourcebuffer);
@@ -227,7 +224,7 @@ void saveFileDialog(GtkButton *button, GtkBuilder *builder)
   gtk_widget_destroy(save_dialog);
 }
 
-void style(void){
+void style(void) {
   GtkCssProvider *provider;
   GdkDisplay *display;
   GdkScreen *screen;
@@ -243,6 +240,6 @@ void style(void){
   gtk_css_provider_load_from_path (provider, g_filename_to_utf8(style, strlen(style), &bytes_read, &bytes_written, &error), NULL);
 }
 
-void graphics_close(void){
+void graphics_close(void) {
   gtk_main_quit();
 }

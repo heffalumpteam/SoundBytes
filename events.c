@@ -21,29 +21,27 @@ GtkTextMark* textMarker;
 
 int fileLength(FILE* f_input);
 
-gboolean events_mainLoop(gpointer user_data){
-  /*https://developer.gnome.org/gtk-tutorial/stable/c1759.html*/
+gboolean events_mainLoop(gpointer user_data) {
   /*This loop runs every NUM_MS and takes the place of code that would usually be in main()*/
-  if(user_data != NULL){
+  if(user_data != NULL) {
     fprintf(stderr, "\n\tError: UserData in events_mainLoop was not NULL\n");
   }
-  if(play){
-    if(beat > BEATS_IN_A_BAR-1){
+  if(play) {
+    if(beat > BEATS_IN_A_BAR-1) {
       bar++;
       beat = 0;
       text_mainLoop();
     }
-    /*printf("Bar: %d Beat: %d\n", bar, beat);*/
     beat++;
   }
-  return 1; /*Must return 1 if we want the loop to be called again*/
+  return 1;
 }
 
-void events_toggle(void){
-  if(!play){
+void events_toggle(void) {
+  if(!play) {
     play = 1;
-  }
-  else{
+  } 
+  else {
     play = 0;
   }
 }
@@ -53,16 +51,15 @@ void events_buttonPress(GtkButton *button, gpointer buttonID) {
   text_receiveButtonPress(buttonID);
 }
 
-void events_start(void){
+void events_start(void) {
   play = 1;
 }
 
-void events_stop(void){
+void events_stop(void) {
   play = 0;
 }
 
-void events_init(GtkSourceBuffer* sourcebuffer)
-{
+void events_init(GtkSourceBuffer* sourcebuffer) {
   GtkTextIter start;
   gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(sourcebuffer), &start, 0);
   textMarker = gtk_text_buffer_create_mark(GTK_TEXT_BUFFER(sourcebuffer),
@@ -73,13 +70,12 @@ void events_init(GtkSourceBuffer* sourcebuffer)
   events_toggle();
 }
 
-void events_openFile(char* filename, GtkSourceBuffer *sourcebuffer)
-{
+void events_openFile(char* filename, GtkSourceBuffer *sourcebuffer) {
   FILE* f_input = NULL;
   char *contents;
   int length = 0;
 
-  if((f_input = fopen(filename, "r"))){
+  if((f_input = fopen(filename, "r"))) {
     length = fileLength(f_input);
     contents = (char*)calloc(length, sizeof(char));
     rewind(f_input);
@@ -88,13 +84,12 @@ void events_openFile(char* filename, GtkSourceBuffer *sourcebuffer)
     fclose(f_input);
     free(contents);  
   }
-  else{
+  else {
     printf("Couldn't open file\n");
   }
 }
 
-void events_saveFile(char* filename, GtkSourceBuffer *sourcebuffer)
-{
+void events_saveFile(char* filename, GtkSourceBuffer *sourcebuffer) {
   FILE* f_output = NULL;
   GtkTextIter start, end;
   char* buffer;
@@ -102,30 +97,26 @@ void events_saveFile(char* filename, GtkSourceBuffer *sourcebuffer)
   gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(sourcebuffer), &start, &end);
   buffer = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(sourcebuffer), &start, &end, FALSE);
 
-  if((f_output = fopen(filename, "w"))){
+  if((f_output = fopen(filename, "w"))) {
     fputs(buffer, f_output);
     fclose(f_output);
   }
-  else{
-    printf("Couldn't write file\n");
+  else {
+    fprintf(stderr, "Couldn't write file\n");
   }
 }
 
-int fileLength(FILE* f_input)
-{
+int fileLength(FILE* f_input) {
   int count = 0;
 
-  while(!feof(f_input)){
+  while(!feof(f_input)) {
     getc(f_input);
     count++;
   }
   return count;
 }
 
-void events_launchText(GtkSourceBuffer *sourcebuffer){
-  /*
-https://git.gnome.org/browse/gtk+/tree/demos/gtk-demo/textview.c */
-
+void events_launchText(GtkSourceBuffer *sourcebuffer) {
   GtkTextIter start, end;
   gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(sourcebuffer), &start, textMarker);
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(sourcebuffer), &end, 3);
@@ -134,7 +125,7 @@ https://git.gnome.org/browse/gtk+/tree/demos/gtk-demo/textview.c */
   gtk_text_buffer_move_mark(GTK_TEXT_BUFFER(sourcebuffer), textMarker, &end);
 }
 
-void events_quitting(void){
+void events_quitting(void) {
   audio_close();
   graphics_close();
 }
