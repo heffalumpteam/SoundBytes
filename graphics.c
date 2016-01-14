@@ -30,6 +30,7 @@ void setUpPreviewButtons(GtkBuilder *builder);
 /* Saving and loading .lump files */
 void openFileDialog(GtkButton *button, GtkBuilder *builder);
 void saveFileDialog(GtkButton *button, GtkBuilder *builder);
+void loadHelpFile(void);
 /* Helper functions */
 char* extractFilenameFromPath(char* path);
 gchar* createButtonIDForIndex(int i);
@@ -77,6 +78,7 @@ void attachFunctions(GtkBuilder *builder) {
   GtkButton *runButton;
   GtkButton *openButton;
   GtkButton *saveButton;
+  GtkButton *helpButton;
   guint timeoutID;
   GtkWidget *icon = gtk_image_new_from_file ("graphicsFiles/icons/start.png");
   assert(icon != NULL);
@@ -97,6 +99,9 @@ void attachFunctions(GtkBuilder *builder) {
 
   saveButton = (GtkButton *)gtk_builder_get_object (builder, "saveButton");
   g_signal_connect (saveButton, "clicked", G_CALLBACK (saveFileDialog), builder);
+
+  helpButton = (GtkButton *)gtk_builder_get_object (builder, "helpButton");
+  g_signal_connect (helpButton, "clicked", G_CALLBACK (loadHelpFile), NULL);
 }
 
 GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*, gpointer)) {
@@ -222,6 +227,11 @@ void saveFileDialog(GtkButton *button, GtkBuilder *builder) {
     free(filename);
   }
   gtk_widget_destroy(save_dialog);
+}
+
+void loadHelpFile(void) {
+  char* filename = "helpFile.txt";
+  events_openFile(filename, sourcebuffer);
 }
 
 void style(void) {
