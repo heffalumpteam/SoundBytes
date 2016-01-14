@@ -64,6 +64,8 @@ void readSampleInfo();
 void tokenizeSampleInfo(char *sampleInfo, char *tokens[]);
 char *createSampleFilePath(char *path);
 
+Uint32 newTime, expectedTime, time_difference;
+
 void audio_init(void) {
   SDL_Init(SDL_INIT_AUDIO);
 
@@ -79,6 +81,19 @@ void audio_init(void) {
   removes and frees them */
 void audio_mainLoop(void) {
   int i, flag = 0;
+
+  newTime = SDL_GetTicks();
+  if(newTime != expectedTime){
+    time_difference = newTime - expectedTime;
+    if(time_difference > 0){
+      printf("TIMING ERROR. Call to audio_mainLoop was %d ms too late\n", time_difference);
+    }
+    else{
+      printf("TIMING ERROR. Call to audio_mainLoop was %d ms too early\n", time_difference*(-1));
+    }
+  }
+  expectedTime = newTime + (480*4);
+
   #ifdef USE_OMP
     #pragma omp parallel for
   #endif
