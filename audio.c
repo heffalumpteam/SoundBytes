@@ -103,18 +103,19 @@ void audio_mainLoop(void) {
   //printf("%d\n", sumTimeValue.tv_usec);
 
 
-  if((sumTimeValue.tv_usec >= 480000)) {
+  if((sumTimeValue.tv_sec >= 1) && (sumTimeValue.tv_usec >= 920000)) {
     for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
       if(SAMPLE_IS_ACTIVE(i)) {
         //SET_VOLUME(i);
         if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)) { /* Sample needs re-triggering */
           BARS_LEFT(i) = BARS_IN_LOOP(i);
-          if(!ga_handle_playing(activeSamples[i].sample)) {
-            RESTART_LOOP(i);
+          if(ga_handle_playing(activeSamples[i].sample)) {
+            ga_handle_stop(activeSamples[i].sample);
+          }
+          RESTART_LOOP(i);
             if(REPEATS_LEFT(i) > 0) {
               REPEATS_LEFT(i)--;
             }
-          }   
         }
         else if(BARS_LEFT(i) == 0 && REPEATS_LEFT(i) == 0) { /* Sample has finished, needs to be removed */
           REMOVE_LOOP(i);
