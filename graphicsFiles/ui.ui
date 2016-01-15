@@ -31,7 +31,7 @@
     <property name="can_focus">False</property>
     <property name="border_width">6</property>
     <property name="title" translatable="yes">SoundBytes</property>
-    <property name="default_width">600</property>
+    <property name="default_width">800</property>
     <property name="default_height">500</property>
     <property name="icon">icon.png</property>
     <child>
@@ -473,7 +473,7 @@
                             <property name="expand">False</property>
                             <property name="fill">True</property>
                             <property name="position">19</property>
-                          </packing>                          
+                          </packing>
                         </child>
                         <child>
                           <object class="GtkButton" id="button20">
@@ -797,7 +797,7 @@
                             <property name="expand">False</property>
                             <property name="fill">True</property>
                             <property name="position">39</property>
-                          </packing>                          
+                          </packing>
                         </child>
 
                       </object>
