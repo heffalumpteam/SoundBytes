@@ -25,9 +25,15 @@ gboolean events_mainLoop(gpointer user_data) {
   if(user_data != NULL) {
     fprintf(stderr, "\n\tError: UserData in events_mainLoop was not NULL\n");
   }
-  text_mainLoop();
   
   return 1;
+}
+
+void* events_secondLoop(void* arg) {
+
+  while(1) {
+    text_mainLoop();
+  }
 }
 
 void events_toggle(void) {

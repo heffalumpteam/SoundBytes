@@ -4,6 +4,7 @@
 #define NUM_MS 1
 
 gboolean events_mainLoop(gpointer user_data);
+void* events_secondLoop(void*);
 void events_drum1(void);
 void events_clap1(void);
 void events_toggle(void);

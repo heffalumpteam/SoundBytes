@@ -89,16 +89,18 @@ void audio_init(void) {
   removes and frees them */
 void audio_mainLoop(void) {
   int i;
-  struct timeval oldTimeValue, diffTimeValue;
+  struct timeval oldTimeValue;
+  
   gau_manager_update(mgr);
+
   oldTimeValue = timeValue;
   gettimeofday(&timeValue, NULL);
 
   sumTimeValue.tv_sec += timeValue.tv_sec - oldTimeValue.tv_sec;
   sumTimeValue.tv_usec += abs(timeValue.tv_usec - oldTimeValue.tv_usec);
 
-  // printf("%ld\n", sumTimeValue.tv_sec);
-   printf("%d\n", sumTimeValue.tv_usec);
+  //printf("%ld\n", sumTimeValue.tv_sec);
+  //printf("%d\n", sumTimeValue.tv_usec);
 
 
   if((sumTimeValue.tv_usec >= 480000)) {

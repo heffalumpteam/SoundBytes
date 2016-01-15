@@ -5,6 +5,8 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <pthread.h>
+
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguagemanager.h>
@@ -43,6 +45,7 @@ void style(void);
 
 void graphics_init(void) {
   GtkBuilder *builder;
+  pthread_t audioThread;
 
   gtk_init (NULL, NULL);
 
@@ -53,8 +56,12 @@ void graphics_init(void) {
 
   events_init(sourcebuffer);
 
+
   style();
+  pthread_create(&audioThread, NULL, events_secondLoop, NULL);
   gtk_main ();
+
+
 }
 
 gchar* createButtonIDForIndex(int i) {
@@ -87,9 +94,9 @@ void attachFunctions(GtkBuilder *builder) {
   window = gtk_builder_get_object (builder, "window");
   g_signal_connect (window, "destroy", G_CALLBACK (events_quitting), NULL);
 
-  timeoutID = g_timeout_add(NUM_MS, events_mainLoop, NULL);
-  //timeoutID = g_timeout_add_full(VERY_HIGH_PRIORITY, NUM_MS, events_mainLoop, NULL, NULL);
-  assert(timeoutID > 0);
+  // timeoutID = g_timeout_add(NUM_MS, events_mainLoop, NULL);
+  // //timeoutID = g_timeout_add_full(VERY_HIGH_PRIORITY, NUM_MS, events_mainLoop, NULL, NULL);
+  // assert(timeoutID > 0);
 
   setUpPreviewButtons(builder);
 
