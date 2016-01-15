@@ -39,8 +39,10 @@
 #define BARS_LEFT(i) activeSamples[i].barsLeft
 #define BARS_IN_LOOP(i) activeSamples[i].loopLength
 #define LOOP_IS_NOT_PLAYING(i) !Mix_Playing(activeSamples[i].channel)
+#define LOOP_IS_PLAYING(i) Mix_Playing(activeSamples[i].channel)
 #define REMOVE_LOOP(i) audio_removeLoop(i)
 #define RESTART_LOOP(i) audio_startLoop(i)
+#define STOP_LOOP(i) Mix_HaltChannel(activeSamples[i].channel)
 
 typedef struct {
   Mix_Chunk* sample;
@@ -65,8 +67,7 @@ void tokenizeSampleInfo(char *sampleInfo, char *tokens[]);
 char *createSampleFilePath(char *path);
 
 Uint32 newTime, expectedTime;
-Uint32 startedF, leftF;
-int32_t time_difference, timeF;
+int32_t time_difference;
 
 void audio_init(void) {
   SDL_Init(SDL_INIT_AUDIO);
@@ -84,7 +85,7 @@ void audio_init(void) {
 void audio_mainLoop(void) {
   int i, flag = 0;
 
-  newTime = SDL_GetTicks();
+  /*newTime = SDL_GetTicks();
   startedF = newTime;
   if(newTime != expectedTime){
     time_difference = newTime - expectedTime;
@@ -95,25 +96,23 @@ void audio_mainLoop(void) {
       printf("TIMING ERROR. Call to audio_mainLoop was %d ms too early\n", time_difference*(-1));
     }
   }
-  expectedTime = newTime + (480*4);
+  expectedTime = newTime + (480*4);*/
 
   #ifdef USE_OMP
     #pragma omp parallel for
   #endif
   for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
-    /*if(!flag){
-      flag = 1;
-      printf("Threads: %d\n", omp_get_num_threads());
-    }*/
+
     if(SAMPLE_IS_ACTIVE(i)) {
       SET_VOLUME(i);
       if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)) { /* Sample needs re-triggering */
         BARS_LEFT(i) = BARS_IN_LOOP(i);
-        if(LOOP_IS_NOT_PLAYING(i)) {
-          RESTART_LOOP(i);
-          if(REPEATS_LEFT(i) > 0) {
-            REPEATS_LEFT(i)--;
-          }
+        if(LOOP_IS_PLAYING(i)) {
+          STOP_LOOP(i);
+        }
+        RESTART_LOOP(i);
+        if(REPEATS_LEFT(i) > 0) {
+          REPEATS_LEFT(i)--;
         }
       }
       else if(BARS_LEFT(i) == 0 && REPEATS_LEFT(i) == 0) { /* Sample has finished, needs to be removed */
@@ -126,11 +125,35 @@ void audio_mainLoop(void) {
         REMOVE_LOOP(i);
       }
     }
-  }
 
-  leftF = SDL_GetTicks();
-  timeF = leftF - startedF;
-  printf("audio_mainLoop takes %dms \n", timeF);
+
+
+    /*if(!flag){
+      flag = 1;
+      printf("Threads: %d\n", omp_get_num_threads());
+    }*/
+    /*if(SAMPLE_IS_ACTIVE(i)) {
+      SET_VOLUME(i);
+      if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)) {
+        BARS_LEFT(i) = BARS_IN_LOOP(i);
+        if(LOOP_IS_NOT_PLAYING(i)) {
+          RESTART_LOOP(i);
+          if(REPEATS_LEFT(i) > 0) {
+            REPEATS_LEFT(i)--;
+          }
+        }
+      }
+      else if(BARS_LEFT(i) == 0 && REPEATS_LEFT(i) == 0) {
+        REMOVE_LOOP(i);
+      }
+      BARS_LEFT(i)--;
+    }
+    else {
+      if(activeSamples[i].sample != NULL) {
+        REMOVE_LOOP(i);
+      }
+    }*/
+  }
 }
 
 void audio_addLoop(int index) {
