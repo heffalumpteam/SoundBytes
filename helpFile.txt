@@ -4,13 +4,14 @@ HOW TO MAKE MUSIC:
 Click on the buttons on the left side of the screen to hear what
 audio samples you can play.
 
-If you like a particular sample, click on a new line beneath this
-help guide and write 'add <samplename>' using the same sample
-name as on the button. For example, if you wanted to add the
-bass(fat) sample you would type 'add bass(fat)'.
+Click on a new line beneath this help guide and either click on the
+RUN button or use the hotkey CTRL + 'R' to initialise the program.
 
-Either click on the RUN button or use the hotkey CTRL + 'R' to play
-the sample/s you have added.
+If you like a particular sample, write 'add <samplename>' using the
+same sample name as on the button. For example, if you wanted to add
+the bass(fat) sample you would type 'add bass(fat)'.
+
+Use the run command to play the sample/s you have added.
 
 If you want to add another sample, click on a new line and use the
 add and run commands again.
@@ -26,4 +27,3 @@ HOW TO SAVE YOUR MUSIC:
 Click on the save button to save the samples you have added.
 After saving the .lump file in a folder of your choice, click on
 the button with the folder icon to find and load your file.
-  
