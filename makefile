@@ -27,7 +27,7 @@ mac : $(CFILES)
 	gcc-5 $(CFILES) -o $(NAME) $(OFLAGS) $(CFLAGS) -fopenmp $(macGTK) $(macFRAMEWORKS) $(macINCLUDES)
 
 win : $(CFILES)
-	gcc $(CFILES) -o $(NAME).exe  $(OFLAGS) $(CFLAGS) -fopenmp $(winINCLUDES) $(winGTK)
+	gcc $(CFILES) -o $(NAME).exe $(OFLAGS) $(CFLAGS) -fopenmp $(winINCLUDES) $(winGTK)
 
 
 

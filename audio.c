@@ -23,7 +23,8 @@
   #include <omp.h>
 #endif
 
-#define NO_OF_CORES
+//#define NO_OF_CORES
+//#define DEBUG_TIMING
 
 #define SAMPLERATE 44100
 #define NUMAUDIOCHANNELS 2
@@ -67,6 +68,8 @@ void setLoopActiveFlag(int index, bool flag);
 void readSampleInfo();
 void tokenizeSampleInfo(char *sampleInfo, char *tokens[]);
 char *createSampleFilePath(char *path);
+/* Debug */
+void printTiming(void);
 
 Uint32 newTime, expectedTime;
 int32_t time_difference;
@@ -85,31 +88,22 @@ void audio_init(void) {
 /* Loops through activeSamples array once every bar, checks which samples have stopped and retriggers them if they have repeats left, otherwise
   removes and frees them */
 void audio_mainLoop(void) {
-  int i, flag = 0;
+  int i;
 
-  /*newTime = SDL_GetTicks();
-  startedF = newTime;
-  if(newTime != expectedTime){
-    time_difference = newTime - expectedTime;
-    if(time_difference > 0){
-      printf("TIMING ERROR. Call to audio_mainLoop was %d ms too late\n", time_difference);
-    }
-    else{
-      printf("TIMING ERROR. Call to audio_mainLoop was %d ms too early\n", time_difference*(-1));
-    }
+  #ifdef DEBUG_TIMING
+    printTiming();
+  #endif
+  #ifdef NO_OF_CORES
+  int flag = 0;
+  if(!flag){
+    flag = 1;
+    printf("Threads: %d\n", omp_get_num_threads());
   }
-  expectedTime = newTime + (480*4);*/
-
+  #endif
   #ifdef USE_OMP
     #pragma omp parallel for
   #endif
   for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
-    #ifdef NO_OF_CORES
-    if(!flag){
-      flag = 1;
-      printf("Threads: %d\n", omp_get_num_threads());
-    }
-    #endif
     if(SAMPLE_IS_ACTIVE(i)) {
       SET_VOLUME(i);
       if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)) { /* Sample needs re-triggering */
@@ -263,4 +257,19 @@ void tokenizeSampleInfo(char *sampleInfo, char *tokens[]) {
   while(i < MAXFILEINFOTOKENS) {
     tokens[i++] = strtok(NULL, " ");
   }
+}
+
+void printTiming(void)
+{
+  newTime = SDL_GetTicks();
+  if(newTime != expectedTime){
+    time_difference = newTime - expectedTime;
+    if(time_difference > 0){
+      printf("TIMING ERROR. Call to audio_mainLoop was %d ms too late\n", time_difference);
+    }
+    else{
+      printf("TIMING ERROR. Call to audio_mainLoop was %d ms too early\n", time_difference*(-1));
+    }
+  }
+  expectedTime = newTime + (480*4);
 }
