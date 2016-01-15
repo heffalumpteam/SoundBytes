@@ -4,15 +4,14 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <sys/time.h>
 
 #include "events.h"
 #include "graphics.h"
 #include "audio.h"
 #include "text.h"
 
-#define BPM 125
-#define MSperBEAT 480
-#define BEATS_IN_A_BAR 4
+
 
 unsigned char beat = 0, bar = 0;
 unsigned int play = 0;
@@ -26,14 +25,8 @@ gboolean events_mainLoop(gpointer user_data) {
   if(user_data != NULL) {
     fprintf(stderr, "\n\tError: UserData in events_mainLoop was not NULL\n");
   }
-  if(play) {
-    if(beat > BEATS_IN_A_BAR-1) {
-      bar++;
-      beat = 0;
-      text_mainLoop();
-    }
-    beat++;
-  }
+  text_mainLoop();
+  
   return 1;
 }
 

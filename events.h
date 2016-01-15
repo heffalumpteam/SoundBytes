@@ -1,7 +1,7 @@
 #ifndef EVENTS_H_
 #define EVENTS_H_
 
-#define NUM_MS 480
+#define NUM_MS 1
 
 gboolean events_mainLoop(gpointer user_data);
 void events_drum1(void);
