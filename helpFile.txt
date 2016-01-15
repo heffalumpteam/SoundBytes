@@ -1,15 +1,15 @@
 Welcome to SoundBytes!
 
+Click on a new line beneath this help guide and either click on the
+RUN button or use the hotkey CTRL + 'R' to initialise the program.
+
 HOW TO MAKE MUSIC:
 Click on the buttons on the left side of the screen to hear what
 audio samples you can play.
 
-Click on a new line beneath this help guide and either click on the
-RUN button or use the hotkey CTRL + 'R' to initialise the program.
-
 If you like a particular sample, write 'add <samplename>' using the
-same sample name as on the button. For example, if you wanted to add
-the bass(fat) sample you would type 'add bass(fat)'.
+same sample name as on the button. For example, if you wanted to
+add the bass(fat) sample you would type 'add bass(fat)'.
 
 Use the run command to play the sample/s you have added.
 
@@ -21,7 +21,7 @@ Other commands:
   sample to the value of x (which can be between 0 to 11).
 - 'remove <samplename>' will stop that sample from playing.
   If you want to add it again, use the add command.
-- 'stop' will stop all samples.
+- 'stop' will stop all samples from playing.
 
 HOW TO SAVE YOUR MUSIC:
 Click on the save button to save the samples you have added.
