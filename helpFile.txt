@@ -1,10 +1,36 @@
+Welcome to SoundBytes!
+
+Click on the buttons on the left side of the screen
+to hear what audio samples you can play.
+
+If you like a particular sample, click on a new line
+beneath this help guide and write 'add <samplename>'
+using the same sample name as on the button. For example,
+if you wanted to add the bass(fat) sample you would type
+'add bass(fat).'
+
+Either click on the RUN button or use the hotkey CTRL + 'R'
+to play the sample or samples that you have added.
+
+If you want to add another sample, click on a new line
+and type 'add <samplename>'
+
+
+
+
+
+
+How to find out what:
+To start playing music:
+
+
 Help file
 
 Help, I need somebody
 Help, not just anybody
 Help, you know I need someone, help
 
-When I was younger (So much younger than) so much younger than today
+When I was younger (So much younger than) so much younger than|******** today
 (I never needed) I never needed anybody's help in any way
 (Now) But now these days are gone (These days are gone), I'm not so self assured
 (I know I've found) Now I find I've changed my mind and opened up the doors
