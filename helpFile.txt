@@ -9,27 +9,32 @@ guide and write 'add <samplename>' using the same sample name as on the
 button. For example, if you wanted to add the bass(fat) sample you would
 type 'add bass(fat)'.
 
-Either click on the RUN button or use the hotkey CTRL + 'R' to play the
-sample/s you have added.
+Either click on the RUN button or use the hotkey CTRL + 'R' to play the sample/s
+you have added.
 
-If you want to add another sample, click on a new line and use the add
-and run commands again.
+If you want to add another sample, click on a new line and use the add and run
+commands again.
 
 Other commands:
-- 'set <samplename> volume x' will change the volume for that sample to
-  the value of x (which can be between 0 to 11).
-- 'remove <samplename>' will stop that sample from playing. If you want
-  to add it again, use the add command.
+- 'set <samplename> volume x' will change the volume for that sample to the value
+  of x (which can be between 0 to 11).
+- 'remove <samplename>' will stop that sample from playing. If you want to add it
+  again, use the add command.
 - 'stop' will stop all samples from playing.
 
 HOW TO SAVE YOUR MUSIC:
-Click on the save button to save the samples you have added. After saving
-the .lump file in a folder of your choice, click on the button with the
-folder icon to find and load your file.
+Click on the save button to save the samples you have added. After saving the .lump
+file in a folder of your choice, click on the button with the folder icon to find
+and load your file.
 
 HOW TO EDIT THE SAMPLE NAMES:
-SoundBytes comes with 31 pre-installed samples. If you want to change the
-sample names, go to the SoundBytes root directory
+SoundBytes comes with 31 pre-installed samples. If you want to change the sample
+names, go to the SoundBytes root directory and open SampleFileInfo.txt. Inside
+this file are all the file paths of the samples and their length in bars. If you
+change a sample name, the new name will automatically appear in the buttons, and
+you will be able to use the new name in your commands. For example, to change
+'drums(fat)' to 'drums(phat)', you would delete 'samples/bass(fat).wav 8' and
+replace it with 'samples/bass(phat).wav 8'.
 
 
 HOW TO INITIALISE THE PROGRAM:
