@@ -19,7 +19,6 @@ samples/fx(buildup).wav 8
 samples/fx(intro).wav 8
 samples/fx(swoosh).wav 2
 samples/guitar(mute).wav 4
-samples/keys(bright).wav 1
 samples/keys(piano).wav 8
 samples/synth(brass).wav 8
 samples/synth(buildup).wav 8

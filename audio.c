@@ -17,6 +17,15 @@
 #include <stdbool.h>
 #include <limits.h>
 
+#define USE_OMP
+
+#ifdef USE_OMP
+  #include <omp.h>
+#endif
+
+//#define NO_OF_CORES
+//#define DEBUG_TIMING
+
 #define SAMPLERATE 44100
 #define NUMAUDIOCHANNELS 2
 #define BUFFSIZE 2048
@@ -33,8 +42,10 @@
 #define BARS_LEFT(i) activeSamples[i].barsLeft
 #define BARS_IN_LOOP(i) activeSamples[i].loopLength
 #define LOOP_IS_NOT_PLAYING(i) !Mix_Playing(activeSamples[i].channel)
+#define LOOP_IS_PLAYING(i) Mix_Playing(activeSamples[i].channel)
 #define REMOVE_LOOP(i) audio_removeLoop(i)
 #define RESTART_LOOP(i) audio_startLoop(i)
+#define STOP_LOOP(i) Mix_HaltChannel(activeSamples[i].channel)
 
 typedef struct {
   Mix_Chunk* sample;
@@ -57,11 +68,17 @@ void setLoopActiveFlag(int index, bool flag);
 void readSampleInfo();
 void tokenizeSampleInfo(char *sampleInfo, char *tokens[]);
 char *createSampleFilePath(char *path);
+/* Debug */
+void printTiming(void);
+
+Uint32 newTime, expectedTime;
+int32_t time_difference;
 
 void audio_init(void) {
   SDL_Init(SDL_INIT_AUDIO);
 
   if( Mix_OpenAudio( SAMPLERATE, MIX_DEFAULT_FORMAT, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ) {
+  /*if( Mix_OpenAudio( SAMPLERATE, AUDIO_F32SYS, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ) {*/
     fprintf(stderr, "Audio: SDL_mixer Error: %s\n", Mix_GetError());
   }
 
@@ -72,17 +89,32 @@ void audio_init(void) {
   removes and frees them */
 void audio_mainLoop(void) {
   int i;
+
+  #ifdef DEBUG_TIMING
+    printTiming();
+  #endif
+  #ifdef NO_OF_CORES
+  int flag = 0;
+  if(!flag){
+    flag = 1;
+    printf("Threads: %d\n", omp_get_num_threads());
+  }
+  #endif
+  #ifdef USE_OMP
+    #pragma omp parallel for
+  #endif
   for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
     if(SAMPLE_IS_ACTIVE(i)) {
       SET_VOLUME(i);
       if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)) { /* Sample needs re-triggering */
         BARS_LEFT(i) = BARS_IN_LOOP(i);
-        if(LOOP_IS_NOT_PLAYING(i)) {
-          RESTART_LOOP(i);
-          if(REPEATS_LEFT(i) > 0) {
-            REPEATS_LEFT(i)--;
-          }
-        }   
+        if(LOOP_IS_PLAYING(i)) {
+          STOP_LOOP(i);
+        }
+        RESTART_LOOP(i);
+        if(REPEATS_LEFT(i) > 0) {
+          REPEATS_LEFT(i)--;
+        }
       }
       else if(BARS_LEFT(i) == 0 && REPEATS_LEFT(i) == 0) { /* Sample has finished, needs to be removed */
         REMOVE_LOOP(i);
@@ -153,7 +185,7 @@ void audio_removeLoop(int index) {
     Mix_FreeChunk(activeSamples[index].sample);
     activeSamples[index].sample = NULL;
     activeSamples[index].channel = DEFAULTCHANNEL;
-    setLoopActiveFlag(index, false); 
+    setLoopActiveFlag(index, false);
 }
 
 void audio_markLoopInactive(int index) {
@@ -225,4 +257,19 @@ void tokenizeSampleInfo(char *sampleInfo, char *tokens[]) {
   while(i < MAXFILEINFOTOKENS) {
     tokens[i++] = strtok(NULL, " ");
   }
+}
+
+void printTiming(void)
+{
+  newTime = SDL_GetTicks();
+  if(newTime != expectedTime){
+    time_difference = newTime - expectedTime;
+    if(time_difference > 0){
+      printf("TIMING ERROR. Call to audio_mainLoop was %d ms too late\n", time_difference);
+    }
+    else{
+      printf("TIMING ERROR. Call to audio_mainLoop was %d ms too early\n", time_difference*(-1));
+    }
+  }
+  expectedTime = newTime + (480*4);
 }
