@@ -17,7 +17,7 @@
 #include <stdbool.h>
 #include <limits.h>
 
-/*#define USE_OMP*/
+#define USE_OMP
 
 #ifdef USE_OMP
   #include <omp.h>
@@ -102,7 +102,10 @@ void audio_mainLoop(void) {
     #pragma omp parallel for
   #endif
   for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
-
+    /*if(!flag){
+      flag = 1;
+      printf("Threads: %d\n", omp_get_num_threads());
+    }*/
     if(SAMPLE_IS_ACTIVE(i)) {
       SET_VOLUME(i);
       if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)) { /* Sample needs re-triggering */
@@ -125,34 +128,6 @@ void audio_mainLoop(void) {
         REMOVE_LOOP(i);
       }
     }
-
-
-
-    /*if(!flag){
-      flag = 1;
-      printf("Threads: %d\n", omp_get_num_threads());
-    }*/
-    /*if(SAMPLE_IS_ACTIVE(i)) {
-      SET_VOLUME(i);
-      if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)) {
-        BARS_LEFT(i) = BARS_IN_LOOP(i);
-        if(LOOP_IS_NOT_PLAYING(i)) {
-          RESTART_LOOP(i);
-          if(REPEATS_LEFT(i) > 0) {
-            REPEATS_LEFT(i)--;
-          }
-        }
-      }
-      else if(BARS_LEFT(i) == 0 && REPEATS_LEFT(i) == 0) {
-        REMOVE_LOOP(i);
-      }
-      BARS_LEFT(i)--;
-    }
-    else {
-      if(activeSamples[i].sample != NULL) {
-        REMOVE_LOOP(i);
-      }
-    }*/
   }
 }
 
