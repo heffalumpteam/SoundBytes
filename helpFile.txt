@@ -28,6 +28,8 @@ the .lump file in a folder of your choice, click on the button with the
 folder icon to find and load your file.
 
 HOW TO EDIT THE SAMPLE NAMES:
+SoundBytes comes with 31 pre-installed samples. If you want to change the
+sample names, go to the SoundBytes root directory
 
 
 HOW TO INITIALISE THE PROGRAM:
