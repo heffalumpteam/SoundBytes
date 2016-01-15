@@ -1,4 +1,4 @@
-NAME = test
+NAME = soundbytes
 
 CFILES = main.c graphics.c audio.c events.c text.c
 
