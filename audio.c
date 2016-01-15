@@ -23,6 +23,8 @@
   #include <omp.h>
 #endif
 
+#define NO_OF_CORES
+
 #define SAMPLERATE 44100
 #define NUMAUDIOCHANNELS 2
 #define BUFFSIZE 2048
@@ -102,10 +104,12 @@ void audio_mainLoop(void) {
     #pragma omp parallel for
   #endif
   for(i = 0; i < MAXNUMBEROFSAMPLES; i++) {
-    /*if(!flag){
+    #ifdef NO_OF_CORES
+    if(!flag){
       flag = 1;
       printf("Threads: %d\n", omp_get_num_threads());
-    }*/
+    }
+    #endif
     if(SAMPLE_IS_ACTIVE(i)) {
       SET_VOLUME(i);
       if((BARS_LEFT(i) == 0) && (REPEATS_LEFT(i) != 0)) { /* Sample needs re-triggering */

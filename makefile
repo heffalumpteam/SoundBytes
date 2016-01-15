@@ -24,10 +24,10 @@ linux : $(CFILES)
 	gcc $(CFILES) -o $(NAME) $(OFLAGS) -fopenmp $(CFLAGS) $(linuxGTK) $(linuxLIBS)
 
 mac : $(CFILES)
-	gcc $(CFILES) -o $(NAME) $(OFLAGS) $(CFLAGS) $(macGTK) $(macFRAMEWORKS) $(macINCLUDES)
+	gcc-5 $(CFILES) -o $(NAME) $(OFLAGS) $(CFLAGS) -fopenmp $(macGTK) $(macFRAMEWORKS) $(macINCLUDES)
 
 win : $(CFILES)
-	gcc $(CFILES) -o $(NAME).exe  $(OFLAGS) $(CFLAGS) $(winINCLUDES) $(winGTK)
+	gcc $(CFILES) -o $(NAME).exe  $(OFLAGS) $(CFLAGS) -fopenmp $(winINCLUDES) $(winGTK)
 
 
 
