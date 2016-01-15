@@ -28,14 +28,17 @@ file in a folder of your choice, click on the button with the folder icon to fin
 and load your file.
 
 HOW TO EDIT THE SAMPLE NAMES:
-SoundBytes comes with 31 pre-installed samples. If you want to change the sample
-names, go to the SoundBytes root directory and open SampleFileInfo.txt. Inside
+SoundBytes comes with 31 pre-installed samples. If you want to change a sample
+name, go to the SoundBytes root directory and open SampleFileInfo.txt. Inside
 this file are all the file paths of the samples and their length in bars. If you
 change a sample name, the new name will automatically appear in the buttons, and
 you will be able to use the new name in your commands. For example, to change
 'drums(fat)' to 'drums(phat)', you would delete 'samples/bass(fat).wav 8' and
-replace it with 'samples/bass(phat).wav 8'.
+replace it with 'samples/bass(phat).wav 8'. Henceforth you will be able to user
+'drums(phat)' in your commands.
 
+HOW TO ADD YOUR OWN SAMPLES:
+Needs filling in...
 
 HOW TO INITIALISE THE PROGRAM:
 Click on a new line beneath this help guide and either click on the
