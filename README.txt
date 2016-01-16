@@ -1,17 +1,14 @@
-Using the following commands to build and run the program:
+Using the following commands to build the program:
 
 For Linux:
   make linux
-  make run
 
 For MacOS:
-  make mac <- This should work. If you haven’t got GTK installed yet, downloading
-			  Homebrew and then doing ‘brew install gtk+3’ in Terminal is the most
-			  pain-free way to go.
-  make run
+  make mac
 
 For Windows:
   make win
-  make run
+
+To run the program, use “make run”.
 
 
