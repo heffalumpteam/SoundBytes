@@ -236,6 +236,10 @@ void readSampleInfo() {
     sampleLoopLengths[i] = atoi(tokens[LOOPLENGTH]);
     i++;
     audio_noOfSamplesLoaded++;
+    if(audio_noOfSamplesLoaded > MAXNUMBEROFSAMPLES) {
+      fprintf(stderr, "Too many samples. Maximum number of samples is %d.\n", MAXNUMBEROFSAMPLES);
+      exit(1);
+    }
   }
 
   fclose(sampleInfoFile);
