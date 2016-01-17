@@ -9,8 +9,7 @@ guide and write 'add <samplename>' using the same sample name as on the
 button. For example, if you wanted to add the bass(fat) sample you would
 type 'add bass(fat)'.
 
-Either click on the RUN button or use the hotkey CTRL + 'R' to play the sample/s
-you have added.
+Either click on the RUN button or use the hotkey CTRL + 'R' to run any new commands.
 
 If you want to add another sample, click on a new line and use the add and run
 commands again.
@@ -38,7 +37,10 @@ replace it with 'samples/bass(phat).wav 8'. Henceforth you will be able to use
 'drums(phat)' in your commands.
 
 HOW TO ADD YOUR OWN SAMPLES:
-Needs filling in... Max total = 40 samples...
+********
+Needs filling in... What characteristics do the user's samples need to have so that
+they don't sound discordant with the default ones?
+Also need to mention the max total of 40 samples...
 
 HOW TO INITIALISE THE PROGRAM:
 Click on a new line beneath this help guide and either click on the
