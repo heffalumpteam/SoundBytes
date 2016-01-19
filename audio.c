@@ -28,6 +28,7 @@
 
 #define SAMPLERATE 44100
 #define NUMAUDIOCHANNELS 2
+#define NUMCHUNKCHANNELS 48
 #define BUFFSIZE 2048
 #define MAXFILEINFOTOKENS 2
 #define FILENAME 0
@@ -79,9 +80,11 @@ void audio_init(void) {
 
   if( Mix_OpenAudio( SAMPLERATE, MIX_DEFAULT_FORMAT, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ) {
   /*if( Mix_OpenAudio( SAMPLERATE, AUDIO_F32SYS, NUMAUDIOCHANNELS, BUFFSIZE ) < 0 ) {*/
-    fprintf(stderr, "Audio: SDL_mixer Error: %s\n", Mix_GetError());
+    fprintf(stderr, "Audio: ERROR: SDL_mixer: %s\n", Mix_GetError());
   }
-
+  if(Mix_AllocateChannels(NUMCHUNKCHANNELS) != NUMCHUNKCHANNELS){
+    fprintf(stderr, "Audio: ERROR: Could Not Allocate Enough Channels: %s\n", Mix_GetError());
+  }
   readSampleInfo();
 }
 
@@ -148,7 +151,7 @@ Sample loadSample(int index) {
   sample.sample = Mix_LoadWAV(sampleFilePaths[index]);
     sample.loopLength = sampleLoopLengths[index];
   if (!sample.sample) {
-    fprintf(stderr, "Audio: Failed to load sample \"%s\"!\n", sampleFilePaths[index]);
+    fprintf(stderr, "Audio: ERROR Failed to load sample \"%s\"!\n", sampleFilePaths[index]);
   }
   return sample;
 }
@@ -173,6 +176,9 @@ void audio_close(void) {
 
 void audio_startLoop(int index) {
   activeSamples[index].channel = Mix_PlayChannel(-1, activeSamples[index].sample, activeSamples[index].repeatsLeft);
+  if(activeSamples[index].channel == -1){
+    fprintf(stderr, "Audio: ERROR: Could Not Assign Loop To A Channel\n");
+  }
     /* have to initialise volume here because channel is not set until this point.
     After this audio_mainLoop takes over and checks the volume at regular intervals */
   Mix_Volume(activeSamples[index].channel, activeSamples[index].volume);
