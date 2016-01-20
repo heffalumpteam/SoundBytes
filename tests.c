@@ -206,6 +206,7 @@ static void assert_null(void* value) {
 
 int main(void) {
 
+    printf("\nRUNNING FOLLOWING TESTS: \n\n");
     assert_int_equal(ADD, test_selectInstruction_add());
     assert_int_equal(REMOVE, test_selectInstruction_remove());
     assert_int_equal(SET, test_selectInstruction_set());
