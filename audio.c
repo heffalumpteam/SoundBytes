@@ -195,7 +195,6 @@ void audio_removeLoop(int index) {
 }
 
 void audio_markLoopInactive(int index) {
-  printf("Audio: inactive\n");
   setLoopActiveFlag(index, false);
 }
 
@@ -251,7 +250,7 @@ void readSampleInfo() {
   fclose(sampleInfoFile);
 }
 
-char *createSampleFilePath(char *path) {
+char* createSampleFilePath(char *path) {
   char *newSampleFilePath = malloc(MAXSAMPLEINFOLENGTH);
   if(!newSampleFilePath) {
       fprintf(stderr, "Could not allocate sample file path.\n");

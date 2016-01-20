@@ -58,11 +58,16 @@ void graphics_init(void) {
 }
 
 gchar* createButtonIDForIndex(int i) {
-  char* buffer;
+  char* buffer = NULL;
 
-  buffer = malloc(MAX_BUTTON_ID_LENGTH * sizeof *buffer);
-  sprintf(buffer, "button%d", i);
+  if (i >= 0)
+  {
+    buffer = malloc(MAX_BUTTON_ID_LENGTH * sizeof *buffer);
+    sprintf(buffer, "button%d", i);
+  }
+
   return (gchar*)buffer;
+    
 }
 
 void initSourceView(GtkBuilder *builder) {
@@ -162,6 +167,10 @@ char* extractFilenameFromPath(char* path) {
   strcpy(temp, path);
 
   token = strchr(temp, '/');
+  if (token == NULL) {
+    fprintf(stderr, "Couldn't extract filename from path %s\n", path);
+    return token;
+  }
   token++;
   token = strtok(token, ".");
 
