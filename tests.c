@@ -193,15 +193,6 @@ static void assert_string_equal(char* expected, char* obtained)
     }
 }
 
-static void assert_not_null(void* value) {
-    if (value != NULL) {
-        printf("TEST: %s PASSED\n", funcName);
-    }
-    else {
-        printf("TEST: %s FAILED\n", funcName);
-    }
-}
-
 static void assert_null(void* value) {
     if (value == NULL) {
         printf("TEST: %s PASSED\n", funcName);
