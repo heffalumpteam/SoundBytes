@@ -50,6 +50,7 @@ mactest: $(CFILES)
 
 wintest: $(CFILES)
 	gcc tests.c -o tests.exe $(CFLAGS) -fopenmp $(winINCLUDES) $(winGTK)
+	./tests.exe 2> testerrors.txt
 
 rundgb:
 	gdb $(NAME)
