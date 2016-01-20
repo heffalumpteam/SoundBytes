@@ -176,29 +176,29 @@ static gchar* test_createButtonIDForIndex_zero() {
 
 static void assert_int_equal(int expected, int obtained) {
     if (expected == obtained) {
-        printf("TEST: %s PASSED\n", funcName);
+        printf("TEST: %50s %7s\n", funcName, "PASSED");
     }
     else {
-        printf("TEST: %s FAILED\n", funcName);
+        printf("TEST: %50s %7s\n", funcName, "FAILED");
     }
 }
 
 static void assert_string_equal(char* expected, char* obtained)
 {
     if (strcmp(expected, obtained) == 0) {
-        printf("TEST: %s PASSED\n", funcName);
+        printf("TEST: %50s %7s\n", funcName, "PASSED");
     }
     else {
-        printf("TEST: %s FAILED\n", funcName);
+        printf("TEST: %50s %7s\n", funcName, "FAILED");
     }
 }
 
 static void assert_null(void* value) {
     if (value == NULL) {
-        printf("TEST: %s PASSED\n", funcName);
+        printf("TEST: %50s %7s\n", funcName, "PASSED");
     }
     else {
-        printf("TEST: %s FAILED\n", funcName);
+        printf("TEST: %50s %7s\n", funcName, "FAILED");
     }
 
 }
