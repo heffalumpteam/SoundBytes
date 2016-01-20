@@ -184,7 +184,7 @@ static gchar* test_createButtonIDForIndex_zero() {
 
 static void assert_int_equal(int expected, int obtained) {
     if (expected == obtained) {
-        printf("TEST: \x1b[34m %50s \x1b[1;32m %7s \x1b[0m\n", funcName, "PASSED");
+        printf("TEST: \x1b[34m %50s \x1b[1;51;32m %7s \x1b[0m\n", funcName, "PASSED");
     }
     else {
         printf("TEST: \x1b[34m %50s \x1b[1;31m %7s \x1b[0m\n", funcName, "FAILED");
@@ -194,7 +194,7 @@ static void assert_int_equal(int expected, int obtained) {
 static void assert_string_equal(char* expected, char* obtained)
 {
     if (strcmp(expected, obtained) == 0) {
-        printf("TEST: \x1b[34m %50s \x1b[1;32m %7s \x1b[0m\n", funcName, "PASSED");
+        printf("TEST: \x1b[34m %50s \x1b[1;51;32m %7s \x1b[0m\n", funcName, "PASSED");
     }
     else {
         printf("TEST: \x1b[34m %50s \x1b[1;31m %7s \x1b[0m\n", funcName, "FAILED");
@@ -203,7 +203,7 @@ static void assert_string_equal(char* expected, char* obtained)
 
 static void assert_null(void* value) {
     if (value == NULL) {
-        printf("TEST: \x1b[34m %50s \x1b[1;32m %7s \x1b[0m\n", funcName, "PASSED");
+        printf("TEST: \x1b[34m %50s \x1b[1;51;32m %7s \x1b[0m\n", funcName, "PASSED");
     }
     else {
         printf("TEST: \x1b[34m %50s \x1b[1;31m %7s \x1b[0m\n", funcName, "FAILED");
@@ -214,7 +214,7 @@ static void assert_null(void* value) {
 
 int main(void) {
 
-    printf("\n \x1b[1;4m RUNNING FOLLOWING TESTS: \x1b[0m\n\n");
+    printf("\n \x1b[37;40;1m RUNNING FOLLOWING TESTS: \x1b[0m\n\n");
     assert_int_equal(ADD, test_selectInstruction_add());
     assert_int_equal(REMOVE, test_selectInstruction_remove());
     assert_int_equal(SET, test_selectInstruction_set());
