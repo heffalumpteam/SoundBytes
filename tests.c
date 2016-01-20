@@ -3,6 +3,14 @@
 #include "audio.c"
 #include "text.c"
 
+#define ANSI_COLOR_RED     \x1b[31m
+#define ANSI_COLOR_GREEN   \x1b[32m
+#define ANSI_COLOR_YELLOW  \x1b[33m
+#define ANSI_COLOR_BLUE    \x1b[34m
+#define ANSI_COLOR_MAGENTA \x1b[35m
+#define ANSI_COLOR_CYAN    \x1b[36m
+#define ANSI_COLOR_RESET   \x1b[0m
+
 #define DEFAULT_STRING_LENGTH 50
 
 char funcName[DEFAULT_STRING_LENGTH];
@@ -176,29 +184,29 @@ static gchar* test_createButtonIDForIndex_zero() {
 
 static void assert_int_equal(int expected, int obtained) {
     if (expected == obtained) {
-        printf("TEST: %50s %7s\n", funcName, "PASSED");
+        printf("TEST: \x1b[34m %50s \x1b[32m %7s \x1b[0m\n", funcName, "PASSED");
     }
     else {
-        printf("TEST: %50s %7s\n", funcName, "FAILED");
+        printf("TEST: \x1b[34m %50s \x1b[31m %7s \x1b[0m\n", funcName, "FAILED");
     }
 }
 
 static void assert_string_equal(char* expected, char* obtained)
 {
     if (strcmp(expected, obtained) == 0) {
-        printf("TEST: %50s %7s\n", funcName, "PASSED");
+        printf("TEST: \x1b[34m %50s \x1b[32m %7s \x1b[0m\n", funcName, "PASSED");
     }
     else {
-        printf("TEST: %50s %7s\n", funcName, "FAILED");
+        printf("TEST: \x1b[34m %50s \x1b[31m %7s \x1b[0m\n", funcName, "FAILED");
     }
 }
 
 static void assert_null(void* value) {
     if (value == NULL) {
-        printf("TEST: %50s %7s\n", funcName, "PASSED");
+        printf("TEST: \x1b[34m %50s \x1b[32m %7s \x1b[0m\n", funcName, "PASSED");
     }
     else {
-        printf("TEST: %50s %7s\n", funcName, "FAILED");
+        printf("TEST: \x1b[34m %50s \x1b[31m %7s \x1b[0m\n", funcName, "FAILED");
     }
 
 }
