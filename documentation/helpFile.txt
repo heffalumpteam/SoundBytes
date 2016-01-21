@@ -1,0 +1,48 @@
+Welcome to SoundBytes!
+
+HOW TO MAKE MUSIC:
+Click on the buttons on the left side of the screen to hear what audio
+samples you can play.
+
+If you like a particular sample, click on a new line beneath this help
+guide and write 'add <samplename>' using the same sample name as on the
+button. For example, if you wanted to add the bass(fat) sample you would
+type 'add bass(fat)'.
+
+Either click on the RUN button or use the hotkey CTRL + 'R' to run any new commands.
+
+If you want to add another sample, click on a new line and use the add and run
+commands again.
+
+Other commands:
+- 'set <samplename> volume x' will change the volume for that sample to the value
+  of x (which can be between 0 to 11).
+- 'remove <samplename>' will stop that sample from playing. If you want to add it
+  again, use the add command.
+- 'stop' will stop all samples from playing.
+
+HOW TO SAVE YOUR MUSIC:
+Click on the save button to save the samples you have added. After saving the .lump
+file in a folder of your choice, click on the button with the folder icon to find
+and load your file.
+
+HOW TO EDIT THE SAMPLE NAMES:
+SoundBytes comes with 31 pre-installed samples. If you want to change a sample
+name, go to the SoundBytes root directory and open SampleFileInfo.txt. Inside
+this file are all the file paths of the samples and their length in bars. If you
+change a sample name, the new name will automatically appear in the buttons, and
+you will be able to use the new name in your commands. For example, to change
+'drums(fat)' to 'drums(phat)', you would delete 'samples/bass(fat).wav 8' and
+replace it with 'samples/bass(phat).wav 8'. Henceforth you will be able to use
+'drums(phat)' in your commands.
+
+HOW TO ADD YOUR OWN SAMPLES:
+In order use your own music in SoundBytes, drag your sample (in .wav format) to the
+samples directory and then update the SampleFileInfo.txt file with its name and its
+number of bars. The default samples are all in D minor, so if you record a sample to
+play alongside the default ones make sure that they are in the same key! The software
+allows a total maximum of 40 samples to be added.
+
+HOW TO INITIALISE THE PROGRAM:
+Click on a new line beneath this help guide and either click on the
+RUN button or use the hotkey CTRL + 'R' to initialise the program.
