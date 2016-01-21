@@ -241,7 +241,7 @@ void saveFileDialog(GtkButton *button, GtkBuilder *builder) {
 }
 
 void loadHelpFile(void) {
-  char* filename = "helpFile.txt";
+  char* filename = "documentation/helpFile.txt";
   events_openFile(filename, sourcebuffer);
 }
 
