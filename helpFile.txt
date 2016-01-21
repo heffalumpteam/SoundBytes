@@ -37,10 +37,11 @@ replace it with 'samples/bass(phat).wav 8'. Henceforth you will be able to use
 'drums(phat)' in your commands.
 
 HOW TO ADD YOUR OWN SAMPLES:
-********
-Needs filling in... What characteristics do the user's samples need to have so that
-they don't sound discordant with the default ones?
-Also need to mention the max total of 40 samples...
+In order use your own music in SoundBytes, drag your sample (in .wav format) to the
+samples directory and then update the SampleFileInfo.txt file with its name and its
+number of bars. The default samples are all in D minor, so if you record a sample to
+play alongside the default ones make sure that they are in the same key! The software
+allows a total maximum of 40 samples to be added.
 
 HOW TO INITIALISE THE PROGRAM:
 Click on a new line beneath this help guide and either click on the
