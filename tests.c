@@ -3,6 +3,12 @@
 #include "audio.c"
 #include "text.c"
 
+#ifdef _WIN32
+  #define SDL_MAIN_HANDLED
+#elif _WIN64
+  #define SDL_MAIN_HANDLED
+#endif
+
 #define ANSI_COLOR_RED     \x1b[31m
 #define ANSI_COLOR_GREEN   \x1b[32m
 #define ANSI_COLOR_YELLOW  \x1b[33m
@@ -21,7 +27,7 @@ static int test_selectInstruction_add() {
 
     strcpy(funcName, __func__);
     result = selectInstruction(string);
-    
+
     return result;
 }
 
@@ -31,7 +37,7 @@ static int test_selectInstruction_remove() {
 
     strcpy(funcName, __func__);
     result = selectInstruction(string);
-    
+
     return result;
 }
 
@@ -41,7 +47,7 @@ static int test_selectInstruction_set() {
 
     strcpy(funcName, __func__);
     result = selectInstruction(string);
-    
+
     return result;
 }
 
@@ -51,7 +57,7 @@ static int test_selectInstruction_stop() {
 
     strcpy(funcName, __func__);
     result = selectInstruction(string);
-    
+
     return result;
 }
 
@@ -61,7 +67,7 @@ static int test_selectInstruction_invalidCommand() {
 
     strcpy(funcName, __func__);
     result = selectInstruction(string);
-    
+
     return result;
 }
 
