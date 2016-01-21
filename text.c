@@ -129,7 +129,6 @@ void changeVolume(char *string_pointer, char* desiredVolume) {
 
   // The user entered a valid volume number
   if ((volume > 0) && (volume < 12)) {
-    printf("atoi check: %d\n", volume);
     volume = ((128 / 11) * volume); // Scales the volume to the range 0-128
     audio_changeVolume(extractNumberFromString(string_pointer), volume);
   }
@@ -140,24 +139,19 @@ void changeVolume(char *string_pointer, char* desiredVolume) {
 
 void stopAll_(void) {
     audio_stop();
-    printf("TEXT: All loops stopped.\n");
 }
 
 int selectInstruction(char *string) {
   if(strcmp(string, "add") == 0){
-    printf("TEXT: add\n");
     return ADD;
   }
   if(strcmp(string, "remove") == 0) {
-    printf("TEXT: remove\n");
     return REMOVE;
   }
   if(strcmp(string, "set") == 0) {
-    printf("TEXT: set\n");
     return SET;
   }
   if(strcmp(string, "stop") == 0) {
-    printf("TEXT: stop\n");
     return STOP;
   }
   return -1;

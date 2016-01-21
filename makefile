@@ -40,5 +40,17 @@ clean:
 debug:
 		gcc $(CFILES) -o $(NAME) $(CFLAGS) -g $(linuxGTK) $(linuxLIBS) $(NO_WARN_UNUSED)
 
+linuxtest: $(CFILES)
+	gcc tests.c -o tests $(CFLAGS) $(linuxGTK) $(linuxLIBS) -fopenmp
+	./tests 2> testerrors.txt
+
+mactest: $(CFILES)
+	gcc-5 tests.c -o tests $(CFLAGS) $(macINCLUDES) $(macGTK) $(macFRAMEWORKS) -fopenmp
+	./tests 2> testerrors.txt
+
+wintest: $(CFILES)
+	gcc tests.c -o tests.exe $(CFLAGS) -fopenmp $(winINCLUDES) $(winGTK)
+	./tests.exe 2> testerrors.txt
+
 rundgb:
 	gdb $(NAME)

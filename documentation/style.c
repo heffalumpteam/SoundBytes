@@ -5,14 +5,14 @@
 /*I would vote to move to C99 so that we can use // comments.
   However, I would avoid declerations of variables mid way
   through a function (allowed in c99). As they encourage longer
-  functions. An excception to this would be for(int i = 0:......){}
+  functions. An exception to this would be for(int i = 0:......){}
 */
 
 /*Functions should be short. No longer than a page*/
 
 void filename_function(void);
 /*
-    filename_ dictates that this function is accessable to those
+    filename_ dictates that this function is accessible to those
     that have included filename.h
     This function should be as short and closed as possible to
     maintain the scope of filename.c
@@ -20,35 +20,28 @@ void filename_function(void);
 
 void filenameFunction(void);
 /*
-    camelCase shows function is only accessable within the scope of
+    camelCase shows function is only accessible within the scope of
     filename.c
     Does not need to include filename
 */
 
-void function(void){
+void function(void) {
   /*brace at end of line*/
 }
 
-if{
+if {
 
 }
-if else{
+else if {
 
 }
 else{
 
 }
-/*tempted to move to:
-      if{
 
-      }
-      if else{
-
-      } else{
-
-      }
-*/
-
-for (i=0; i<x; i++){
+for (i=0; i<x; i++) {
 
 }
+
+/* Pointer stars placed next to var names */
+char *varname
