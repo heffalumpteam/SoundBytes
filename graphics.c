@@ -39,6 +39,7 @@ void makeLowercase(char* filename);
 /* Misc */
 void launchTextEvent(void);
 void style(void);
+void closeGraphics(void);
 
 
 void graphics_init(void) {
@@ -90,7 +91,7 @@ void attachFunctions(GtkBuilder *builder) {
   assert(icon != NULL);
 
   window = gtk_builder_get_object (builder, "window");
-  g_signal_connect (window, "destroy", G_CALLBACK (events_quitting), NULL);
+  g_signal_connect (window, "destroy", G_CALLBACK (closeGraphics), NULL);
 
   /*timeoutID = g_timeout_add(NUM_MS, events_mainLoop, NULL);*/
   timeoutID = g_timeout_add_full(VERY_HIGH_PRIORITY, NUM_MS, events_mainLoop, NULL, NULL);
@@ -261,6 +262,6 @@ void style(void) {
   gtk_css_provider_load_from_path (provider, g_filename_to_utf8(style, strlen(style), &bytes_read, &bytes_written, &error), NULL);
 }
 
-void graphics_close(void) {
+void closeGraphics(void) {
   gtk_main_quit();
 }
