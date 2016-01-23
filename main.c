@@ -6,6 +6,8 @@ int main () {
 
   audio_init();
   graphics_init();
+
+  audio_close();
   
   return 0;
 }

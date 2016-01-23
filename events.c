@@ -7,7 +7,6 @@
 
 #include "events.h"
 #include "graphics.h"
-#include "audio.h"
 #include "text.h"
 
 #define BPM 125
@@ -127,9 +126,4 @@ void events_launchText(GtkSourceBuffer *sourcebuffer) {
   gtk_text_iter_forward_to_end (&end);
   text_receiveUpdate((char *)gtk_text_iter_get_text(&start, &end));
   gtk_text_buffer_move_mark(GTK_TEXT_BUFFER(sourcebuffer), textMarker, &end);
-}
-
-void events_quitting(void) {
-  audio_close();
-  graphics_close();
 }
