@@ -228,6 +228,7 @@ void launchTextEvent(void) {
 void openFileDialog(GtkButton *button, GtkBuilder *builder) {
   GObject *window;
   GtkWidget *open_dialog;
+  GtkFileChooser *chooser;
   GtkFileFilter *filter;
   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
   gint result;
@@ -236,19 +237,22 @@ void openFileDialog(GtkButton *button, GtkBuilder *builder) {
   filter = gtk_file_filter_new();
   gtk_file_filter_add_pattern(filter, "*.lump");
   gtk_file_filter_set_name(filter, "*.lump");
+  //Get access to the main GUI window from the builder
   window = gtk_builder_get_object(builder, "window");
+  //Set up the dialog window with open and cancel buttons
   open_dialog = gtk_file_chooser_dialog_new("Open File", (GtkWindow*) window,
                                              action, ("Cancel"), GTK_RESPONSE_CANCEL,
                                              ("Open"), GTK_RESPONSE_ACCEPT, NULL);
-  GtkFileChooser *chooser = GTK_FILE_CHOOSER (open_dialog);
+  chooser = GTK_FILE_CHOOSER (open_dialog);
   gtk_file_chooser_add_filter(chooser, filter);
   gtk_file_chooser_set_filter(chooser, filter);
   result = gtk_dialog_run(GTK_DIALOG (open_dialog));
-
+//If the user presses the open button in the dialog box
   if (result == GTK_RESPONSE_ACCEPT) {
     char *filename;
     filename = (char*)gtk_file_chooser_get_filename(chooser);
-    events_openFile(filename, sourcebuffer);
+    //send the filename and sourcebuffer to the events module to read in the file
+    events_openFile(filename, sourcebuffer); 
     free(filename);
   }
   gtk_widget_destroy(open_dialog);
@@ -265,26 +269,29 @@ void saveFileDialog(GtkButton *button, GtkBuilder *builder) {
 
   UNUSED(button);
   window = gtk_builder_get_object(builder, "window");
-  save_dialog = gtk_file_chooser_dialog_new("Save File", (GtkWindow*) window, action, ("Cancel"), GTK_RESPONSE_CANCEL, ("_Save"),
-    GTK_RESPONSE_ACCEPT, NULL);
+  //Set up the dialog window with save and cancel buttons
+  save_dialog = gtk_file_chooser_dialog_new("Save File", (GtkWindow*) window,
+                                           action, ("Cancel"), GTK_RESPONSE_CANCEL,
+                                          ("_Save"), GTK_RESPONSE_ACCEPT, NULL);
 
   chooser = GTK_FILE_CHOOSER(save_dialog);
   gtk_file_chooser_set_do_overwrite_confirmation(chooser, TRUE);
-
+  //Suggest a name for the saved file
   gtk_file_chooser_set_current_name(chooser,("mytune.lump"));
-
   result = gtk_dialog_run(GTK_DIALOG(save_dialog));
-
+  //If the user presses the save button in the dialog box
   if (result == GTK_RESPONSE_ACCEPT) {
     char *filename;
     filename = (char*)gtk_file_chooser_get_filename(chooser);
-    events_saveFile(filename, sourcebuffer);
+    //send the filename and the sourcebuffer to the events module
+    events_saveFile(filename, sourcebuffer); 
     free(filename);
   }
   gtk_widget_destroy(save_dialog);
 }
 
 void loadHelpFile(void) {
+  //Load the helpfile by sending the filepath and the sourcebuffer to events
   char *filename = "documentation/helpFile.txt";
   events_openFile(filename, sourcebuffer);
 }
