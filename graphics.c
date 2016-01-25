@@ -36,16 +36,10 @@ void saveFileDialog(GtkButton *button, GtkBuilder *builder);
 void loadHelpFile(void);
 
 /* Helper functions */
-<<<<<<< HEAD
 char *extractFilenameFromPath(char* path);
 gchar *createButtonIDForIndex(int i);
 void makeLowercase(char *filename);
-=======
-char* extractFilenameFromPath(char* path);
-gchar* createButtonIDForIndex(int i);
-void makeLowercase(char* filename);
 
->>>>>>> f52e17cca342e94a7f357c2c10bdf2d783b8a4fd
 /* Misc */
 void launchTextEvent(void);
 void style(void);
