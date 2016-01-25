@@ -26,21 +26,32 @@ void remove_(char *string_pointer);
 void set_(char *string_pointer);
 void changeVolume(char *string_pointer, char *desiredVolume);
 void stopAll_(void);
+
 /* Helpers */
 int extractNumberFromString(char *string);
 char *findSampleInArray(char *string_pointer);
 
+//-------------------------------------------------------
+
+// Interrupt for audio mainloop. Required to pass through text.c to avoid
+// changes to program structure and including audio.h in events.c Keeps
+// program linear.
 void text_mainLoop(void) {
   audio_mainLoop();
 }
 
+//-------------------------------------------------------
+
+//Function for lefthand button press
 void text_receiveButtonPress(char *input_string) {
   audio_playSampleOnce(extractNumberFromString(input_string));
 }
 
+//-------------------------------------------------------
+
 // Function that is called when the 'RUN' command is activated in the GUI.
-// Makes everything lowercase and tokenizes the first instruction, passing it to the 
-// "instructionControl" function
+// Makes everything lowercase and tokenizes the first instruction, passing
+// it to the "instructionControl" function.
 void text_receiveUpdate(char *input_string) {
   int j;
   char *string_pointer = NULL;
@@ -67,13 +78,13 @@ void instructionControl(char *string_pointer) {
   if (!string_pointer) {
     return;
   }
-  
+
   instruction_to_execute = selectInstruction(string_pointer);
 
   string_pointer = strtok(NULL, " \n");
-  
+
   if (string_pointer != NULL) {
-    buttonID = findSampleInArray(string_pointer); // 
+    buttonID = findSampleInArray(string_pointer); //
   }
 
   switch(instruction_to_execute) {
@@ -84,11 +95,20 @@ void instructionControl(char *string_pointer) {
   }
 }
 
-void add_(char *buttonID) {
-
-  if (buttonID) {
-    audio_addLoop(extractNumberFromString(buttonID));
+int selectInstruction(char *string) {
+  if(strcmp(string, "add") == 0){
+    return ADD;
   }
+  if(strcmp(string, "remove") == 0) {
+    return REMOVE;
+  }
+  if(strcmp(string, "set") == 0) {
+    return SET;
+  }
+  if(strcmp(string, "stop") == 0) {
+    return STOP;
+  }
+  return -1;
 }
 
 // Searches the array of buttons/samples, comparing the sample name given in the instruction
@@ -106,8 +126,15 @@ char *findSampleInArray(char *string_pointer) {
   return NULL;
 }
 
+void add_(char *buttonID) {
+
+  if (buttonID) {
+    audio_addLoop(extractNumberFromString(buttonID));
+  }
+}
+
 void remove_(char *buttonID) {
-  
+
   if (buttonID) {
     audio_markLoopInactive(extractNumberFromString(buttonID));
   }
@@ -132,6 +159,12 @@ void set_(char *string_pointer) {
   }
 }
 
+void stopAll_(void) {
+    audio_stop();
+}
+
+//-------------------------------------------------------
+
 void changeVolume(char *string_pointer, char *desiredVolume) {
   int volume;
 
@@ -148,26 +181,6 @@ void changeVolume(char *string_pointer, char *desiredVolume) {
   }
 }
 
-void stopAll_(void) {
-    audio_stop();
-}
-
-int selectInstruction(char *string) {
-  if(strcmp(string, "add") == 0){
-    return ADD;
-  }
-  if(strcmp(string, "remove") == 0) {
-    return REMOVE;
-  }
-  if(strcmp(string, "set") == 0) {
-    return SET;
-  }
-  if(strcmp(string, "stop") == 0) {
-    return STOP;
-  }
-  return -1;
-}
-
 // Mainly used for extracting the number from buttonID strings to send to audio.c
 int extractNumberFromString(char *string) {
   int index;
@@ -180,3 +193,5 @@ int extractNumberFromString(char *string) {
 
   return index;
 }
+
+//-------------------------------------------------------
