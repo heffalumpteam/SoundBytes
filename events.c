@@ -75,17 +75,17 @@ void events_openFile(char *filename, GtkSourceBuffer *sourcebuffer) {
   int length = 0, read;
 
   if((f_input = fopen(filename, "r"))) {
-    length = fileLength(f_input);
-    contents = (char*)calloc(length, sizeof(char));
+    length = fileLength(f_input); //Calculate length of file
+    contents = (char*)calloc(length, sizeof(char)); //Allocate memory for the string
     rewind(f_input);
-    read = fread(contents, sizeof(char), length, f_input);
+    read = fread(contents, sizeof(char), length, f_input); //Read the file into the allocated string
     
     //Check length read in is equal to file length minus EOF char
     if(read != (length - 1)){
       printf("Warning: Length of file %d characters, length read %d characters\n", (length -1), read);
     }
+    //Set the contents of the sourcebuffer
     gtk_text_buffer_set_text(GTK_TEXT_BUFFER(sourcebuffer), contents, -1);
-
     fclose(f_input);
     free(contents);  
   }
@@ -98,12 +98,13 @@ void events_saveFile(char *filename, GtkSourceBuffer *sourcebuffer) {
   FILE *f_output = NULL;
   GtkTextIter start, end;
   char *buffer;
-
+  //Set the GTKTextIter markers to the beginning and end of the text in the GUI
   gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(sourcebuffer), &start, &end);
+  //Get the text between the markers
   buffer = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(sourcebuffer), &start, &end, FALSE);
 
   if((f_output = fopen(filename, "w"))) {
-    fputs(buffer, f_output);
+    fputs(buffer, f_output); //Write the text
     fclose(f_output);
   }
   else {
