@@ -49,7 +49,7 @@
 #define STOP_LOOP(i) Mix_HaltChannel(activeSamples[i].channel)
 
 typedef struct {
-  Mix_Chunk* sample;
+  Mix_Chunk *sample;
   int channel;
   bool active;
   int loopLength;
@@ -223,7 +223,7 @@ void audio_changeVolume(int index, int volume) {
 }
 
 void readSampleInfo() {
-  FILE* sampleInfoFile;
+  FILE *sampleInfoFile;
   char sampleInfo[MAXSAMPLEINFOLENGTH];
   char *tokens[MAXFILEINFOTOKENS];
   int i = 0;
@@ -250,7 +250,7 @@ void readSampleInfo() {
   fclose(sampleInfoFile);
 }
 
-char* createSampleFilePath(char *path) {
+char *createSampleFilePath(char *path) {
   char *newSampleFilePath = malloc(MAXSAMPLEINFOLENGTH);
   if(!newSampleFilePath) {
       fprintf(stderr, "Could not allocate sample file path.\n");

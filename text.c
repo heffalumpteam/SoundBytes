@@ -24,11 +24,11 @@ void instructionControl(char *string_pointer);
 void add_(char *string_pointer);
 void remove_(char *string_pointer);
 void set_(char *string_pointer);
-void changeVolume(char *string_pointer, char* desiredVolume);
+void changeVolume(char *string_pointer, char *desiredVolume);
 void stopAll_(void);
 /* Helpers */
-int extractNumberFromString(char* string);
-char* findSampleInArray(char* string_pointer);
+int extractNumberFromString(char *string);
+char *findSampleInArray(char *string_pointer);
 
 void text_mainLoop(void) {
   audio_mainLoop();
@@ -40,7 +40,7 @@ void text_receiveButtonPress(char *input_string) {
 
 void text_receiveUpdate(char *input_string) {
   int j;
-  char* string_pointer = NULL;
+  char *string_pointer = NULL;
 
   for (j= 0; input_string[j] != '\0'; j++) {
      input_string[j] = tolower(input_string[j]);
@@ -55,7 +55,7 @@ void text_receiveUpdate(char *input_string) {
 }
 
 void instructionControl(char *string_pointer) {
-  char* buttonID = NULL;
+  char *buttonID = NULL;
   int instruction_to_execute;
 
   if (!string_pointer) {
@@ -85,7 +85,7 @@ void add_(char *buttonID) {
   }
 }
 
-char* findSampleInArray(char* string_pointer) {
+char *findSampleInArray(char *string_pointer) {
   int i;
 
   for(i=0; i < audio_noOfSamplesLoaded; i++) {
@@ -106,7 +106,7 @@ void remove_(char *buttonID) {
 
 void set_(char *string_pointer) {
   char *volumeCommand, *desiredVolume;
-  char* buttonID;
+  char *buttonID;
 
   if(string_pointer) {
     // now points to "volume" and the digit after it.
@@ -121,7 +121,7 @@ void set_(char *string_pointer) {
   }
 }
 
-void changeVolume(char *string_pointer, char* desiredVolume) {
+void changeVolume(char *string_pointer, char *desiredVolume) {
   int volume;
 
   // Convert the string to an int
@@ -157,7 +157,7 @@ int selectInstruction(char *string) {
   return -1;
 }
 
-int extractNumberFromString(char* string) {
+int extractNumberFromString(char *string) {
   int index;
 
   while(!isdigit(*string)) {

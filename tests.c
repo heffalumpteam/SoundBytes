@@ -101,8 +101,8 @@ static int test_extractNumberFromString_jumble() {
     return result;
 }
 
-static char* test_makeLowercase_someCaps() {
-    char* string = malloc(DEFAULT_STRING_LENGTH);
+static char *test_makeLowercase_someCaps() {
+    char *string = malloc(DEFAULT_STRING_LENGTH);
     strcpy(string, "DrUmS(fatkick)");
 
     strcpy(funcName, __func__);
@@ -111,8 +111,8 @@ static char* test_makeLowercase_someCaps() {
     return string;
 }
 
-static char* test_makeLowercase_allCaps() {
-    char* string = malloc(DEFAULT_STRING_LENGTH);
+static char *test_makeLowercase_allCaps() {
+    char *string = malloc(DEFAULT_STRING_LENGTH);
     strcpy(string, "DRUMS(FATKICK)");
 
     strcpy(funcName, __func__);
@@ -121,8 +121,8 @@ static char* test_makeLowercase_allCaps() {
     return string;
 }
 
-static char* test_makeLowercase_noCaps() {
-    char* string = malloc(DEFAULT_STRING_LENGTH);
+static char *test_makeLowercase_noCaps() {
+    char *string = malloc(DEFAULT_STRING_LENGTH);
     strcpy(string, "synth(trance)");
 
     strcpy(funcName, __func__);
@@ -131,8 +131,8 @@ static char* test_makeLowercase_noCaps() {
     return string;
 }
 
-static char* test_extractFilenameFromPath_invalidPath() {
-    char* string = malloc(DEFAULT_STRING_LENGTH);
+static char *test_extractFilenameFromPath_invalidPath() {
+    char *string = malloc(DEFAULT_STRING_LENGTH);
     strcpy(string, "samplesFatkick.wav");
 
     strcpy(funcName, __func__);
@@ -140,8 +140,8 @@ static char* test_extractFilenameFromPath_invalidPath() {
     return extractFilenameFromPath(string);
 }
 
-static char* test_extractFilenameFromPath_validPath() {
-    char* string = malloc(DEFAULT_STRING_LENGTH);
+static char *test_extractFilenameFromPath_validPath() {
+    char *string = malloc(DEFAULT_STRING_LENGTH);
     strcpy(string, "samples/Fatkick.wav");
 
     strcpy(funcName, __func__);
@@ -149,8 +149,8 @@ static char* test_extractFilenameFromPath_validPath() {
     return extractFilenameFromPath(string);
 }
 
-static char* test_extractFilenameFromPath_noExtension() {
-    char* string = malloc(DEFAULT_STRING_LENGTH);
+static char *test_extractFilenameFromPath_noExtension() {
+    char *string = malloc(DEFAULT_STRING_LENGTH);
     strcpy(string, "samples/Fatkickwav");
 
     strcpy(funcName, __func__);
@@ -158,9 +158,9 @@ static char* test_extractFilenameFromPath_noExtension() {
     return extractFilenameFromPath(string);
 }
 
-static gchar* test_createButtonIDForIndex_negativeInt() {
+static gchar *test_createButtonIDForIndex_negativeInt() {
     int index = -1;
-    char* result;
+    char *result;
 
     strcpy(funcName, __func__);
     result = createButtonIDForIndex(index);
@@ -168,9 +168,9 @@ static gchar* test_createButtonIDForIndex_negativeInt() {
     return result;
 }
 
-static gchar* test_createButtonIDForIndex_positiveInt() {
+static gchar *test_createButtonIDForIndex_positiveInt() {
     int index = 1;
-    char* result;
+    char *result;
 
     strcpy(funcName, __func__);
     result = createButtonIDForIndex(index);
@@ -178,9 +178,9 @@ static gchar* test_createButtonIDForIndex_positiveInt() {
     return result;
 }
 
-static gchar* test_createButtonIDForIndex_zero() {
+static gchar *test_createButtonIDForIndex_zero() {
     int index = 0;
-    char* result;
+    char *result;
 
     strcpy(funcName, __func__);
     result = createButtonIDForIndex(index);
@@ -197,7 +197,7 @@ static void assert_int_equal(int expected, int obtained) {
     }
 }
 
-static void assert_string_equal(char* expected, char* obtained)
+static void assert_string_equal(char *expected, char *obtained)
 {
     if (strcmp(expected, obtained) == 0) {
         printf("TEST: \x1b[34m %50s \x1b[1;51;32m %7s \x1b[0m\n", funcName, "PASSED");
@@ -207,7 +207,7 @@ static void assert_string_equal(char* expected, char* obtained)
     }
 }
 
-static void assert_null(void* value) {
+static void assert_null(void *value) {
     if (value == NULL) {
         printf("TEST: \x1b[34m %50s \x1b[1;51;32m %7s \x1b[0m\n", funcName, "PASSED");
     }

@@ -16,9 +16,9 @@
 unsigned char beat = 0, bar = 0;
 unsigned int play = 0;
 
-GtkTextMark* textMarker;
+GtkTextMark *textMarker;
 
-int fileLength(FILE* f_input);
+int fileLength(FILE *f_input);
 
 gboolean events_mainLoop(gpointer user_data) {
   /*This loop runs every NUM_MS and takes the place of code that would usually be in main()*/
@@ -58,7 +58,7 @@ void events_stop(void) {
   play = 0;
 }
 
-void events_init(GtkSourceBuffer* sourcebuffer) {
+void events_init(GtkSourceBuffer *sourcebuffer) {
   GtkTextIter start;
   gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(sourcebuffer), &start, 0);
   textMarker = gtk_text_buffer_create_mark(GTK_TEXT_BUFFER(sourcebuffer),
@@ -69,8 +69,8 @@ void events_init(GtkSourceBuffer* sourcebuffer) {
   events_toggle();
 }
 
-void events_openFile(char* filename, GtkSourceBuffer *sourcebuffer) {
-  FILE* f_input = NULL;
+void events_openFile(char *filename, GtkSourceBuffer *sourcebuffer) {
+  FILE *f_input = NULL;
   char *contents;
   int length = 0, read;
 
@@ -92,10 +92,10 @@ void events_openFile(char* filename, GtkSourceBuffer *sourcebuffer) {
   }
 }
 
-void events_saveFile(char* filename, GtkSourceBuffer *sourcebuffer) {
-  FILE* f_output = NULL;
+void events_saveFile(char *filename, GtkSourceBuffer *sourcebuffer) {
+  FILE *f_output = NULL;
   GtkTextIter start, end;
-  char* buffer;
+  char *buffer;
 
   gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(sourcebuffer), &start, &end);
   buffer = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(sourcebuffer), &start, &end, FALSE);
@@ -109,7 +109,7 @@ void events_saveFile(char* filename, GtkSourceBuffer *sourcebuffer) {
   }
 }
 
-int fileLength(FILE* f_input) {
+int fileLength(FILE *f_input) {
   int count = 0;
 
   while(!feof(f_input)) {

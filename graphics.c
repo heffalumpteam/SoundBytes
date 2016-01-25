@@ -21,21 +21,21 @@ extern unsigned char running;
 
 GtkSourceBuffer *sourcebuffer;
 gchar languagesPath[] = "lang/language-specs/"; /* Custom language file for syntax highlighting */
-gchar* languagesDirs[] = {languagesPath, NULL};
+gchar *languagesDirs[] = {languagesPath, NULL};
 
 /* Setup */
 void initSourceView(GtkBuilder *builder);
 void attachFunctions(GtkBuilder *builder);
-GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*, gpointer));
+GtkButton *setUpGtkButton(GtkBuilder *builder, char *buttonID, void (*function)(GtkButton*, gpointer));
 void setUpPreviewButtons(GtkBuilder *builder);
 /* Saving and loading .lump files */
 void openFileDialog(GtkButton *button, GtkBuilder *builder);
 void saveFileDialog(GtkButton *button, GtkBuilder *builder);
 void loadHelpFile(void);
 /* Helper functions */
-char* extractFilenameFromPath(char* path);
-gchar* createButtonIDForIndex(int i);
-void makeLowercase(char* filename);
+char *extractFilenameFromPath(char* path);
+gchar *createButtonIDForIndex(int i);
+void makeLowercase(char *filename);
 /* Misc */
 void launchTextEvent(void);
 void style(void);
@@ -58,8 +58,8 @@ void graphics_init(void) {
   gtk_main ();
 }
 
-gchar* createButtonIDForIndex(int i) {
-  char* buffer = NULL;
+gchar *createButtonIDForIndex(int i) {
+  char *buffer = NULL;
 
   if (i >= 0)
   {
@@ -112,9 +112,9 @@ void attachFunctions(GtkBuilder *builder) {
   g_signal_connect (helpButton, "clicked", G_CALLBACK (loadHelpFile), NULL);
 }
 
-GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(GtkButton*, gpointer)) {
+GtkButton *setUpGtkButton(GtkBuilder *builder, char *buttonID, void (*function)(GtkButton*, gpointer)) {
 
-  GtkButton* button;
+  GtkButton *button;
 
   button = GTK_BUTTON(gtk_builder_get_object(builder, buttonID));
   g_signal_connect(button, "clicked", G_CALLBACK(function), buttonID);
@@ -125,7 +125,7 @@ GtkButton* setUpGtkButton(GtkBuilder *builder, char* buttonID, void (*function)(
 void setUpPreviewButtons(GtkBuilder *builder) {
   int i = 0, filenameLength;
   GtkButton *button;
-  char* filename;
+  char *filename;
 
   while(sampleFilePaths[i]) {
     buttons[i].buttonID = createButtonIDForIndex(i);
@@ -151,7 +151,7 @@ void setUpPreviewButtons(GtkBuilder *builder) {
   }
 }
 
-void makeLowercase(char* filename) {
+void makeLowercase(char *filename) {
 
   int j = 0;
 
@@ -161,9 +161,9 @@ void makeLowercase(char* filename) {
     }
 }
 
-char* extractFilenameFromPath(char* path) {
-  char* token;
-  char* temp = malloc(strlen(path) + 1);
+char *extractFilenameFromPath(char* path) {
+  char *token;
+  char *temp = malloc(strlen(path) + 1);
 
   strcpy(temp, path);
 
@@ -242,7 +242,7 @@ void saveFileDialog(GtkButton *button, GtkBuilder *builder) {
 }
 
 void loadHelpFile(void) {
-  char* filename = "documentation/helpFile.txt";
+  char *filename = "documentation/helpFile.txt";
   events_openFile(filename, sourcebuffer);
 }
 
@@ -252,7 +252,7 @@ void style(void) {
   GdkScreen *screen;
   GError *error = 0;
   gsize bytes_written, bytes_read;
-  const gchar* style = "graphicsFiles/style.css";
+  const gchar *style = "graphicsFiles/style.css";
 
   provider = gtk_css_provider_new ();
   display = gdk_display_get_default ();

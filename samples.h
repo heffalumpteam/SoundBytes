@@ -7,11 +7,11 @@
 #define MAXBUTTONIDLENGTH 10
 
 typedef struct {
-  char* buttonID;
+  char *buttonID;
   char sampleName[MAXFILENAMELENGTH];
 } Button;
 
 Button buttons[MAXNUMBEROFSAMPLES]; // Info about buttons
 
-char* sampleFilePaths[MAXNUMBEROFSAMPLES];
+char *sampleFilePaths[MAXNUMBEROFSAMPLES];
 #endif
