@@ -79,11 +79,13 @@ void events_openFile(char *filename, GtkSourceBuffer *sourcebuffer) {
     contents = (char*)calloc(length, sizeof(char));
     rewind(f_input);
     read = fread(contents, sizeof(char), length, f_input);
+    
     //Check length read in is equal to file length minus EOF char
     if(read != (length - 1)){
       printf("Warning: Length of file %d characters, length read %d characters\n", (length -1), read);
     }
     gtk_text_buffer_set_text(GTK_TEXT_BUFFER(sourcebuffer), contents, -1);
+
     fclose(f_input);
     free(contents);  
   }
@@ -119,6 +121,8 @@ int fileLength(FILE *f_input) {
   return count;
 }
 
+// This is used to set start and end points for the reading of the buffer. This is explained
+// in more detail in the report at page 48 under "Text buffer processing"
 void events_launchText(GtkSourceBuffer *sourcebuffer) {
   GtkTextIter start, end;
   gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(sourcebuffer), &start, textMarker);

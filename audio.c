@@ -132,6 +132,7 @@ void audio_mainLoop(void) {
   }
 }
 
+// Add a loop to the activeSamples array to be triggered by the main loop
 void audio_addLoop(int index) {
   Sample sample;
   if (activeSamples[index].sample == NULL) {
@@ -142,6 +143,7 @@ void audio_addLoop(int index) {
   }
 }
 
+// Sets the flag that tells the main loop that the sample should be playing
 void setLoopActiveFlag(int index, bool flag) {
   activeSamples[index].active = flag;
 }
@@ -179,8 +181,7 @@ void audio_startLoop(int index) {
   if(activeSamples[index].channel == -1){
     fprintf(stderr, "Audio: ERROR: Could Not Assign Loop To A Channel\n");
   }
-    /* have to initialise volume here because channel is not set until this point.
-    After this audio_mainLoop takes over and checks the volume at regular intervals */
+
   Mix_Volume(activeSamples[index].channel, activeSamples[index].volume);
 }
 
@@ -194,6 +195,7 @@ void audio_removeLoop(int index) {
     setLoopActiveFlag(index, false);
 }
 
+// Tells audio main loop that the relevant sample has to be removed
 void audio_markLoopInactive(int index) {
   setLoopActiveFlag(index, false);
 }
@@ -208,6 +210,7 @@ void audio_playSampleOnce(int index) {
   }
 }
 
+// Stop all samples
 void audio_stop(void) {
   int i;
 
@@ -222,6 +225,7 @@ void audio_changeVolume(int index, int volume) {
   activeSamples[index].volume = volume;
 }
 
+// Reads the sample file path and the number of bars into the relevant arrays in the program
 void readSampleInfo() {
   FILE *sampleInfoFile;
   char sampleInfo[MAXSAMPLEINFOLENGTH];
@@ -259,6 +263,7 @@ char *createSampleFilePath(char *path) {
   return newSampleFilePath;
 }
 
+// Separates the sample file paths and the loop length while it's being read from the file
 void tokenizeSampleInfo(char *sampleInfo, char *tokens[]) {
   int i = 0;
 
@@ -268,6 +273,8 @@ void tokenizeSampleInfo(char *sampleInfo, char *tokens[]) {
   }
 }
 
+// Prints the difference between the expected call time of the audio main loop, and the actual call time in ms
+// Can be switched on by uncommenting the #define DEBUG_TIMING
 void printTiming(void)
 {
   newTime = SDL_GetTicks();

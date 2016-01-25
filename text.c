@@ -38,6 +38,9 @@ void text_receiveButtonPress(char *input_string) {
   audio_playSampleOnce(extractNumberFromString(input_string));
 }
 
+// Function that is called when the 'RUN' command is activated in the GUI.
+// Makes everything lowercase and tokenizes the first instruction, passing it to the 
+// "instructionControl" function
 void text_receiveUpdate(char *input_string) {
   int j;
   char *string_pointer = NULL;
@@ -54,6 +57,9 @@ void text_receiveUpdate(char *input_string) {
   }
 }
 
+// Tokenizes the instruction part of the text command. If it corresponds to one of the supported
+// instructions, like "add" or "remove", it searches for the next token (the sample name) in the
+// list of samples and sends its buttonID to the relevant instruction function for further processing
 void instructionControl(char *string_pointer) {
   char *buttonID = NULL;
   int instruction_to_execute;
@@ -67,7 +73,7 @@ void instructionControl(char *string_pointer) {
   string_pointer = strtok(NULL, " \n");
   
   if (string_pointer != NULL) {
-    buttonID = findSampleInArray(string_pointer);
+    buttonID = findSampleInArray(string_pointer); // 
   }
 
   switch(instruction_to_execute) {
@@ -85,6 +91,9 @@ void add_(char *buttonID) {
   }
 }
 
+// Searches the array of buttons/samples, comparing the sample name given in the instruction
+// to the names in the array. If there's a match, the buttonID is returned to later be sent to
+// audio.c for processing.
 char *findSampleInArray(char *string_pointer) {
   int i;
 
@@ -104,6 +113,8 @@ void remove_(char *buttonID) {
   }
 }
 
+// Decodes the set volume instruction through tokens and sends the buttonID of the sample specified (if it exists)
+// through to the changeVolume function
 void set_(char *string_pointer) {
   char *volumeCommand, *desiredVolume;
   char *buttonID;
@@ -157,6 +168,7 @@ int selectInstruction(char *string) {
   return -1;
 }
 
+// Mainly used for extracting the number from buttonID strings to send to audio.c
 int extractNumberFromString(char *string) {
   int index;
 
