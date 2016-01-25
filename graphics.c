@@ -78,7 +78,6 @@ void graphics_init(void) {
   gtk_main ();
 }
 
-<<<<<<< HEAD
 gchar *createButtonIDForIndex(int i) {
   char *buffer = NULL;
 
@@ -91,9 +90,7 @@ gchar *createButtonIDForIndex(int i) {
   return (gchar*)buffer;
     
 }
-=======
 //-------------------------------------------------------
->>>>>>> f52e17cca342e94a7f357c2c10bdf2d783b8a4fd
 
 void initSourceView(GtkBuilder *builder) {
   //New Source View Object
@@ -158,7 +155,6 @@ void attachFunctions(GtkBuilder *builder) {
   g_signal_connect (helpButton, "clicked", G_CALLBACK (loadHelpFile), NULL);
 }
 
-<<<<<<< HEAD
 GtkButton *setUpGtkButton(GtkBuilder *builder, char *buttonID, void (*function)(GtkButton*, gpointer)) {
 
   GtkButton *button;
@@ -169,9 +165,7 @@ GtkButton *setUpGtkButton(GtkBuilder *builder, char *buttonID, void (*function)(
   return button;
 }
 
-=======
 //Setup and name lefthand buttons from file.
->>>>>>> f52e17cca342e94a7f357c2c10bdf2d783b8a4fd
 void setUpPreviewButtons(GtkBuilder *builder) {
   int i = 0, filenameLength;
   GtkButton *button;
