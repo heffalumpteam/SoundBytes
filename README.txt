@@ -11,4 +11,6 @@ For Windows:
 
 To run the program, use “make run”.
 
+See "User Guide.pdf" for more info.
+
 

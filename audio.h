@@ -15,4 +15,6 @@ void audio_markLoopInactive(int index);
 void audio_stop(void);
 void audio_changeVolume(int index, int volume);
 
+gpointer sdl_thread(gpointer data);
+
 #endif

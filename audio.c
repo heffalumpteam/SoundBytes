@@ -10,6 +10,8 @@
   #include <SDL_mixer.h>
 #endif
 
+#include <glib.h>
+
 #include "audio.h"
 #include "samples.h"
 
@@ -77,6 +79,20 @@ void printTiming(void);
 
 Uint32 newTime, expectedTime;
 int32_t time_difference;
+
+
+gpointer sdl_thread(gpointer data) {
+  (void) data;
+  int running = 1;
+  audio_init();
+  while(running){
+    SDL_Delay(1920);
+    audio_mainLoop();
+  }
+  audio_close();
+  return NULL;
+}
+
 
 void audio_init(void) {
   SDL_Init(SDL_INIT_AUDIO);

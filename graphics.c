@@ -104,7 +104,7 @@ void attachFunctions(GtkBuilder *builder) {
   GtkButton *helpButton;
 
   //Timeout for audio_mainloop
-  guint timeoutID;
+  //guint timeoutID;
 
   //Icon for taskbar
   GtkWidget *icon = gtk_image_new_from_file ("graphicsFiles/icons/start.png");
@@ -117,8 +117,8 @@ void attachFunctions(GtkBuilder *builder) {
   g_signal_connect (window, "destroy", G_CALLBACK (closeGraphics), NULL);
 
   //Set a timeout for audio_mainloop interupt. Make Very high priority
-  timeoutID = g_timeout_add_full(VERY_HIGH_PRIORITY, NUM_MS, events_mainLoop, NULL, NULL);
-  assert(timeoutID > 0);
+  //timeoutID = g_timeout_add_full(VERY_HIGH_PRIORITY, NUM_MS, events_mainLoop, NULL, NULL);
+  //assert(timeoutID > 0);
 
   //Setup Lefthand buttons.
   setUpPreviewButtons(builder);
@@ -252,7 +252,7 @@ void openFileDialog(GtkButton *button, GtkBuilder *builder) {
     char *filename;
     filename = (char*)gtk_file_chooser_get_filename(chooser);
     //send the filename and sourcebuffer to the events module to read in the file
-    events_openFile(filename, sourcebuffer); 
+    events_openFile(filename, sourcebuffer);
     free(filename);
   }
   gtk_widget_destroy(open_dialog);
@@ -284,7 +284,7 @@ void saveFileDialog(GtkButton *button, GtkBuilder *builder) {
     char *filename;
     filename = (char*)gtk_file_chooser_get_filename(chooser);
     //send the filename and the sourcebuffer to the events module
-    events_saveFile(filename, sourcebuffer); 
+    events_saveFile(filename, sourcebuffer);
     free(filename);
   }
   gtk_widget_destroy(save_dialog);
