@@ -20,8 +20,8 @@
 #include <limits.h>
 
 #define USE_OMP
-#define NO_OF_CORES
-#define DEBUG_TIMING
+//#define NO_OF_CORES
+//#define DEBUG_TIMING
 
 #ifdef USE_OMP
   #include <omp.h>
@@ -98,7 +98,7 @@ gpointer sdl_thread(gpointer data) {
 
     //delay = 480 - timeFunctionTook - (thread_newTime - thread_expectedTime);
     delay = 480 - timeFunctionTook;
-    printf("%d, error %d\n", delay, thread_newTime - thread_expectedTime);
+    //printf("%d, error %d\n", delay, thread_newTime - thread_expectedTime);
 
     thread_expectedTime = thread_newTime + 480;
 
