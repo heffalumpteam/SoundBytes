@@ -29,7 +29,11 @@ mac : $(CFILES)
 win : $(CFILES)
 	gcc $(CFILES) -o $(NAME).exe $(OFLAGS) $(CFLAGS) -fopenmp $(winINCLUDES) $(winGTK)
 
+profile:
+	gcc $(CFILES) -o $(NAME) $(OFLAGS) -fopenmp $(CFLAGS) $(linuxGTK) $(linuxLIBS) -pg
 
+profileout:
+	gprof $(NAME) gmon.out > analysis.txt
 
 run: $(NAME)
 	./$(NAME)

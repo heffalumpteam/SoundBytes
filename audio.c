@@ -20,8 +20,8 @@
 #include <limits.h>
 
 #define USE_OMP
-//#define NO_OF_CORES
-//#define DEBUG_TIMING
+#define NO_OF_CORES
+#define DEBUG_TIMING
 
 #ifdef USE_OMP
   #include <omp.h>
@@ -37,6 +37,7 @@
 #define DEFAULTVOLUME 32
 #define DEFAULTCHANNEL INT_MAX
 #define BEATS_IN_A_BAR 4
+#define MSperBEAT 480
 
 //All to aid readability of audio_mainLoop
 #define SAMPLE_IS_ACTIVE(i) activeSamples[i].active
@@ -77,17 +78,33 @@ char *createSampleFilePath(char *path);
 /* Debug */
 void printTiming(void);
 
-Uint32 newTime, expectedTime;
+Uint32 newTime = 0, expectedTime = 0;
+Uint32 thread_newTime = 0, thread_expectedTime = 0, thread_errorTime = 0, timeFunctionTook = 0;
 int32_t time_difference;
 
 
 gpointer sdl_thread(gpointer data) {
   (void) data;
-  int running = 1;
+  int running = 1, beat = 0, delay = MSperBEAT;
   audio_init();
   while(running){
-    SDL_Delay(1920);
-    audio_mainLoop();
+    thread_newTime = SDL_GetTicks();
+
+    beat++;
+    if(beat % BEATS_IN_A_BAR == 0){
+      audio_mainLoop();
+    }
+    timeFunctionTook = SDL_GetTicks() - thread_newTime;
+
+    //delay = 480 - timeFunctionTook - (thread_newTime - thread_expectedTime);
+    delay = 480 - timeFunctionTook;
+    printf("%d, error %d\n", delay, thread_newTime - thread_expectedTime);
+
+    thread_expectedTime = thread_newTime + 480;
+
+    SDL_Delay(delay);
+
+    //expectedTime = newTime + 480;
   }
   audio_close();
   return NULL;
